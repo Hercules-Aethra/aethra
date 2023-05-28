@@ -2,7 +2,7 @@
 /*              (C) Copyright "Fish" (David B. Trout), 2002-2012     */
 /*              (C) Copyright Jan Jaeger, 2003-2012                  */
 /*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              (C) and others 2013-2021                             */
+/*              (C) and others 2013-2023                             */
 /*              Defines all Hercules Configuration statements        */
 /*              and panel commands                                   */
 /*                                                                   */
@@ -72,21 +72,30 @@
     "is the default for Debug builds but not normal production builds).\n"      \
     "Note: it is possible to disable the $zapcmd itself so BE CAREFUL!\n"
 
-#define bangmsg_cmd_desc        "SCP priority message"
+#define bangmsg_cmd_desc        "SCP priority command"
 #define bangmsg_cmd_help        \
                                 \
   "To enter a system control program (i.e. guest operating system)\n"           \
-  "priority command on the hercules console, simply prefix the command\n"       \
-  "with an exclamation point '!'.\n"
+  "priority command on the Hercules console, simply prefix the command\n"       \
+  "with an '!' exclamation point.\n"
 
-#define hash_cmd_desc           "Silent comment"
-#define star_cmd_desc           "Loud comment"
-#define reply_cmd_desc          "SCP command"
+#define reply_cmd_desc          "SCP reply"
 #define reply_cmd_help          \
                                 \
   "To reply to a system control program (i.e. guest operating system)\n"        \
-  "message that gets issued to the hercules console, prefix the reply\n"        \
-  "with a period.\n"
+  "prompt that gets issued to the Hercules console, simply prefix the\n"        \
+  "reply with a '.' period.\n"
+
+#define supp_reply_cmd_desc     "SCP suppressed reply"
+#define supp_reply_cmd_help     \
+                                \
+  "To reply to a system control program (i.e. guest operating system)\n"        \
+  "prompt that gets issued to the Hercules console without echoing it\n"        \
+  "to the console (such as when entering a password), simply prefix the\n"      \
+  "reply with a '\\' backslash.\n"
+
+#define hash_cmd_desc           "Silent comment"
+#define star_cmd_desc           "Loud comment"
 
 #define quest_cmd_desc          "alias for help"
 #define abs_cmd_desc            "Display or alter absolute storage"
@@ -390,11 +399,16 @@
 #define ctc_cmd_desc            "Enable/Disable CTC debugging"
 #define ctc_cmd_help            \
                                 \
-  "Format:  \"ctc  debug  { on | off | startup }  [ <devnum> | ALL ]\".\n\n"    \
+  "Format:  \"ctc  debug  [ on | off | startup  [ <devnum> | ALL ]]\".\n"       \
+  "\n"                                                                          \
   "Enables/disables debug packet tracing for the specified CTCI/LCS/PTP/CTCE\n" \
   "device group(s) identified by <devnum> or for all CTCI/LCS/PTP/CTCE device\n"\
   "groups if <devnum> is not specified or specified as 'ALL'.\n"                \
-  "Only CTCE devices support 'startup' debugging.\n"
+  "\n"                                                                          \
+  "Note: only CTCE devices support 'startup' debugging.\n"                      \
+  "\n"                                                                          \
+  "Use the command \"ctc debug\" (without any other operands) to list the\n"    \
+  "current CTC debugging state for all CTC devices.\n"
 
 #define define_cmd_desc         "Rename device"
 #define define_cmd_help         \
@@ -1210,6 +1224,30 @@
   "              force     This option will terminate the emulator\n"           \
   "                        immediately.\n"
 
+#define quitmout_cmd_desc      "Define maximum guest quiesce time"
+#define quitmout_cmd_help       \
+                                \
+  "Format: \"quitmout [nnn]\" Defines the maximum amount of time in seconds\n"  \
+  "you wish to wait for your guest to complete its quiesce function before\n"   \
+  "proceeding with Hercules shutdown processing. If the guest completes its\n"  \
+  "quiesce before this time period has expired Hercules proceeds immediately\n" \
+  "with its normal shutdown processing. It does not wait for the time period\n" \
+  "to expire.\n"                                                                \
+  "\n"                                                                          \
+  "If the guest fails to complete its quiesce functionality within the given\n" \
+  "time period then Hercules does not wait any long and proceeds immediately\n" \
+  "to performing a normal shutdown of the emulator.\n"                          \
+  "\n"                                                                          \
+  "Specify '0' to indicate you wish to always wait for the guest to complete\n" \
+  "its quiesce functionality before shutting down the emulator no matter how\n" \
+  "long it may take (i.e. wait forever for the guest to quiesce).\n"            \
+  "\n"                                                                          \
+  "Enter the command with no operand to display the current value.\n"           \
+  "\n"                                                                          \
+  "NOTE: setting a quit timeout value only makes sense if you are running a\n"  \
+  "guest that supports the Signal Shutdown hypervisor signal. Not all guests\n" \
+  "support such signals. zLinux and z/VM do, but z/OS for example does not.\n"
+
 #define hwldr_cmd_desc          "Specify boot loader filename"
 #define hwldr_cmd_help          \
                                 \
@@ -1600,8 +1638,12 @@
   "Performs the System Reset Clear manual control function. Same as\n"          \
   "the \"sysreset clear\" command. Clears main storage to 0, and all\n"         \
   "registers, control registers, etc.. are reset to their initial value.\n"     \
-  "At this point, the system is essentially in the same state as it was\n"      \
-  "when it was first started.\n"
+  "At this point, for architecture modes OTHER than z/Arch, the system is\n"    \
+  "essentially in the same state as it was when it was first powered on.\n"     \
+  "\n"                                                                          \
+  "For z/Arch architecture mode, essentially the same thing happens except\n"   \
+  "that your architecture mode is reset to ESA/390 mode in preparation for\n"   \
+  "the system being IPLed."
 
 #define sysepoch_cmd_desc       "Set sysepoch parameter"
 #define sysreset_cmd_desc       "System Reset manual operation"
@@ -1614,7 +1656,38 @@
 
 #define sysgport_cmd_desc       "Define SYSG console port"
 
-#define tminus_cmd_desc         "Turn off instruction tracing"
+#define tf_cmd_desc             "Define trace-to-file parameters"
+#define tf_cmd_help             \
+                                \
+  "Format:\n"                                                                   \
+  "\n"                                                                          \
+  "   tf  [ OFF | ON ] [ \"FILE=filename\" ] [ MAX=nnnS ] [ STOP | NOSTOP ]\n"  \
+  "\n"                                                                          \
+  "Defines the parameters for instruction and/or ccw tracing to an output\n"    \
+  "file. Note that this command only enables/disables tracing to a file;\n"     \
+  "you will still need to enable instruction and/or ccw tracing separately\n"   \
+  "via the 't+' and/or 't+dev' command(s).\n"                                   \
+  "\n"                                                                          \
+  "ON or OFF enables or disables tracing to a file. If ON is specified\n"       \
+  "then FILE= is required if not already defined by a previous command.\n"      \
+  "Enclose the entire option name and value within double quotes if it\n"       \
+  "contains any blanks (e.g. \"FILE=my trace file\").\n"                        \
+  "\n"                                                                          \
+  "MAX= specifies the desired maximum size the trace file is allowed to\n"      \
+  "grow to. Specify the value as \"nnnM\" for megabytes or \"nnnG\" for\n"      \
+  "gigabytes, where 'nnn' is the maximum number of megabytes/gigabytes\n"       \
+  "in size the file is allowed to grow to. Once the maximum is reached,\n"      \
+  "both tracefile tracing as well as all instruction and ccw tracing are\n"     \
+  "disabled. This prevents instruction and/or ccw tracing from continuing\n"    \
+  "to be traced but to the hardware panel instead once the limit has been\n"    \
+  "reached. Use the NOSTOP option to disable this behavior and allow the\n"     \
+  "instruction and/or ccw tracing to continue, but to the hardware panel\n"     \
+  "instead once the limit has been reached. The default is STOP/NOCONT.\n"      \
+  "\n"                                                                          \
+  "OPEN/CLOSE or NOCONT/CONT may be used in lieu of ON/OFF or STOP/NOSTOP.\n"   \
+  "Specify the command without any arguments to display current values."
+
+#define tminus_cmd_desc         "Turn instruction tracing OFF for all CPUs"
 #define t_cmd_desc              "Set tracing range or Query tracing"
 #define t_cmd_help              \
                                 \
@@ -1634,23 +1707,26 @@
   "Use the 't+' command to activate instruction tracing.  Use 't 0'\n"          \
   "to remove the address range causing all addresses to be traced.\n"
 
-#define tquest_cmd_desc         "Query instruction tracing values"
+#define tquest_cmd_desc         "Query instruction tracing"
 #define tquest_cmd_help         \
                                 \
-  "Format: \"t?\" displays whether instruction tracing is on or off\n"          \
+  "Format: \"t?\" displays whether instruction tracing is ON or OFF\n"          \
   "and the address range if any.\n"
 
-#define tckd_cmd_desc           "Turn CKD_KEY tracing on/off"
-#define odev_cmd_desc           "Turn ORB tracing on/off"
-#define tdev_cmd_desc           "Turn CCW tracing on/off"
-#define tplus_cmd_desc          "Turn on instruction tracing"
+#define tckd_cmd_desc           "Turn Search Key tracing ON/OFF for device"
+#define tcpu_cmd_desc           "Turn instruction tracing ON/OFF for CPU(s)"
+#define odev_cmd_desc           "Turn ORB tracing ON/OFF for device"
+#define tdev_cmd_desc           "Turn ORB and CCW tracing ON/OFF for device"
+#define tplus_cmd_desc          "Turn instruction tracing ON for all CPUs"
 #define tplus_cmd_help          \
                                 \
   "Format:   \"t+ [addr-addr]\".    Activates instruction tracing.\n"           \
   "\n"                                                                          \
   "An address range can be specified as for the \"t\" command, else the\n"      \
   "existing address range is used. If there is no address range (or was\n"      \
-  "specified as 0) then all instructions will be traced.\n"
+  "specified as 0) then all instructions will be traced. Please note that\n"    \
+  "the \"t+\" command affects ALL cpus.\n"
+
 
 #define auto_trace_desc         "Automatic instruction tracing"
 #define auto_trace_help         \
@@ -1940,6 +2016,7 @@ COMMAND( "sh",                      sh_cmd,                 SYSCMDNOPER,        
 COMMAND( "suspend",                 suspend_cmd,            SYSCMDNOPER,        suspend_cmd_desc,       NULL                )
 COMMAND( "symptom",                 traceopt_cmd,           SYSCMDNOPER,        symptom_cmd_desc,       NULL                )
 
+COMMAND( "tf",                      tf_cmd,                 SYSCMDNOPER,        tf_cmd_desc,            tf_cmd_help         )
 COMMAND( "t-",                      trace_cmd,              SYSCMDNOPER,        tminus_cmd_desc,        NULL                )
 COMMAND( "t",                       trace_cmd,              SYSCMDNOPER,        t_cmd_desc,             t_cmd_help          )
 COMMAND( "t?",                      trace_cmd,              SYSCMDNOPER,        tquest_cmd_desc,        tquest_cmd_help     )
@@ -2030,6 +2107,7 @@ COMMAND( "evm",                     ecpsvm_cmd,             SYSCMDNOPER,        
 #if defined( _FEATURE_SYSTEM_CONSOLE )
 COMMAND( "!message",                g_cmd,                  SYSCMD,             bangmsg_cmd_desc,       bangmsg_cmd_help    )
 COMMAND( ".reply",                  g_cmd,                  SYSCMD,             reply_cmd_desc,         reply_cmd_help      )
+COMMAND( "\\reply",                 g_cmd,                  SYSCMD,             supp_reply_cmd_desc,    supp_reply_cmd_help )
 COMMAND( "scpecho",                 scpecho_cmd,            SYSCMD,             scpecho_cmd_desc,       scpecho_cmd_help    )
 COMMAND( "scpimply",                scpimply_cmd,           SYSCMD,             scpimply_cmd_desc,      scpimply_cmd_help   )
 COMMAND( "ssd",                     ssd_cmd,                SYSCMD,             ssd_cmd_desc,           ssd_cmd_help        )
@@ -2048,11 +2126,12 @@ COMMAND( "dumpdev",                 lddev_cmd,              SYSCMD,             
 COMMAND( "f{+/-}adr",               NULL,                   SYSCMDNOPER,        f_cmd_desc,             f_cmd_help          )
 COMMAND( "o{+/-}dev",               NULL,                   SYSCMDNOPER,        odev_cmd_desc,          NULL                )
 COMMAND( "t{+/-}dev",               NULL,                   SYSCMDNOPER,        tdev_cmd_desc,          NULL                )
-#if defined( OPTION_CKD_KEY_TRACING )
-COMMAND( "t{+/-}CKD",               NULL,                   SYSCMDNOPER,        tckd_cmd_desc,          NULL                )
-#endif
+COMMAND( "t{+/-}CKD [devnum]",      NULL,                   SYSCMDNOPER,        tckd_cmd_desc,          NULL                )
+COMMAND( "t{+/-}CPU [cpunum]",      NULL,                   SYSCMDNOPER,        tcpu_cmd_desc,          NULL                )
+
         // PROGRAMMING NOTE: the following CCKD 'sf' shadow file commands
-        // are directly routed by the 'CallHercCmd' function in "cmdtab.c".
+        // are directly routed by cmdtab.c's "CallHercCmd" function
+        // directly to the "sf_cmd" command function in hsccmd.c.
 
         // PLEASE ALSO NOTE that, unlike most other Hercules commands, the
         // below CCKD 'sf' shadow file commands are called ASYNCHRONOUSLY
@@ -2106,6 +2185,7 @@ COMMAND( "shrdport",                shrdport_cmd,           SYSCFGNDIAG8,       
 COMMAND( "shrd",                    EXTCMD(shrd_cmd),       SYSCMDNOPER,        shrd_cmd_desc,          shrd_cmd_help       )
 #endif
 COMMAND( "quit",                    quit_cmd,               SYSALLNDIAG8,       quit_cmd_desc,          quit_cmd_help       )
+COMMAND( "quitmout",                quitmout_cmd,           SYSALLNDIAG8,       quitmout_cmd_desc,      quitmout_cmd_help   )
 #if defined( OPTION_W32_CTCI )
 COMMAND( "tt32",                    tt32_cmd,               SYSCMDNOPER,        tt32_cmd_desc,          tt32_cmd_help       )
 #endif

@@ -129,9 +129,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>./msvc.debug.dllmod.bin\</OutDir>
     <IntDir>./msvc.debug.dllmod.obj\</IntDir>
-    <NMakeBuildCommandLine>makefile.bat DEBUG makefile.msvc 32 -title "** The SoftDevLabs version of Hercules **"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>makefile.bat DEBUG makefile.msvc 32 -a -title "** The SoftDevLabs version of Hercules **"</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>makefile.bat DEBUG makefile.msvc 32 clean -title "** The SoftDevLabs version of Hercules **"</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>makefile.bat DEBUG makefile.msvc 32</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>makefile.bat DEBUG makefile.msvc 32 -a</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>makefile.bat DEBUG makefile.msvc 32 clean</NMakeCleanCommandLine>
     <NMakeOutput>$(OutDir)</NMakeOutput>
     <NMakePreprocessorDefinitions>FEATURE_ACCESS_REGISTERS;OPTION_SHARED_DEVICES;FEATURE_STORE_SYSTEM_INFORMATION;_FEATURE_INTEGRATED_3270_CONSOLE;FEATURE_SERVICE_PROCESSOR;FEATURE_EXTENDED_STORAGE_KEYS;OPTION_HTTP_SERVER;_DAT_C;FEATURE_PROGRAM_DIRECTED_REIPL;FEATURE_EMULATE_VM;ENABLE_IPV6;OPTION_CMPSC_2012;FEATURE_BINARY_FLOATING_POINT;WIN32;_DEBUG;DEBUG;_MSVC_;CPU=i386;HOST_ARCH=i386;OPTION_FTHREADS;EXTERNALGUI;FEATURE_CHANNEL_SUBSYSTEM;FEATURE_CANCEL_IO_FACILITY;FEATURE_001_ZARCH_INSTALLED_FACILITY;FEATURE_011_CONFIG_TOPOLOGY_FACILITY;OPTION_HAO;HAVE_REGINA_REXXSAA_H;OPTION_CMDTGT;_FEATURE_SYSTEM_CONSOLE;FEATURE_CHSC;OPTION_PTTRACE;FEATURE_CMPSC;HAVE_REGINA_REXX;HAVE_OBJECT_REXX;FEATURE_QUEUED_DIRECT_IO;_FEATURE_SIE;FEATURE_S370_CHANNEL;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>crypto\include;decNumber\include;SoftFloat\include;telnet\include;$(ProjectDir);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
@@ -139,9 +139,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>./msvc.debug.AMD64.bin\</OutDir>
     <IntDir>./msvc.debug.AMD64.bin\</IntDir>
-    <NMakeBuildCommandLine>makefile.bat DEBUG-X64 makefile.msvc 64 -title "** The SoftDevLabs version of Hercules **"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>makefile.bat DEBUG-X64 makefile.msvc 64 -a -title "** The SoftDevLabs version of Hercules **"</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>makefile.bat DEBUG-X64 makefile.msvc 64 clean -title "** The SoftDevLabs version of Hercules **"</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>makefile.bat DEBUG-X64 makefile.msvc 64</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>makefile.bat DEBUG-X64 makefile.msvc 64 -a</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>makefile.bat DEBUG-X64 makefile.msvc 64 clean</NMakeCleanCommandLine>
     <NMakeOutput>$(OutDir)</NMakeOutput>
     <NMakePreprocessorDefinitions>FEATURE_ACCESS_REGISTERS;OPTION_SHARED_DEVICES;FEATURE_STORE_SYSTEM_INFORMATION;_FEATURE_INTEGRATED_3270_CONSOLE;FEATURE_SERVICE_PROCESSOR;FEATURE_EXTENDED_STORAGE_KEYS;OPTION_HTTP_SERVER;_DAT_C;FEATURE_PROGRAM_DIRECTED_REIPL;FEATURE_EMULATE_VM;ENABLE_IPV6;OPTION_CMPSC_2012;FEATURE_BINARY_FLOATING_POINT;WIN32;_WIN64;_DEBUG;DEBUG;_MSVC_;CPU=AMD64;HOST_ARCH=AMD64;OPTION_FTHREADS;EXTERNALGUI;FEATURE_CHANNEL_SUBSYSTEM;FEATURE_CANCEL_IO_FACILITY;FEATURE_001_ZARCH_INSTALLED_FACILITY;FEATURE_011_CONFIG_TOPOLOGY_FACILITY;OPTION_HAO;HAVE_REGINA_REXXSAA_H;OPTION_CMDTGT;_FEATURE_SYSTEM_CONSOLE;FEATURE_CHSC;OPTION_PTTRACE;FEATURE_CMPSC;HAVE_REGINA_REXX;HAVE_OBJECT_REXX;FEATURE_QUEUED_DIRECT_IO;_FEATURE_SIE;FEATURE_S370_CHANNEL;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>crypto\include;decNumber\include;SoftFloat\include;telnet\include;$(ProjectDir);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
@@ -149,9 +149,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>./msvc.dllmod.bin\</OutDir>
     <IntDir>./msvc.dllmod.obj\</IntDir>
-    <NMakeBuildCommandLine>makefile.bat RETAIL makefile.msvc 32 -title "** The SoftDevLabs version of Hercules **"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>makefile.bat RETAIL makefile.msvc 32 -a -title "** The SoftDevLabs version of Hercules **"</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>makefile.bat RETAIL makefile.msvc 32 clean -title "** The SoftDevLabs version of Hercules **"</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>makefile.bat RETAIL makefile.msvc 32</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>makefile.bat RETAIL makefile.msvc 32 -a</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>makefile.bat RETAIL makefile.msvc 32 clean</NMakeCleanCommandLine>
     <NMakeOutput>$(OutDir)</NMakeOutput>
     <NMakePreprocessorDefinitions>FEATURE_ACCESS_REGISTERS;OPTION_SHARED_DEVICES;FEATURE_STORE_SYSTEM_INFORMATION;_FEATURE_INTEGRATED_3270_CONSOLE;FEATURE_SERVICE_PROCESSOR;FEATURE_EXTENDED_STORAGE_KEYS;OPTION_HTTP_SERVER;_DAT_C;FEATURE_PROGRAM_DIRECTED_REIPL;FEATURE_EMULATE_VM;ENABLE_IPV6;OPTION_CMPSC_2012;FEATURE_BINARY_FLOATING_POINT;WIN32;NDEBUG;_MSVC_;CPU=i386;HOST_ARCH=i386;OPTION_FTHREADS;EXTERNALGUI;FEATURE_CHANNEL_SUBSYSTEM;FEATURE_CANCEL_IO_FACILITY;FEATURE_001_ZARCH_INSTALLED_FACILITY;FEATURE_011_CONFIG_TOPOLOGY_FACILITY;OPTION_HAO;HAVE_REGINA_REXXSAA_H;OPTION_CMDTGT;_FEATURE_SYSTEM_CONSOLE;FEATURE_CHSC;OPTION_PTTRACE;FEATURE_CMPSC;HAVE_REGINA_REXX;HAVE_OBJECT_REXX;FEATURE_QUEUED_DIRECT_IO;_FEATURE_SIE;FEATURE_S370_CHANNEL;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>crypto\include;decNumber\include;SoftFloat\include;telnet\include;$(ProjectDir);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
@@ -159,9 +159,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>./msvc.AMD64.bin\</OutDir>
     <IntDir>./msvc.AMD64.bin\</IntDir>
-    <NMakeBuildCommandLine>makefile.bat RETAIL-X64 makefile.msvc 64 -title "** The SoftDevLabs version of Hercules **"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>makefile.bat RETAIL-X64 makefile.msvc 64 -a -title "** The SoftDevLabs version of Hercules **"</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>makefile.bat RETAIL-X64 makefile.msvc 64 clean -title "** The SoftDevLabs version of Hercules **"</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>makefile.bat RETAIL-X64 makefile.msvc 64</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>makefile.bat RETAIL-X64 makefile.msvc 64 -a</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>makefile.bat RETAIL-X64 makefile.msvc 64 clean</NMakeCleanCommandLine>
     <NMakeOutput>$(OutDir)</NMakeOutput>
     <NMakePreprocessorDefinitions>FEATURE_ACCESS_REGISTERS;OPTION_SHARED_DEVICES;FEATURE_STORE_SYSTEM_INFORMATION;_FEATURE_INTEGRATED_3270_CONSOLE;FEATURE_SERVICE_PROCESSOR;FEATURE_EXTENDED_STORAGE_KEYS;OPTION_HTTP_SERVER;_DAT_C;FEATURE_PROGRAM_DIRECTED_REIPL;FEATURE_EMULATE_VM;ENABLE_IPV6;OPTION_CMPSC_2012;FEATURE_BINARY_FLOATING_POINT;WIN32;_WIN64;NDEBUG;_MSVC_;CPU=AMD64;HOST_ARCH=AMD64;OPTION_FTHREADS;EXTERNALGUI;FEATURE_CHANNEL_SUBSYSTEM;FEATURE_CANCEL_IO_FACILITY;FEATURE_001_ZARCH_INSTALLED_FACILITY;FEATURE_011_CONFIG_TOPOLOGY_FACILITY;OPTION_HAO;HAVE_REGINA_REXXSAA_H;OPTION_CMDTGT;_FEATURE_SYSTEM_CONSOLE;FEATURE_CHSC;OPTION_PTTRACE;FEATURE_CMPSC;HAVE_REGINA_REXX;HAVE_OBJECT_REXX;FEATURE_QUEUED_DIRECT_IO;_FEATURE_SIE;FEATURE_S370_CHANNEL;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>crypto\include;decNumber\include;SoftFloat\include;telnet\include;$(ProjectDir);$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
@@ -339,6 +339,7 @@
     <ClCompile Include="dasdisup.c" />
     <ClCompile Include="dasdload.c" />
     <ClCompile Include="dasdload64.c" />
+    <ClCompile Include="dasdload2.h" />
     <ClCompile Include="dasdls.c" />
     <ClCompile Include="dasdpdsu.c" />
     <ClCompile Include="dasdseq.c" />
@@ -450,6 +451,9 @@
     <ClCompile Include="tapesplt.c" />
     <ClCompile Include="tcpip.c" />
     <ClCompile Include="tcpnje.c" />
+    <ClCompile Include="tfprint.c" />
+    <ClCompile Include="tfswap.c" />
+    <ClCompile Include="txt2card.c" />
     <ClCompile Include="timer.c" />
     <ClCompile Include="trace.c" />
     <ClCompile Include="transact.c" />
@@ -698,6 +702,7 @@
     <None Include="readme\README.HQA.md" />
     <None Include="readme\README.HRAF.md" />
     <None Include="readme\README.ISSUES.md" />
+    <None Include="readme\README.MAKETAPE.md" />
     <None Include="readme\README.MINGW.md" />
     <None Include="readme\README.MSVC.md" />
     <None Include="readme\README.NETWORKING.md" />
@@ -746,6 +751,11 @@
     <None Include="tests\agf.tst" />
     <None Include="tests\awsbsf.aws" />
     <None Include="tests\awsbsf.tst" />
+    <None Include="tests\bc-ilc.asm" />
+    <None Include="tests\bc-ilc.core" />
+    <None Include="tests\bc-ilc.list" />
+    <None Include="tests\bc-ilc.tst" />
+    <None Include="tests\bc-ilc.pdf" />
     <None Include="tests\bfp-001-divtoint.asm" />
     <None Include="tests\bfp-001-divtoint.core" />
     <None Include="tests\bfp-001-divtoint.list" />
@@ -928,8 +938,6 @@
     <None Include="tests\cmd-rv-4K-64.subxxx" />
     <None Include="tests\cmd-rv.xxx" />
     <None Include="tests\cr.tst" />
-    <None Include="tests\cpu0off.core" />
-    <None Include="tests\cpu0off.core" />
     <None Include="tests\CUSE-01-basic.asm" />
     <None Include="tests\CUSE-02-performance.asm" />
     <None Include="tests\CUSE-01-basic.core" />
@@ -964,6 +972,11 @@
     <None Include="tests\fix-page.list" />
     <None Include="tests\fix-page.tst" />
     <None Include="tests\fix-page.pdf" />
+    <None Include="tests\float.asm" />
+    <None Include="tests\float.core" />
+    <None Include="tests\float.list" />
+    <None Include="tests\float.tst" />
+    <None Include="tests\float.pdf" />
     <None Include="tests\csxtr.assemble" />
     <None Include="tests\csxtr.listing" />
     <None Include="tests\csxtr.tst" />
@@ -1456,6 +1469,7 @@
     <Text Include="tests\mxtr.txt" />
     <Text Include="tests\popcnt.txt" />
     <Text Include="tests\printer.txt" />
+    <Text Include="tests\punch.txt" />
     <Text Include="tests\ptf.txt" />
     <Text Include="tests\res40002.txt" />
     <Text Include="tests\rnsbg.txt" />

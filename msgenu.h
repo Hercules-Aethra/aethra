@@ -1,6 +1,7 @@
 /* MSGENU.H     (C) Copyright Roger Bowler and others, 1999-2022     */
 /*              (C) Copyright Bernard van der Helm, 2010-2012        */
 /*              (C) Copyright TurboHercules, SAS 2010-2011           */
+/*              (C) and others 2011-2023                             */
 /*              Header file for Hercules messages (US English)       */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -325,7 +326,7 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC00156 "IFF_TUN requested but not a tun device: %s"
 #define HHC00157 "IFF_TAP requested but not a tap device: %s"
 //efine HHC00158 (available)
-//efine HHC00159 (available)
+#define HHC00159 "Overly long %d byte SCP message truncated to %d bytes"
 #define HHC00160 "SCP %scommand: %s"
 #define HHC00161 "Function %s failed: [%02d] %s"
 // hercifc.c: 162-169
@@ -777,7 +778,7 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC00900 "%1d:%04X %s: Error in function %s: %s"
 #define HHC00901 "%1d:%04X %s: Interface %s, type %s opened"
 #define HHC00902 "%1d:%04X %s: ioctl %s failed for device %s: %s"
-//efine HHC00903 (available)
+#define HHC00903 "%1d:%04X: CTC DEBUG is %s"
 #define HHC00904 "%1d:%04X %s: Halt or clear recognized"
 //efine HHC00905 (available)
 #define HHC00906 "%1d:%04X CTC: write CCW count %u is invalid"
@@ -987,7 +988,9 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC01207 "%1d:%04X Card: file %s: card image exceeds maximum %d bytes"
 #define HHC01208 "%1d:%04X Card: filename is missing"
 #define HHC01209 "%1d:%04X Card: parameter %s in argument %d is invalid"
-//efine HHC01210 - HHC01249 (available)
+#define HHC01210 "%1d:%04X Card: option %s is incompatible"
+#define HHC01211 "%1d:%04X Card: client %s, IP %s disconnected from device %s"
+//efine HHC01212 - HHC01249 (available)
 
 // reserve 01250 - 01299 for Generic device messages
 #define HHC01250 "%1d:%04X %s: error in function %s: %s"
@@ -996,9 +999,9 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 
 // reserve 013xx for channel related messages
 #define HHC01300 "%1d:%04X CHAN: halt subchannel: cc=%d"
-#define HHC01301 "%1d:%04X CHAN: midaw %2.2X %4.4"PRIX16" %16.16"PRIX64": %s"
-#define HHC01302 "%1d:%04X CHAN: idaw %8.8"PRIX32", len %3.3"PRIX16": %s"
-#define HHC01303 "%1d:%04X CHAN: idaw %16.16"PRIX64", len %4.4"PRIX16": %s"
+#define HHC01301 "%1d:%04X CHAN: midaw %2.2X %4.4"PRIX16" %16.16"PRIX64"%s"
+#define HHC01302 "%1d:%04X CHAN: idaw %8.8"PRIX32", len %3.3"PRIX16"%s"
+#define HHC01303 "%1d:%04X CHAN: idaw %16.16"PRIX64", len %4.4"PRIX16"%s"
 #define HHC01304 "%1d:%04X CHAN: attention signaled"
 #define HHC01305 "%1d:%04X CHAN: attention"
 #define HHC01306 "%1d:%04X CHAN: initial status interrupt"
@@ -1007,15 +1010,23 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC01309 "%1d:%04X CHAN: halt completed"
 #define HHC01310 "%1d:%04X CHAN: suspended"
 #define HHC01311 "%1d:%04X CHAN: resumed"
-#define HHC01312 "%1d:%04X CHAN: stat %2.2X%2.2X, count %4.4X%s"
+#define HHC01312 "%1d:%04X CHAN: stat %2.2X%2.2X, count %4.4X"
 #define HHC01313 "%1d:%04X CHAN: sense %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X"
 #define HHC01314 "%1d:%04X CHAN: sense %s"
 #define HHC01315 "%1d:%04X CHAN: ccw %2.2X%2.2X%2.2X%2.2X %2.2X%2.2X%2.2X%2.2X%s"
 #define HHC01316 "%1d:%04X CHAN: csw %2.2X, stat %2.2X%2.2X, count %2.2X%2.2X, ccw %2.2X%2.2X%2.2X"
 #define HHC01317 "%1d:%04X CHAN: scsw %2.2X%2.2X%2.2X%2.2X, stat %2.2X%2.2X, count %2.2X%2.2X, ccw %2.2X%2.2X%2.2X%2.2X"
 #define HHC01318 "%1d:%04X CHAN: test I/O: cc=%d"
+//efine HHC01319 (available)
 #define HHC01320 "%1d:%04X CHAN: start I/O S/370 conversion to asynchronous operation started"
 #define HHC01321 "%1d:%04X CHAN: start I/O S/370 conversion to asynchronous operation successful"
+//efine HHC01322 (available)
+//efine HHC01323 (available)
+//efine HHC01324 (available)
+//efine HHC01325 (available)
+//efine HHC01326 (available)
+//efine HHC01327 (available)
+//efine HHC01328 (available)
 #define HHC01329 "%1d:%04X CHAN: halt I/O"
 #define HHC01330 "%1d:%04X CHAN: HIO modification executed: cc=1"
 #define HHC01331 "%1d:%04X CHAN: clear subchannel"
@@ -1024,16 +1035,34 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC01334 "%1d:%04X CHAN: ORB: %s"
 //efine HHC01335 (available)
 #define HHC01336 "%1d:%04X CHAN: startio cc=2 (busy=%d startpending=%d)"
-//efine HHC01337 - HHC01349 (available)
-#define HHC01350 "%1d:%04X CHAN: missing generic channel method"
-#define HHC01351 "%1d:%04X CHAN: incorrect generic channel method %s"
-#define HHC01352 "%1d:%04X CHAN: generic channel initialisation failed"
-#define HHC01353 "%1d:%04X CHAN: generic channel is currently in development"
-//efine HHC01354 - HHC01389 (available)
-#define HHC01390 "%s" // DUMP (debugging)
-#define HHC01391 "%s" // DUMP_STORAGE (debugging)
-#define HHC01392 "%s" // DISPLAY_PREFETCH (debugging)
-#define HHC01393 "%s" // DEBUG_SCSW (debugging)
+//efine HHC01337 (available)
+//efine HHC01338 (available)
+//efine HHC01339 (available)
+//efine HHC01340 (available)
+//efine HHC01341 (available)
+//efine HHC01342 (available)
+//efine HHC01343 (available)
+//efine HHC01344 (available)
+//efine HHC01345 (available)
+//efine HHC01346 (available)
+//efine HHC01347 (available)
+//efine HHC01348 (available)
+//efine HHC01349 (available)
+#define HHC01350 "%1d:%04X CHAN: missing generic channel method"                // (hchan.c)
+#define HHC01351 "%1d:%04X CHAN: incorrect generic channel method %s"           // (hchan.c)
+#define HHC01352 "%1d:%04X CHAN: generic channel initialisation failed"         // (hchan.c)
+#define HHC01353 "%1d:%04X CHAN: generic channel is currently in development"   // (hchan.c)
+//efine HHC01354 (available)
+//efine HHC01355 (available)
+//efine HHC01356 (available)
+//efine HHC01357 (available)
+//efine HHC01358 (available)
+//efine HHC01359 (available)
+//efine HHC01360 - HHC01389 (available)
+#define HHC01390 "%s" // DUMP               (debugging)
+#define HHC01391 "%s" // DUMP_STORAGE       (debugging)
+#define HHC01392 "%s" // DISPLAY_PREFETCH   (debugging)
+#define HHC01393 "%s" // DEBUG_SCSW         (debugging)
 //efine HHC01394 - HHC01399 (available)
 
 // reserve 014xx for initialization and shutdown
@@ -1357,8 +1386,8 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC02222 "Unsupported function"
 #define HHC02223 "%s of %s-labeled volume %s pending for drive %u:%4.4X %s"
 #define HHC02224 "Store status rejected: CPU not stopped"
-//efine HHC02225 (available)
-//efine HHC02226 (available)
+#define HHC02225 "%1d:%04X is not a dasd device"
+#define HHC02226 "No dasd devices found"
 #define HHC02227 "Shell/Exec commands are disabled"
 #define HHC02228 "%s key pressed"
 #define HHC02229 "Instruction %s %s%s%s"
@@ -1386,7 +1415,7 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC02251 "Address exceeds main storage size"
 #define HHC02252 "Too many instructions! (Sorry!)"
 #define HHC02253 "All CPU's must be stopped %s"
-//efine HHC02254 (available)
+#define HHC02254 "CPU %02X is not online"
 //efine HHC02255 (available)
 #define HHC02256 "Command '%s' is deprecated%s"
 #define HHC02257 "%s%7d"
@@ -1491,13 +1520,13 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC02374 "Automatic tracing enabled: BEG=%"PRIu64" AMT=%"PRIu64
 #define HHC02375 "Automatic tracing is active"
 #define HHC02376 "Automatic tracing value(s) must be greater than zero"
-//efine HHC02377 (available)
-//efine HHC02378 (available)
-//efine HHC02379 (available)
-//efine HHC02380 (available)
-//efine HHC02381 (available)
-//efine HHC02382 (available)
-//efine HHC02383 (available)
+#define HHC02377 "Trace file open error %s: \"%s\""
+#define HHC02378 "Invalid MAX= value: %s"
+#define HHC02379 "Trace file MAX= reached; file closed, tracing %s"
+#define HHC02380 "Invalid %s= value: %s"
+#define HHC02381 "File closed, tracing %s"
+#define HHC02382 "%stracing active for %s"
+#define HHC02383 "Trace file tracing begun..."
 //efine HHC02384 (available)
 #define HHC02385 "CPUMODEL %04X does not technically support TXF"
 #define HHC02386 "Configure CPU error %d"
@@ -1770,7 +1799,7 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
        "HHC02495I   -1      normal  checking\n" \
        "HHC02495I   -2      intermediate checking\n" \
        "HHC02495I   -3      maximal checking"
-#define HHC02496 "Usage: %s [options] ctlfile outfile [n]\n" \
+#define HHC02496 "Usage: %s [options] ctlfile outfile [n [maxdblk maxttr maxdscb]]\n" \
        "HHC02496I options:\n" \
        "HHC02496I   -0     no compression (default)\n" \
        "HHC02496I   -a     output disk will include alternate cylinders\n" \
@@ -1782,7 +1811,9 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
        "HHC02496I\n" \
        "HHC02496I ctlfile  name of input control file\n" \
        "HHC02496I outfile  name of DASD image file to be created\n" \
-       "HHC02496I n        msglevel 'n' is a digit 0 - 5 indicating output verbosity"
+       "HHC02496I\n" \
+       "HHC02496I n        'n' is a digit 0 - 5 (default is 1) indicating output verbosity\n" \
+       "HHC02496I max...   'maxdblk', etc, is maximum number of DBLK/TTR/DSCB entries or 0 for default"
 #define HHC02497 "Usage: %s [-f] [-level] file1 [file2 ... ]\n" \
        "HHC02497I   file    name of CCKD file\n" \
        "HHC02497I Options:\n" \
@@ -2327,8 +2358,80 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC03103 "Unsupported dasd image file format"
 //efine HHC03104 - HHC03199 (available)
 
-// range 03200 - 03299 available
-// range 03300 - 03399 available
+// tfprint
+#define HHC03200 "Usage:  %s  [options...] tracefile\n"                          \
+       "HHC03200I\n"                                                             \
+       "HHC03200I        [-i|--info]\n"                                          \
+       "HHC03200I        [-c|--cpu hh[[-hh][,hh]]\n"                             \
+       "HHC03200I        [-r|--traceopt TRADITIONAL|REGSFIRST|NOREGS]\n"         \
+       "HHC03200I        [-n|--count nnnnnn[[-nnnnnn]|[.nnn]]\n"                 \
+       "HHC03200I        [-e|--msg nnnnn[,nnnnn]\n"                              \
+       "HHC03200I        [-s|--storage V|R:hhhhhh[[-hhhhhh]|[.hhh]]\n"           \
+       "HHC03200I        [-d|--date YYYY/MM/DD-YYYY/MM/DD\n"                     \
+       "HHC03200I        [-t|--time HH:MM:SS.nnnnnn-HH:MM:SS.nnnnnn\n"           \
+       "HHC03200I        [-o|--opcode hhhhhhhh[,hhxxhhxxhhhh]\n"                 \
+       "HHC03200I        [-m|--msglvl xxxxx\n"                                   \
+       "HHC03200I        [-u|--unit uuuu[[-uuuu]|[.nnn]]\n"                      \
+       "HHC03200I        [-p|--codepage zzzzzzzz\n"                              \
+       "HHC03200I\n"                                                             \
+       "HHC03200I   -i   Print only TFSYS header information then exit\n"        \
+       "HHC03200I   -c   Print only specified CPU(s)\n"                          \
+       "HHC03200I   -r   Print registers trace option\n"                         \
+       "HHC03200I   -n   Print only records nnnnnn to nnnnnn (by count)\n"       \
+       "HHC03200I   -e   Print only messages with specified message number\n"    \
+       "HHC03200I   -s   Print only instructions that reference or modify\n"     \
+       "HHC03200I        the specified 'V'irtual or 'R'eal storage range\n"      \
+       "HHC03200I   -d   Print only records within specified date range\n"       \
+       "HHC03200I   -t   Print only records within specified time range\n"       \
+       "HHC03200I   -o   Print only specified instruction(s) (by opcode)\n"      \
+       "HHC03200I        Only as many bytes are checked as are specified\n"      \
+       "HHC03200I        Use 'x' as wildcard for nibbles not to be checked\n"    \
+       "HHC03200I   -m   Modify Hercules 'msglvl' setting\n"                     \
+       "HHC03200I   -u   Print only trace records for specified I/O unit(s)\n"   \
+       "HHC03200I   -p   Use EBCDIC/ASCII codepage conversion table zzzzzzzz"
+
+#define HHC03201 "Missing input-file specification"
+#define HHC03202 "Error opening \"%s\": %s"
+#define HHC03203 "Option %s has not been implemented yet!"
+#define HHC03204 "Missing argument for option %s"
+#define HHC03205 "Option \"%s\" value \"%s\" is invalid"
+#define HHC03206 "Error reading trace file: %s"
+#define HHC03207 "Truncated %s record; aborting"
+#define HHC03208 "Format-%c trace file created by: %s"
+#define HHC03209 "Trace %s: %s"
+#define HHC03210 "Incompatible MAX_CPU_ENGS"
+#define HHC03211 "Trace count: ins=%s records, dev=%s records"
+#define HHC03212 "File does not start with TFSYS record; aborting"
+#define HHC03213 "Unsupported Trace File format: %%TF%c"
+#define HHC03214 "Unsupported Trace File record: msgnum %"PRIu16
+#define HHC03215 "%s %s printed"
+#define HHC03216 "Incompatible Hercules build architectures"
+#define HHC03217 "Args: %s"
+#define HHC03218 "Unsupported external interrupt: processor %s, code %4.4"PRIX16
+#define HHC03219 "Invalid/unsupported option: %s"
+#define HHC03220 "--date range is required when --time range specified"
+#define HHC03221 "Endianness of %s = %s"
+#define HHC03222 "WARNING: possible performance impact due to endianness!"
+//efine HHC03223 - HHC03249 (available)
+
+// tfswap
+#define HHC03250 "Usage:  tfswap  infile  outfile\n"
+#define HHC03251 "Error opening \"%s\": %s"
+#define HHC03252 "Error reading trace file: %s"
+#define HHC03253 "Truncated %s record; aborting"
+#define HHC03254 "File successfully swapped from %s endian to %s endian"
+//efine HHC03255 - HHC03299 (available)
+
+// txt2card
+#define HHC03300 "Usage:  txt2card  codepage  infile  outfile"
+#define HHC03301 "Incorrect number of arguments"
+#define HHC03302 "Invalid/unsupported codepage"
+#define HHC03303 "Error opening \"%s\": %s"
+#define HHC03304 "I/O error on file \"%s\": %s"
+//efine HHC03305 - HHC03349 (available)
+
+//efine HHC03350 - HHC03399 (available)
+
 // range 03400 - 03499 available
 // range 03500 - 03599 available
 // range 03600 - 03699 available

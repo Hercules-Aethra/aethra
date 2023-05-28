@@ -2358,7 +2358,7 @@ DEF_INST(convert_utf8_to_utf32)
     srce = regs->GR(r2) & ADDRESS_MAXWRAP(regs);
     srcelen = GR_A(r2 + 1, regs);
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
-    if (m3 & 0x01)
+    if ((m3 & 0x01) && FACILITY_ENABLED( 030_ETF3_ENHANCEMENT, regs ))
         wfc = true;
     else
         wfc = false;
@@ -2398,9 +2398,9 @@ DEF_INST(convert_utf8_to_utf32)
         {
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellFormednessChecking */
-            if(wfc)
+            if (wfc)
             {
-                if(utf8[0] <= 0xc1)
+                if (utf8[0] <= 0xc1)
                 {
                     regs->psw.cc = 2;
                     return;
@@ -2420,9 +2420,9 @@ DEF_INST(convert_utf8_to_utf32)
 
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellFormednessChecking */
-            if(wfc)
+            if (wfc)
             {
-                if(utf8[1] < 0x80 || utf8[1] > 0xbf)
+                if (utf8[1] < 0x80 || utf8[1] > 0xbf)
                 {
                     regs->psw.cc = 2;
                     return;
@@ -2451,27 +2451,27 @@ DEF_INST(convert_utf8_to_utf32)
 
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellformednessChecking */
-            if(wfc)
+            if (wfc)
             {
-                if(utf8[0] == 0xe0)
+                if (utf8[0] == 0xe0)
                 {
-                    if(utf8[1] < 0xa0 || utf8[1] > 0xbf || utf8[2] < 0x80 || utf8[2] > 0xbf)
+                    if (utf8[1] < 0xa0 || utf8[1] > 0xbf || utf8[2] < 0x80 || utf8[2] > 0xbf)
                     {
                         regs->psw.cc = 2;
                         return;
                     }
                 }
-                if((utf8[0] >= 0xe1 && utf8[0] <= 0xec) || (utf8[0] >= 0xee && utf8[0] <= 0xef))
+                if ((utf8[0] >= 0xe1 && utf8[0] <= 0xec) || (utf8[0] >= 0xee && utf8[0] <= 0xef))
                 {
-                    if(utf8[1] < 0x80 || utf8[1] > 0xbf || utf8[2] < 0x80 || utf8[2] > 0xbf)
+                    if (utf8[1] < 0x80 || utf8[1] > 0xbf || utf8[2] < 0x80 || utf8[2] > 0xbf)
                     {
                         regs->psw.cc = 2;
                         return;
                     }
                 }
-                if(utf8[0] == 0xed)
+                if (utf8[0] == 0xed)
                 {
-                    if(utf8[1] < 0x80 || utf8[1] > 0x9f || utf8[2] < 0x80 || utf8[2] > 0xbf)
+                    if (utf8[1] < 0x80 || utf8[1] > 0x9f || utf8[2] < 0x80 || utf8[2] > 0xbf)
                     {
                         regs->psw.cc = 2;
                         return;
@@ -2491,9 +2491,9 @@ DEF_INST(convert_utf8_to_utf32)
         {
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellFormednessChecking */
-            if(wfc)
+            if (wfc)
             {
-                if(utf8[0] > 0xf4)
+                if (utf8[0] > 0xf4)
                 {
                     regs->psw.cc = 2;
                     return;
@@ -2513,27 +2513,54 @@ DEF_INST(convert_utf8_to_utf32)
 
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellFormdnessChecking */
-            if(wfc)
+            if (wfc)
             {
-                if(utf8[0] == 0xf0)
+                if (utf8[0] == 0xf0)
                 {
-                    if(utf8[1] < 0x90 || utf8[1] > 0xbf || utf8[2] < 0x80 || utf8[2] > 0xbf || utf8[3] < 0x80 || utf8[3] > 0xbf)
+                    if (0
+                        || utf8[1] < 0x90
+                        || utf8[1] > 0xbf
+
+                        || utf8[2] < 0x80
+                        || utf8[2] > 0xbf
+
+                        || utf8[3] < 0x80
+                        || utf8[3] > 0xbf
+                    )
                     {
                         regs->psw.cc = 2;
                         return;
                     }
                 }
-                if(utf8[0] >= 0xf1 && utf8[0] <= 0xf3)
+                if (utf8[0] >= 0xf1 && utf8[0] <= 0xf3)
                 {
-                    if(utf8[1] < 0x80 || utf8[1] > 0xbf || utf8[2] < 0x80 || utf8[2] > 0xbf || utf8[3] < 0x80 || utf8[3] > 0xbf)
+                    if (0
+                        || utf8[1] < 0x80
+                        || utf8[1] > 0xbf
+
+                        || utf8[2] < 0x80
+                        || utf8[2] > 0xbf
+
+                        || utf8[3] < 0x80
+                        || utf8[3] > 0xbf
+                    )
                     {
                         regs->psw.cc = 2;
                         return;
                     }
                 }
-                if(utf8[0] == 0xf4)
+                if (utf8[0] == 0xf4)
                 {
-                    if(utf8[1] < 0x80 || utf8[1] > 0x8f || utf8[2] < 0x80 || utf8[2] > 0xbf || utf8[3] < 0x80 || utf8[3] > 0xbf)
+                    if (0
+                        || utf8[1] < 0x80
+                        || utf8[1] > 0x8f
+
+                        || utf8[2] < 0x80
+                        || utf8[2] > 0xbf
+
+                        || utf8[3] < 0x80
+                        || utf8[3] > 0xbf
+                    )
                     {
                         regs->psw.cc = 2;
                         return;
@@ -2600,7 +2627,7 @@ DEF_INST(convert_utf16_to_utf32)
     srce = regs->GR(r2) & ADDRESS_MAXWRAP(regs);
     srcelen = GR_A(r2 + 1, regs);
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
-    if(m3 & 0x01)
+    if ((m3 & 0x01) && FACILITY_ENABLED( 030_ETF3_ENHANCEMENT, regs ))
         wfc = true;
     else
         wfc = false;
@@ -2650,9 +2677,9 @@ DEF_INST(convert_utf16_to_utf32)
 
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellFormednessChecking */
-            if(wfc)
+            if (wfc)
             {
-                if(utf16[2] < 0xdc || utf16[2] > 0xdf)
+                if (utf16[2] < 0xdc || utf16[2] > 0xdf)
                 {
                     regs->psw.cc = 2;
                     return;
@@ -3093,7 +3120,7 @@ DEF_INST(translate_and_test_reverse)
         m1--;
 
         /* check for page cross */
-        if ( MAINSTOR_PAGEBASE ( m1 ) != m1pg ) 
+        if ( MAINSTOR_PAGEBASE ( m1 ) != m1pg )
         {
             m1 = MADDRL(effective_addr1, 1, b1, regs, ACCTYPE_READ, regs->psw.pkey );
             m1pg = MAINSTOR_PAGEBASE ( m1 );
@@ -3240,8 +3267,8 @@ DEF_INST( translate_and_test_xxx_extended )
         /* TRTE instruction */
         max_process = PAGEFRAME_PAGESIZE - ( buf_addr & PAGEFRAME_BYTEMASK );
 
-    /* Get buffer mainstor address */
-    buf_main_addr = MADDRL( buf_addr, (a_bit ? 2 : 1), r1, regs, ACCTYPE_READ, regs->psw.pkey );
+    /* Get buffer mainstor address - a bit = 1 page cross checked later */
+    buf_main_addr = MADDRL( buf_addr, 1, r1, regs, ACCTYPE_READ, regs->psw.pkey );
 
     fc = 0;
     processed = 0;
@@ -3253,14 +3280,18 @@ DEF_INST( translate_and_test_xxx_extended )
             if ((buf_addr & PAGEFRAME_BYTEMASK) == PAGEFRAME_BYTEMASK)
             {
                 /* Yes! Piece together the argument */
-                temp_l  =  *buf_main_addr;
-                temp_h  =  *MADDRL( buf_addr+1, 1 , r1, regs, ACCTYPE_READ, regs->psw.pkey );
-                arg_ch  =   CSWAP16( (temp_h << 8) | temp_l );
+                temp_h  =  *buf_main_addr;
+                temp_l  =  *MADDRL( buf_addr+1, 1 , r1, regs, ACCTYPE_READ, regs->psw.pkey );
             }
             else
             {
-                arg_ch = CSWAP16( *(U16*) buf_main_addr );
+                // the following fails on sparc 64 : alignment
+                // arg_ch = CSWAP16( *(U16*) buf_main_addr );
+                // so
+                temp_h  =  *(buf_main_addr +0);
+                temp_l  =  *(buf_main_addr +1);
             }
+            arg_ch  =   (temp_h << 8) | temp_l;
         }
         else
         {
@@ -3285,12 +3316,16 @@ DEF_INST( translate_and_test_xxx_extended )
                 if ((fc_addr & PAGEFRAME_BYTEMASK) == PAGEFRAME_BYTEMASK)
                 {
                     /* Yes! Piece together the FC */
-                    temp_l  =  *(fct_main_page_addr[ fc_page_no - fct_page_no + 0 ] + PAGEFRAME_BYTEMASK ); // (last byte of page)
-                    temp_h  =  *(fct_main_page_addr[ fc_page_no - fct_page_no + 1 ] );                      // (first byte of next page)
-                    fc      =   CSWAP16 ( (temp_h << 8) | temp_l ) ;
+                    temp_h  =  *(fct_main_page_addr[ fc_page_no - fct_page_no + 0 ] + PAGEFRAME_BYTEMASK ); // (last byte of page)
+                    temp_l  =  *(fct_main_page_addr[ fc_page_no - fct_page_no + 1 ] );                      // (first byte of next page)
                 }
                 else
-                    fc =  CSWAP16( *(U16*) (fct_main_page_addr[ fc_page_no - fct_page_no ] + (fc_addr & PAGEFRAME_BYTEMASK)));
+                {
+                    // fc =  CSWAP16( *(U16*) (fct_main_page_addr[ fc_page_no - fct_page_no ] + (fc_addr & PAGEFRAME_BYTEMASK)));
+                    temp_h  =  *( fct_main_page_addr[ fc_page_no - fct_page_no ] + (fc_addr & PAGEFRAME_BYTEMASK) +0 );
+                    temp_l  =  *( fct_main_page_addr[ fc_page_no - fct_page_no ] + (fc_addr & PAGEFRAME_BYTEMASK) +1 );
+                }
+                fc  =   (temp_h << 8) | temp_l;
             }
             else
             {

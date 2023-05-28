@@ -14,6 +14,11 @@ EXTRA_DIST =                    \
      awsbsf.tst                 \
      axtr.txt                   \
      BEAR.txt                   \
+     bc-ilc.asm                 \
+     bc-ilc.core                \
+     bc-ilc.list                \
+     bc-ilc.tst                 \
+     bc-ilc.pdf                 \
      bfp-001-divtoint.asm       \
      bfp-001-divtoint.core      \
      bfp-001-divtoint.list      \
@@ -208,7 +213,6 @@ EXTRA_DIST =                    \
      CMPSC.tst                  \
      comments.txt               \
      cpsdr.txt                  \
-     cpu0off.core               \
      cr.tst                     \
      csst.txt                   \
      csxtr.assemble             \
@@ -262,6 +266,11 @@ EXTRA_DIST =                    \
      fix-page.tst               \
      fix-page.pdf               \
      fixtr.txt                  \
+     float.asm                  \
+     float.core                 \
+     float.list                 \
+     float.tst                  \
+     float.pdf                  \
      hetbsf-bzip2.het           \
      hetbsf.het                 \
      hetbsf.tst                 \
@@ -421,6 +430,7 @@ EXTRA_DIST =                    \
      pr.subtst                  \
      pr.tst                     \
      printer.txt                \
+     punch.txt                  \
      privop.asm                 \
      privop.core                \
      privop.list                \

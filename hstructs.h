@@ -1,6 +1,6 @@
 /* HSTRUCTS.H   (C) Copyright Roger Bowler, 1999-2012                */
 /*              (C) Copyright TurboHercules, SAS 2011                */
-/*              (C) and others 2013-2022                             */
+/*              (C) and others 2013-2023                             */
 /*              Hercules Structure Definitions                       */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -251,6 +251,7 @@ struct REGS {                           /* Processor registers       */
                 loadstate:1,            /* 1=CPU is in load state    */
                 ghostregs:1,            /* 1=Ghost registers (panel) */
                 invalidate:1,           /* 1=Do AIA/AEA invalidation */
+                insttrace:1,            /* 1=Inst trace enabled      */
                 breakortrace:1,         /* 1=Inst break/trace active */
                 stepping:1,             /* 1=Inst stepping is active */
                 stepwait:1,             /* 1=Wait in inst stepping   */
@@ -979,6 +980,7 @@ atomic_update64( &sysblk.txf_stats[ contran ? 1 : 0 ].txf_ ## ctr, +1 )
 #endif
                 sigintreq:1,            /* 1 = SIGINT request pending*/
                 insttrace:1,            /* 1 = Inst trace enabled    */
+                tfnostop:1,             /* 1 = tf continue tracing   */
                 instbreak:1,            /* 1 = Inst break enabled    */
                 shutdown:1,             /* 1 = shutdown requested    */
                 shutfini:1,             /* 1 = shutdown complete     */
@@ -1004,6 +1006,7 @@ atomic_update64( &sysblk.txf_stats[ contran ? 1 : 0 ].txf_ ## ctr, +1 )
                 noch9oflow:1,           /* Suppress CH9 O'Flow trace */
                 devnameonly:1,          /* Display only dev filename */
                 config_processed;       /* config file processed     */
+        int     quitmout;               /* quit timeout value        */
         U32     ints_state;             /* Common Interrupts Status  */
         CPU_BITMAP config_mask;         /* Configured CPUs           */
         CPU_BITMAP started_mask;        /* Started CPUs              */
@@ -1125,6 +1128,30 @@ atomic_update64( &sysblk.txf_stats[ contran ? 1 : 0 ].txf_ ## ctr, +1 )
         char    *logofile;              /* File name of logo file    */
         size_t  logolines;              /* Logo file number of lines */
 
+        /*-----------------------------------------------------------*/
+        /*      Trace File support                                   */
+        /*-----------------------------------------------------------*/
+
+        LOCK        tracefileLock;      /* LOCK for below fields     */
+#define OBTAIN_TRACEFILE_LOCK()     obtain_lock(  &sysblk.tracefileLock )
+#define RELEASE_TRACEFILE_LOCK()    release_lock( &sysblk.tracefileLock )
+        const char* tracefilename;      /* File name of trace file   */
+        FILE*       traceFILE;          /* Ptr to trace file FILE    */
+        U64         curtracesize;       /* Current trace file size   */
+        U64         maxtracesize;       /* Maximum trace file size   */
+        void*       tracefilebuff;      /* Ptr to trace file buffer  */
+
+        TFGSK*      s370_gsk;           /* s370_get_storage_key      */
+        TFGSK*      s390_gsk;           /* s390_get_storage_key      */
+        TFGSK*      z900_gsk;           /* z900_get_storage_key      */
+
+        TFVTR*      s370_vtr;           /* virt_to_real              */
+        TFVTR*      s390_vtr;           /* virt_to_real              */
+        TFVTR*      z900_vtr;           /* virt_to_real              */
+
+        TFSIT*      s370_sit;           /* store_int_timer           */
+        TFGCT*      gct;                /* get_cpu_timer             */
+
         /* Merged Counters for all CPUs                              */
         U64     instcount;              /* Instruction counter       */
         U32     mipsrate;               /* Instructions per second   */
@@ -1208,6 +1235,17 @@ struct CHPBLK {
         BYTE    chptype;
 };
 
+/*-------------------------------------------------------------------*/
+/* Channel prefetch logic IDAW Types                                 */
+/*-------------------------------------------------------------------*/
+typedef enum
+{
+   PF_NO_IDAW = 0,
+   PF_IDAW1   = 1,      // Format-1 IDAW
+   PF_IDAW2   = 2,      // Format-1 IDAW
+   PF_MIDAW   = 3       // Modified-IDAW
+}
+PF_IDATYPE;
 
 /*-------------------------------------------------------------------*/
 /* Telnet Control Block                                              */
@@ -1404,9 +1442,7 @@ struct DEVBLK {                         /* Device configuration block*/
         unsigned int                    /* Flags                     */
                 append:1,               /* 1=append new data to end  */
                 s370start:1,            /* 1=S/370 non-BMX behavior  */
-#ifdef OPTION_CKD_KEY_TRACING
                 ckdkeytrace:1,          /* 1=Log CKD_KEY_TRACE       */
-#endif /*OPTION_CKD_KEY_TRACING*/
 #if defined( OPTION_SHARED_DEVICES )
                 shareable:1,            /* 1=Device is shareable     */
 #endif // defined( OPTION_SHARED_DEVICES )

@@ -1,5 +1,5 @@
 /* HEXTERNS.H   (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) and others 2013-2021                             */
+/*              (C) and others 2013-2023                             */
 /*                    Hercules function prototypes...                */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -114,6 +114,8 @@ HAO_DLL_IMPORT void hao_command(char *command); /* process hao command */
 #endif /* defined(OPTION_HAO) */
 
 /* Functions in module hsccmd.c (so PTT debugging patches can access them) */
+extern int quit_cmd(     int argc, char* argv[], char* cmdline );
+extern int quitmout_cmd( int argc, char* argv[], char* cmdline );
 HCMD_DLL_IMPORT int devinit_cmd( int argc, char* argv[], char* cmdline ); // used by CTCE_Recovery()
 extern int qproc_cmd( int argc, char* argv[], char* cmdline );
 
@@ -242,7 +244,6 @@ void get_mpfactors(BYTE *dest);
 
 /* Functions in module impl.c */
 IMPL_DLL_IMPORT int impl(int,char **);
-int quit_cmd(int argc, char *argv[],char *cmdline);
 typedef void (*LOGCALLBACK)( const char*, size_t );
 typedef void *(*COMMANDHANDLER)(char *);
 IMPL_DLL_IMPORT void registerLogCallback(LOGCALLBACK);
@@ -261,7 +262,7 @@ int configure_yroffset(int);
 int configure_tzoffset(int);
 
 /* Functions in module service.c */
-int scp_command (char *command, int priomsg, int echo);
+int scp_command( const char* command, bool priomsg, bool echo, bool mask );
 int can_signal_quiesce ();
 int can_send_command ();
 int signal_quiesce (U16 count, BYTE unit);
@@ -359,14 +360,16 @@ CCDU_DLL_IMPORT   int   cckd_chkdsk (DEVBLK *, int);
 /* Functions in module hscmisc.c */
 int herc_system (char* command);
 void do_shutdown();
+bool insttrace_all(); 
 
 int display_gregs (REGS *regs, char *buf, int buflen, char *hdr);
 int display_fregs (REGS *regs, char *buf, int buflen,char *hdr);
 int display_cregs (REGS *regs, char *buf, int buflen, char *hdr);
 int display_aregs (REGS *regs, char *buf, int buflen, char *hdr);
 int display_subchannel (DEVBLK *dev, char *buf, int buflen, char *hdr);
+int display_inst_regs( bool trace2file, REGS* regs, BYTE* inst, BYTE opcode, char* buf, int buflen );
+
 const char* FormatCRW( U32  crw, char* buf, size_t bufsz );
-const char* FormatORB( ORB* orb, char* buf, size_t bufsz );
 const char* FormatSCL( ESW* esw, char* buf, size_t bufsz );
 const char* FormatERW( ESW* esw, char* buf, size_t bufsz );
 const char* FormatESW( ESW* esw, char* buf, size_t bufsz );
@@ -437,6 +440,7 @@ GOP_DLL_IMPORT int   getopt_long ( int nargc, char * const *nargv, const char *o
                 void shared_iowait (DEVBLK *dev);
 CHAN_DLL_IMPORT int  device_attention (DEVBLK *dev, BYTE unitstat);
 CHAN_DLL_IMPORT int  ARCH_DEP(device_attention) (DEVBLK *dev, BYTE unitstat);
+CHAN_DLL_IMPORT void default_sns( char* buf, size_t buflen, BYTE b0, BYTE b1 );
 
 CHAN_DLL_IMPORT void Queue_IO_Interrupt           (IOINT* io, U8 clrbsy, const char* location);
 CHAN_DLL_IMPORT void Queue_IO_Interrupt_QLocked   (IOINT* io, U8 clrbsy, const char* location);

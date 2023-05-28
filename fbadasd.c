@@ -1,4 +1,5 @@
 /* FBADASD.C    (C) Copyright Roger Bowler, 1999-2012                */
+/*              (C) and others 2013-2023                             */
 /*              ESA/390 FBA Direct Access Storage Device Handler     */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -585,7 +586,10 @@ fba_read_blkgrp_retry:
         cache_unlock(CACHE_DEVBUF);
 
         // "%1d:%04X FBA file %s: read blkgrp %d cache hit, using cache[%d]"
-        LOGDEVTR( HHC00516, "I", dev->filename, blkgrp, i );
+        if (dev->ccwtrace && sysblk.traceFILE)
+            tf_0516( dev, blkgrp, i );
+        else
+            LOGDEVTR( HHC00516, "I", dev->filename, blkgrp, i );
 
         dev->cachehits++;
         dev->cache = i;
@@ -602,7 +606,10 @@ fba_read_blkgrp_retry:
     if (o < 0)
     {
         // "%1d:%04X FBA file %s: read blkgrp %d no available cache entry, waiting"
-        LOGDEVTR( HHC00517, "I", dev->filename, blkgrp );
+        if (dev->ccwtrace && sysblk.traceFILE)
+            tf_0517( dev, blkgrp );
+        else
+            LOGDEVTR( HHC00517, "I", dev->filename, blkgrp );
         dev->cachewaits++;
         cache_wait(CACHE_DEVBUF);
         goto fba_read_blkgrp_retry;
@@ -610,7 +617,10 @@ fba_read_blkgrp_retry:
 
     /* Cache miss */
     // "%1d:%04X FBA file %s: read blkgrp %d cache miss, using cache[%d]"
-    LOGDEVTR( HHC00518, "I", dev->filename, blkgrp, o );
+    if (dev->ccwtrace && sysblk.traceFILE)
+        tf_0518( dev, blkgrp, o );
+    else
+        LOGDEVTR( HHC00518, "I", dev->filename, blkgrp, o );
 
     dev->cachemisses++;
 
@@ -626,7 +636,10 @@ fba_read_blkgrp_retry:
     len = fba_blkgrp_len (dev, blkgrp);
 
     // "%1d:%04X FBA file %s: read blkgrp %d offset %"PRId64" len %d"
-    LOGDEVTR( HHC00519, "I", dev->filename, blkgrp, offset, fba_blkgrp_len( dev, blkgrp ));
+    if (dev->ccwtrace && sysblk.traceFILE)
+        tf_0519( dev, blkgrp, offset, fba_blkgrp_len( dev, blkgrp ));
+    else
+        LOGDEVTR( HHC00519, "I", dev->filename, blkgrp, offset, fba_blkgrp_len( dev, blkgrp ));
 
     /* Seek to the block group offset */
     offset = lseek (dev->fd, offset, SEEK_SET);
@@ -1085,7 +1098,10 @@ int     repcnt;                         /* Replication count         */
                       ) * dev->fbablksiz;
 
         // "%1d:%04X FBA file %s: positioning to 0x%"PRIX64" %"PRId64
-        LOGDEVTR( HHC00520, "I", dev->filename, dev->fbarba, dev->fbarba );
+        if (dev->ccwtrace && sysblk.traceFILE)
+            tf_0520( dev );
+        else
+            LOGDEVTR( HHC00520, "I", dev->filename, dev->fbarba, dev->fbarba );
 
         /* Return normal status */
         *unitstat = CSW_CE | CSW_DE;

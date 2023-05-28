@@ -1,5 +1,5 @@
 /* IMPL.C       (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) and others 2013-2021                             */
+/*              (C) and others 2013-2023                             */
 /*              Hercules Initialization Module                       */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -791,6 +791,12 @@ static void arghelp()
     usleep( 100000 );
 }
 
+/* Functions in module skey.h/.c, needed by impl.c */
+
+extern inline BYTE s370_get_storage_key( U64 abs );
+extern inline BYTE s390_get_storage_key( U64 abs );
+extern inline BYTE z900_get_storage_key( U64 abs );
+
 /*-------------------------------------------------------------------*/
 /* IMPL main entry point                                             */
 /*-------------------------------------------------------------------*/
@@ -981,7 +987,20 @@ int     rc;
     sysblk.zpbits  = DEF_CMPSC_ZP_BITS;
 #endif
 
+    /* Initialize Trace File helper function pointers */ 
+    sysblk.s370_gsk = &s370_get_storage_key;
+    sysblk.s390_gsk = &s390_get_storage_key;
+    sysblk.z900_gsk = &z900_get_storage_key;
+
+    sysblk.s370_vtr = &s370_virt_to_real;
+    sysblk.s390_vtr = &s390_virt_to_real;
+    sysblk.z900_vtr = &z900_virt_to_real;
+
+    sysblk.s370_sit = &s370_store_int_timer;
+    sysblk.gct      = &get_cpu_timer;
+
     /* Initialize locks, conditions, and attributes */
+    initialize_lock( &sysblk.tracefileLock );
     initialize_lock( &sysblk.bindlock );
     initialize_lock( &sysblk.config   );
     initialize_lock( &sysblk.todlock  );
@@ -1120,9 +1139,15 @@ int     rc;
     set_thread_priority_id( sysblk.loggertid, sysblk.srvprio );
     LOG_TID_BEGIN( sysblk.loggertid, LOGGER_THREAD_NAME );
 
+    /* Always show version right away */
+    display_version( stdout, 0, NULL );
+
     /* Process command-line arguments. Exit if any serious errors. */
     if ((rc = process_args( argc, argv )) != 0)
     {
+        /* Show them our command line arguments */
+        arghelp();
+
         // "Terminating due to %d argument errors"
         WRMSG( HHC02343, "S", rc );
         delayed_exit( rc );
@@ -1826,8 +1851,8 @@ error:
     /* Terminate if invalid arguments were detected */
     if (arg_error)
     {
-        /* Show them all of our command-line arguments... */
-        arghelp();
+        /* Do nothing. Caller will call "arghelp" to
+          show them our command-line arguments... */
     }
     else /* Check for config and rc file, but don't open */
     {

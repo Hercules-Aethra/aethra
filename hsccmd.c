@@ -2,7 +2,7 @@
 /*              (C) Copyright Jan Jaeger, 1999-2012                  */
 /*              (C) Copyright "Fish" (David B. Trout), 2002-2009     */
 /*              (C) Copyright TurboHercules SAS, 2011                */
-/*              (C) and others 2013-2021                             */
+/*              (C) and others 2013-2023                             */
 /*              Execute Hercules System Commands                     */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -746,7 +746,13 @@ static void* quit_thread( void* arg )
     // command has time to be echoed to the screen.
 
     usleep( quitdelay_usecs );
-    do_shutdown();
+
+    // Now proceed with a normal shutdown, which waits for
+    // the guest to quiesce itself beforehand (if appropriate)
+    // or else simply proceeds with a normal Hercules shutdown
+    // via our "do_shutdown_now" helper function.
+
+    do_shutdown();  // ALWAYS go through this function!
     return NULL;
 }
 
@@ -772,7 +778,7 @@ int quit_cmd( int argc, char* argv[], char* cmdline )
     }
 
     if (argc > 1)
-        sysblk.shutimmed = TRUE;
+        sysblk.shutimmed = TRUE;  // ('FORCE' option was given)
 
     // Launch the shutdown from a separate thread only
     // so the "exit" command can be echoed to the panel.
@@ -780,6 +786,52 @@ int quit_cmd( int argc, char* argv[], char* cmdline )
     VERIFY( create_thread( &tid, DETACHED,
         quit_thread, 0, "quit_thread" ) == 0);
 
+    return 0;
+}
+
+/*-------------------------------------------------------------------*/
+/* quitmout - define maximum wait-for-guest-to-quiesce timeout value */
+/*-------------------------------------------------------------------*/
+int quitmout_cmd( int argc, char* argv[], char* cmdline )
+{
+    long quitmout = 0;
+    char* endptr  = NULL;
+    char buf[16]  = {0};
+
+    UNREFERENCED( cmdline );
+    UPPER_ARGV_0( argv );
+
+    if (argc < 2)
+    {
+        MSGBUF( buf, "%d", sysblk.quitmout );
+
+        // "%-14s: %s"
+        WRMSG( HHC02203, "I", argv[0], buf );
+        return 0;
+    }
+
+    if (0
+        || argc > 2
+        || (quitmout = strtol( argv[1], &endptr, 10 )) < 0
+        || (1
+            && (0 == quitmout || LONG_MAX == quitmout)
+            && (ERANGE == errno || EINVAL == errno)
+           )
+        || (1
+            && *endptr != ' '
+            && *endptr != 0
+           )
+    )
+    {
+        // "Invalid argument(s). Type 'help %s' for assistance."
+        WRMSG( HHC02211, "E", argv[0] );
+        return -1;
+    }
+
+    MSGBUF( buf, "%d", sysblk.quitmout = (int) quitmout );
+
+    // "%-14s set to %s"
+    WRMSG( HHC02204, "I", argv[0], buf );
     return 0;
 }
 
@@ -2188,6 +2240,60 @@ int ctc_cmd( int argc, char *argv[], char *cmdline )
             invalid = TRUE;
         }
     }
+    else // (argc < 3)
+    {
+        // "ctc debug" by itself lists the CTC debugging state for all CTC devices
+
+        static const char* yes_startup  = "STARTUP";
+        static const char* yes_on       = "ON";
+        static const char* no_off       = "OFF";
+        const char* on_or_off;
+
+        for ( dev = sysblk.firstdev; dev; dev = dev->nextdev )
+        {
+            if (0
+                || !dev->allocated
+                || 0x3088 != dev->devtype
+                || (1
+                    && CTC_CTCI != dev->ctctype
+                    && CTC_LCS  != dev->ctctype
+                    && CTC_PTP  != dev->ctctype
+                    && CTC_CTCE != dev->ctctype
+                   )
+            )
+                continue;
+
+            if (CTC_CTCI == dev->ctctype)
+            {
+                pCTCBLK = dev->dev_data;
+                on_or_off = (pCTCBLK->fDebug) ? yes_on : no_off;
+            }
+            else if (CTC_LCS == dev->ctctype)
+            {
+                pLCSDEV = dev->dev_data;
+                pLCSBLK = pLCSDEV->pLCSBLK;
+                on_or_off = (pLCSBLK->fDebug) ? yes_on : no_off;
+            }
+            else if (CTC_CTCE == dev->ctctype)  /* CTCE is not grouped. */
+            {
+                if (dev->ctce_trace_cntr >= 0)
+                    on_or_off = yes_startup;
+                else
+                    on_or_off = (CTCE_TRACE_ON == dev->ctce_trace_cntr) ? yes_on : no_off;
+            }
+            else // (CTC_PTP == dev->ctctype)
+            {
+                pPTPATH = dev->dev_data;
+                pPTPBLK = pPTPATH->pPTPBLK;
+                on_or_off = (pPTPBLK->uDebugMask) ? yes_on : no_off;
+            }
+
+            // "%1d:%04X: CTC DEBUG is %s"
+            WRMSG( HHC00903, "I", LCSS_DEVNUM, on_or_off );
+        }
+
+        return 0;
+    }
 
     /* Check whether there is a fourth token. If there isn't, assume the fourth token is all.  */
     if (argc < 4)
@@ -2282,7 +2388,12 @@ int ctc_cmd( int argc, char *argv[], char *cmdline )
             if (0
                 || !dev->allocated
                 || 0x3088 != dev->devtype
-                || (CTC_CTCI != dev->ctctype && CTC_LCS != dev->ctctype && CTC_PTP != dev->ctctype && CTC_CTCE != dev->ctctype)
+                || (1
+                    && CTC_CTCI != dev->ctctype
+                    && CTC_LCS  != dev->ctctype
+                    && CTC_PTP  != dev->ctctype
+                    && CTC_CTCE != dev->ctctype
+                   )
             )
                 continue;
 
@@ -2298,6 +2409,21 @@ int ctc_cmd( int argc, char *argv[], char *cmdline )
                 pLCSBLK->fDebug = onoff;
                 pLCSBLK->iTraceLen = iTraceLen;
                 pLCSBLK->iDiscTrace = iDiscTrace;
+            }
+            else if (CTC_CTCE == dev->ctctype)  /* CTCE is not grouped. */
+            {
+                if (onoff)
+                {
+                    dev->ctce_trace_cntr = CTCE_TRACE_ON;
+                }
+                else if (startup)
+                {
+                    dev->ctce_trace_cntr = CTCE_TRACE_STARTUP;
+                }
+                else
+                {
+                    dev->ctce_trace_cntr = CTCE_TRACE_OFF;
+                }
             }
             else // (CTC_PTP == dev->ctctype)
             {
@@ -7908,7 +8034,7 @@ static int fonoff_cmd( REGS* regs, char* cmdline )
 /*-------------------------------------------------------------------*/
 int OnOffCommand( int argc, char* argv[], char* cmdline )
 {
-    char*   cmd = cmdline;              /* Copy of panel command     */
+    char*   cmd = cmdline;              /* (just a shorter name)     */
     bool    plus_enable_on;             /* true == x+, false == x-   */
     char*   onoroff;                    /* x+ == "on", x- == "off"   */
     DEVBLK* dev;
@@ -7931,82 +8057,260 @@ int OnOffCommand( int argc, char* argv[], char* cmdline )
     }
 
     OBTAIN_INTLOCK( NULL );
-
-    if (!IS_CPU_ONLINE( sysblk.pcpu ))
     {
-        RELEASE_INTLOCK( NULL );
-        // "Processor %s%02X: processor is not %s"
-        WRMSG( HHC00816, "W", PTYPSTR( sysblk.pcpu ), sysblk.pcpu, "online" );
-        return 0;
-    }
-
-    regs = sysblk.regs[ sysblk.pcpu ];
-
-    // f- and f+ commands - mark 4K page frame as -unusable or +usable
-
-    if (cmd[0] == 'f')
-    {
-        int rc = fonoff_cmd( regs, cmdline );
-        RELEASE_INTLOCK( NULL );
-        return rc;
-    }
-
-#if defined( OPTION_CKD_KEY_TRACING )
-
-    // t+ckd and t-ckd commands - turn CKD_KEY tracing on/off
-
-    if ((cmd[0] == 't') && (strcasecmp(cmd+2, "ckd") == 0))
-    {
-        for (dev = sysblk.firstdev; dev != NULL; dev = dev->nextdev)
+        if (!IS_CPU_ONLINE( sysblk.pcpu ))
         {
-            if (dev->devchar[10] == 0x20)
-                dev->ckdkeytrace = plus_enable_on;
-        }
-        RELEASE_INTLOCK( NULL );
-        WRMSG( HHC02204, "I", "CKD key trace", onoroff );
-        return 0;
-    }
-
-#endif
-
-    // o+devn and o-devn commands - turn ORB tracing on/off
-    // t+devn and t-devn commands - turn CCW tracing on/off
-
-    if (1
-        && (cmd[0] == 'o' || cmd[0] == 't')
-        && parse_single_devnum_silent( &cmd[2], &lcss, &devnum ) == 0
-    )
-    {
-        char* typ;
-        char buf[40];
-
-        if (!(dev = find_device_by_devnum( lcss, devnum )))
-        {
-            // HHC02200 "%1d:%04X device not found"
-            devnotfound_msg( lcss, devnum );
             RELEASE_INTLOCK( NULL );
-            return -1;
+            // "Processor %s%02X: processor is not %s"
+            WRMSG( HHC00816, "W", PTYPSTR( sysblk.pcpu ), sysblk.pcpu, "online" );
+            return 0;
         }
 
-        if (cmd[0] == 'o')
+        regs = sysblk.regs[ sysblk.pcpu ];
+
+        // f- and f+ commands - mark 4K page frame as -unusable or +usable
+
+        if (cmd[0] == 'f')
         {
-            typ = "ORB trace";
-            dev->orbtrace = plus_enable_on;
+            int rc = fonoff_cmd( regs, cmdline );
+            RELEASE_INTLOCK( NULL );
+            return rc;
         }
-        else // (cmd[0] == 't')
+
+        // t+ckd [devnum] and t-ckd [devnum] commands - turn CKD Search Key tracing on/off
+
+        if (1
+            && (cmd[0] == 't')
+            && (cmd[2] == 'c' || cmd[2] == 'C')
+            && (cmd[3] == 'k' || cmd[3] == 'K')
+            && (cmd[4] == 'd' || cmd[4] == 'D')
+            && (cmd[5] ==  0  || cmd[5] == ' ')
+        )
         {
-            typ = "CCW trace";
-            dev->orbtrace = plus_enable_on;
-            dev->ccwtrace = plus_enable_on;
+            char buf[64];   // (results message buffer)
+
+            if (cmd[5] ==  0) // (just "t+ckd" without any device number)
+            {
+                // Enable/disable CKD Search Key tracing for all CKD devices...
+
+                bool bFound = false;
+
+                for (dev = sysblk.firstdev; dev != NULL; dev = dev->nextdev)
+                {
+                    if (dev->devchar[10] == DEVCLASS_DASD)
+                    {
+                        bFound = true;
+                        dev->ckdkeytrace = plus_enable_on;
+                    }
+                }
+
+                if (!bFound)
+                {
+                    RELEASE_INTLOCK( NULL );
+                    // "No dasd devices found"
+                    WRMSG( HHC02226, "E" );
+                    return -1;
+                }
+
+                // Build results message
+                MSGBUF( buf, "%s for all dasd devices", onoroff );
+            }
+            else if (cmd[5] != ' ')
+            {
+                RELEASE_INTLOCK( NULL );
+                // "Invalid argument %s%s"
+                WRMSG( HHC02205, "E", cmd, "" );
+                return -1;
+            }
+            else // (optional device number presumably specified)
+            {
+                const char* p;
+                U16 lcss, devnum;
+
+                // Position to start of devnum operand
+                for (p = &cmd[6]; *p && *p == ' '; ++p);
+
+                // Parse the device number
+                if (parse_single_devnum( p, &lcss, &devnum ) < 0)
+                {
+                    RELEASE_INTLOCK( NULL );
+                    return -1;  // (error message already displayed)
+                }
+
+                // Validate device number
+                if (!(dev = find_device_by_devnum( lcss, devnum )))
+                {
+                    RELEASE_INTLOCK( NULL );
+                    // HHC02200 "%1d:%04X device not found"
+                    devnotfound_msg( lcss, devnum );
+                    return -1;
+                }
+
+                if (dev->devchar[10] != DEVCLASS_DASD)
+                {
+                    RELEASE_INTLOCK( NULL );
+                    // "%1d:%04X is not a dasd device"
+                    WRMSG( HHC02225, "E", lcss, devnum );
+                    return -1;
+                }
+
+                // Enable/disable CKD Search Key tracing for this device
+                dev->ckdkeytrace = plus_enable_on;
+
+                // Build results message
+                MSGBUF( buf, "%s for device %1d:%04X", onoroff, lcss, devnum );
+            }
+
+            RELEASE_INTLOCK( NULL );
+
+            // "%-14s set to %s"
+            WRMSG( HHC02204, "I", "CKD key trace", buf );
+            return 0;
         }
-        MSGBUF( buf, "%s for %1d:%04X", typ, lcss, devnum );
-        // "%-14s set to %s"
-        WRMSG( HHC02204, "I", buf, onoroff );
-        RELEASE_INTLOCK( NULL );
-        return 0;
+
+        // "t+cpu [cpunum]" command - turn instruction tracing on/off for CPU(s)...
+
+        if (1
+            && (cmd[0] == 't')
+            && (cmd[2] == 'c' || cmd[2] == 'C')
+            && (cmd[3] == 'p' || cmd[3] == 'P')
+            && (cmd[4] == 'u' || cmd[4] == 'U')
+            && (cmd[5] ==  0  || cmd[5] == ' ')
+        )
+        {
+            int cpu;
+            char buf[64];   // (results message buffer)
+
+            if (cmd[5] ==  0) // (just "t+cpu" without any CPU number)
+            {
+                // Enable/disable instruction tracing for all CPUs...
+
+                sysblk.insttrace = plus_enable_on;
+
+                for (cpu=0; cpu < sysblk.maxcpu; cpu++)
+                {
+                    if (IS_CPU_ONLINE( cpu ))
+                        sysblk.regs[ cpu ]->insttrace = plus_enable_on;
+                }
+
+                // Build results message
+                MSGBUF( buf, "%s for all CPUs", onoroff );
+            }
+            else if (cmd[5] != ' ')
+            {
+                RELEASE_INTLOCK( NULL );
+                // "Invalid argument %s%s"
+                WRMSG( HHC02205, "E", cmd, "" );
+                return -1;
+            }
+            else // (optional CPU number presumably specified)
+            {
+                const char* p;
+                U16 cpu16;
+                BYTE c;
+                bool trace_cpu = false;
+
+                // Position to start of cpunum operand
+                for (p = &cmd[6]; *p && *p == ' '; ++p);
+
+                // Parse the CPU number
+                if (sscanf( p, "%hu%c", &cpu16, &c ) != 1)
+                {
+                    RELEASE_INTLOCK( NULL );
+                    // "Invalid argument %s%s"
+                    WRMSG( HHC02205, "E", cmd, "" );
+                    return -1;
+                }
+
+                // Validate CPU number
+                if (0
+                    || cpu16 >= MAX_CPU_ENGS
+                    || cpu16 >= sysblk.maxcpu
+                    || !IS_CPU_ONLINE( cpu16 )
+                )
+                {
+                    RELEASE_INTLOCK( NULL );
+                    // "CPU %02X is not online"
+                    WRMSG( HHC02254, "E", cpu16 );
+                    return -1;
+                }
+
+                // Enable/disable instruction tracing for this CPU
+                sysblk.regs[ cpu16 ]->insttrace = plus_enable_on;
+
+                // Disable/enable overall instruction tracing depending
+                // on whether it's now enabled/disabled for all CPUs or
+                // not. (i.e. if it's enabled for some CPUs but not for
+                // others or vice-versa, then overall tracing should be
+                // enabled. Otherwise if it's not enabled for any CPU,
+                // then it should be disabled.)
+
+                for (cpu=0; cpu < sysblk.maxcpu; cpu++)
+                {
+                    if (IS_CPU_ONLINE( cpu ))
+                    {
+                        if (sysblk.regs[ cpu ]->insttrace)
+                        {
+                            trace_cpu = true;
+                            sysblk.insttrace = 1;
+                            break;
+                        }
+                    }
+                }
+
+                if (!trace_cpu)
+                    sysblk.insttrace = 0;
+
+                // Build results message
+                MSGBUF( buf, "%s for %s%02X", onoroff, ptyp2short( sysblk.ptyp[ cpu16 ] ), cpu16 );
+            }
+
+            RELEASE_INTLOCK( NULL );
+
+            // "%-14s set to %s"
+            WRMSG( HHC02204, "I", "CPU tracing", buf );
+            return 0;
+        }
+
+        // o+devn and o-devn commands - turn ORB tracing on/off
+        // t+devn and t-devn commands - turn CCW tracing on/off
+
+        if (1
+            && (cmd[0] == 'o' || cmd[0] == 't')
+            && parse_single_devnum_silent( &cmd[2], &lcss, &devnum ) == 0
+        )
+        {
+            char* typ;
+            char buf[40];
+
+            if (!(dev = find_device_by_devnum( lcss, devnum )))
+            {
+                // HHC02200 "%1d:%04X device not found"
+                devnotfound_msg( lcss, devnum );
+                RELEASE_INTLOCK( NULL );
+                return -1;
+            }
+
+            if (cmd[0] == 'o')
+            {
+                typ = "ORB trace";
+                dev->orbtrace = plus_enable_on;
+            }
+            else // (cmd[0] == 't')
+            {
+                typ = "CCW trace";
+                dev->orbtrace = plus_enable_on;
+                dev->ccwtrace = plus_enable_on;
+            }
+            MSGBUF( buf, "%s for %1d:%04X", typ, lcss, devnum );
+            // "%-14s set to %s"
+            WRMSG( HHC02204, "I", buf, onoroff );
+            RELEASE_INTLOCK( NULL );
+            return 0;
+        }
     }
-
     RELEASE_INTLOCK( NULL );
+
     // "Invalid argument %s%s"
     WRMSG( HHC02205, "E", cmd, "" );
     return -1;

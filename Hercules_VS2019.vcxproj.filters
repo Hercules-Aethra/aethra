@@ -294,6 +294,9 @@
     <ClCompile Include="dasdload64.c">
       <Filter>Source Files\Utilities\disk</Filter>
     </ClCompile>
+    <ClInclude Include="dasdload2.h">
+      <Filter>Source Files\Utilities\disk</Filter>
+    </ClInclude>
     <ClCompile Include="dasdls.c">
       <Filter>Source Files\Utilities\disk</Filter>
     </ClCompile>
@@ -771,6 +774,15 @@
     <ClCompile Include="tcpip.c">
       <Filter>Source Files\Hercules\Emulation\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tfprint.c">
+      <Filter>Source Files\Utilities\other</Filter>
+    </ClCompile>
+    <ClCompile Include="tfswap.c">
+      <Filter>Source Files\Utilities\other</Filter>
+    </ClCompile>
+    <ClCompile Include="txt2card.c">
+      <Filter>Source Files\Utilities\other</Filter>
+    </ClCompile>
     <ClCompile Include="timer.c">
       <Filter>Source Files\Hercules\Emulation\Source Files</Filter>
     </ClCompile>
@@ -1002,6 +1014,9 @@
       <Filter>Other Files\DOC\README</Filter>
     </None>
     <None Include="readme\README.HRAF.md">
+      <Filter>Other Files\DOC\README</Filter>
+    </None>
+    <None Include="readme\README.MAKETAPE.md">
       <Filter>Other Files\DOC\README</Filter>
     </None>
     <None Include="readme\README.MINGW.md">
@@ -1628,6 +1643,21 @@
     <None Include="tests\3211.core">
       <Filter>Other Files\tests\core</Filter>
     </None>
+    <None Include="tests\bc-ilc.core">
+      <Filter>Other Files\tests\core</Filter>
+    </None>
+    <None Include="tests\bc-ilc.asm">
+      <Filter>Other Files\tests\scripts\asm</Filter>
+    </None>
+    <None Include="tests\bc-ilc.list">
+      <Filter>Other Files\tests\scripts\asm\list</Filter>
+    </None>
+    <None Include="tests\bc-ilc.pdf">
+      <Filter>Other Files\tests\scripts\asm\list</Filter>
+    </None>
+    <None Include="tests\bc-ilc.tst">
+      <Filter>Other Files\tests\scripts\tst</Filter>
+    </None>
     <None Include="tests\bfp-001-divtoint.core">
       <Filter>Other Files\tests\core</Filter>
     </None>
@@ -1712,9 +1742,6 @@
     <None Include="tests\CLCLE-04-performance.core">
       <Filter>Other Files\tests\core</Filter>
     </None>
-    <None Include="tests\cpu0off.core">
-      <Filter>Other Files\tests\core</Filter>
-    </None>
     <None Include="tests\CUSE-01-basic.core">
       <Filter>Other Files\tests\core</Filter>
     </None>
@@ -1794,6 +1821,21 @@
       <Filter>Other Files\tests\scripts\asm\list</Filter>
     </None>
     <None Include="tests\fix-page.tst">
+      <Filter>Other Files\tests\scripts\tst</Filter>
+    </None>
+    <None Include="tests\float.core">
+      <Filter>Other Files\tests\core</Filter>
+    </None>
+    <None Include="tests\float.asm">
+      <Filter>Other Files\tests\scripts\asm</Filter>
+    </None>
+    <None Include="tests\float.list">
+      <Filter>Other Files\tests\scripts\asm\list</Filter>
+    </None>
+    <None Include="tests\float.pdf">
+      <Filter>Other Files\tests\scripts\asm\list</Filter>
+    </None>
+    <None Include="tests\float.tst">
       <Filter>Other Files\tests\scripts\tst</Filter>
     </None>
     <None Include="tests\PERZAD.core">
@@ -3760,6 +3802,9 @@
       <Filter>Other Files\tests\scripts\txt</Filter>
     </Text>
     <Text Include="tests\printer.txt">
+      <Filter>Other Files\tests\scripts\txt</Filter>
+    </Text>
+    <Text Include="tests\punch.txt">
       <Filter>Other Files\tests\scripts\txt</Filter>
     </Text>
     <Text Include="tests\ptf.txt">

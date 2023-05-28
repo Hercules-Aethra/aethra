@@ -1,5 +1,5 @@
 /* CONFIG.C     (C) Copyright Jan Jaeger, 2000-2012                  */
-/*              (C) and others 2013-2021                             */
+/*              (C) and others 2013-2023                             */
 /*              Device and Storage configuration functions           */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -1096,12 +1096,17 @@ int configure_cpu( int target_cpu )
         while (!IS_CPU_ONLINE( target_cpu ))
             wait_condition( &sysblk.cpucond, &sysblk.intlock );
 
+        /* Now wait for it to reach its STOPPED state */
+        while (sysblk.regs[ target_cpu ]->cpustate != CPUSTATE_STOPPED)
+            wait_condition( &sysblk.cpucond, &sysblk.intlock );
+
         if (arecpu)
             sysblk.regs[ ourcpu ]->intwait = false;
 
 #if defined( FEATURE_011_CONFIG_TOPOLOGY_FACILITY )
         /* Set topology-change-report-pending condition */
-        sysblk.topchnge = 1;
+        if (FACILITY_ENABLED( 011_CONFIG_TOPOLOGY, sysblk.regs[ target_cpu ]))
+            sysblk.topchnge = 1;
 #endif
     }
 
@@ -1174,7 +1179,15 @@ int deconfigure_cpu( int target_cpu )
 
 #if defined( FEATURE_011_CONFIG_TOPOLOGY_FACILITY )
         /* Set topology-change-report-pending condition */
-        sysblk.topchnge = 1;
+
+        /* PROGRAMMING NOTE: because the CPU has been deconfigured,
+           the REGS pointer in sysblk (i.e. sysblk.regs[ <cpunum> ])
+           could now possibly be NULL so to be safe we will use the
+           FACILITY_ENABLED_DEV macro instead as "sysblk.arch_mode"
+           should ALWAYS be valid.
+        */
+        if (FACILITY_ENABLED_DEV( 011_CONFIG_TOPOLOGY ))
+            sysblk.topchnge = 1;
 #endif
     }
 

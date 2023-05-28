@@ -1,6 +1,6 @@
 /* HSCMISC.C    (C) Copyright Roger Bowler, 1999-2012                */
 /*              (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              (C) and others 2013-2021                             */
+/*              (C) and others 2013-2023                             */
 /*              Miscellaneous System Command Routines                */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -23,17 +23,6 @@
 /*-------------------------------------------------------------------*/
 /*   ARCH_DEP section: compiled multiple times, once for each arch.  */
 /*-------------------------------------------------------------------*/
-
-#ifndef COMPILE_THIS_ONLY_ONCE
-#define COMPILE_THIS_ONLY_ONCE
-
-//-------------------------------------------------------------------
-//         (static helper function forward references)
-//-------------------------------------------------------------------
-
-static int  display_inst_regs ( REGS* regs, BYTE* inst, BYTE opcode, char* buf, int buflen );
-
-#endif /* COMPILE_THIS_ONLY_ONCE */
 
 //-------------------------------------------------------------------
 //                      ARCH_DEP() code
@@ -457,7 +446,7 @@ char    buf[512];                       /* MSGBUF work buffer        */
             len += idx_snprintf( len, buf, sizeof(buf), "         ");
 
         /* Disassemble the instruction and display the results */
-        PRINT_INST( regs, inst, buf + len );
+        PRINT_INST( regs->arch_mode, inst, buf + len );
         WRMSG( HHC02289, "I", buf );
 
         /* Go on to the next instruction */
@@ -832,6 +821,9 @@ char    buf2[512];
 int     n;                              /* Number of bytes in buffer */
 REGS*   regs;                           /* Copied regs               */
 
+TF02326 tf2326 = {0};
+bool    trace2file;
+
 char    psw_inst_msg[160]   = {0};
 char    op1_stor_msg[128]   = {0};
 char    op2_stor_msg[128]   = {0};
@@ -839,10 +831,20 @@ char    regs_msg_buf[4*512] = {0};
 
     PTT_PGM( "dinst", inst, 0, pgmint );
 
-    /* Ensure storage exists to attempt the display */
-    if (iregs->mainlim == 0)
+    OBTAIN_TRACEFILE_LOCK();
     {
-        WRMSG( HHC02267, "I", "Real address is not valid" );
+        trace2file = (iregs->insttrace && sysblk.traceFILE) ? true : false;
+    }
+    RELEASE_TRACEFILE_LOCK();
+
+    /* Ensure storage exists to attempt the display */
+    tf2326.valid = (iregs->mainlim != 0);
+    if (!tf2326.valid)
+    {
+        if (trace2file)
+            tf_2326( iregs, &tf2326, 0,0,0,0 );
+        else
+            WRMSG( HHC02267, "I", "Real address is not valid" );
         return;
     }
 
@@ -856,24 +858,30 @@ char    regs_msg_buf[4*512] = {0};
         return;
 
 #if defined( _FEATURE_SIE )
-    if (SIE_MODE( regs ))
+    tf2326.sie = SIE_MODE( regs ) ? true : false;
+    if (tf2326.sie)
         n += idx_snprintf( n, buf, sizeof( buf ), "SIE: " );
 #endif
 
     /* Exit if instruction is not valid */
     if (!inst)
     {
-        size_t len;
-        MSGBUF( psw_inst_msg, "%s Instruction fetch error\n", buf );
-        display_gregs( regs, regs_msg_buf, sizeof(regs_msg_buf)-1, "HHC02269I " );
-        /* Remove unwanted extra trailing newline from regs_msg_buf */
-        len = strlen( regs_msg_buf );
-        if (len)
-            regs_msg_buf[ len-1 ] = 0;
-        // "%s%s" // (instruction fetch error + regs)
-        WRMSG( HHC02325, "E", psw_inst_msg, regs_msg_buf );
-        if (!iregs->ghostregs)
-            free_aligned( regs );
+        if (trace2file)
+            tf_2269( regs, inst );
+        else
+        {
+            size_t len;
+            MSGBUF( psw_inst_msg, "%s Instruction fetch error\n", buf );
+            display_gregs( regs, regs_msg_buf, sizeof(regs_msg_buf)-1, "HHC02269I " );
+            /* Remove unwanted extra trailing newline from regs_msg_buf */
+            len = strlen( regs_msg_buf );
+            if (len)
+                regs_msg_buf[ len-1 ] = 0;
+            // "%s%s" // (instruction fetch error + regs)
+            WRMSG( HHC02325, "E", psw_inst_msg, regs_msg_buf );
+            if (!iregs->ghostregs)
+                free_aligned( regs );
+        }
         return;
     }
 
@@ -902,29 +910,32 @@ char    regs_msg_buf[4*512] = {0};
     memset( qword, 0, sizeof( qword ));
     copy_psw( regs, qword );
 
-    if (sysblk.cpus > 1)
-        n += idx_snprintf( n, buf, sizeof( buf ), "%s%02X: ", PTYPSTR( regs->cpuad ), regs->cpuad );
+    if (!trace2file)
+    {
+        if (sysblk.cpus > 1)
+            n += idx_snprintf( n, buf, sizeof( buf ), "%s%02X: ", PTYPSTR( regs->cpuad ), regs->cpuad );
 
-    n += idx_snprintf( n, buf, sizeof( buf ),
-                "PSW=%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X ",
-                qword[0], qword[1], qword[2], qword[3],
-                qword[4], qword[5], qword[6], qword[7] );
+        n += idx_snprintf( n, buf, sizeof( buf ),
+                    "PSW=%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X ",
+                    qword[0], qword[1], qword[2], qword[3],
+                    qword[4], qword[5], qword[6], qword[7] );
 
 #if defined( FEATURE_001_ZARCH_INSTALLED_FACILITY )
-    n += idx_snprintf( n, buf, sizeof(buf),
-                "%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X ",
-                qword[8], qword[9], qword[10], qword[11],
-                qword[12], qword[13], qword[14], qword[15]);
+        n += idx_snprintf( n, buf, sizeof(buf),
+                    "%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X ",
+                    qword[8], qword[9], qword[10], qword[11],
+                    qword[12], qword[13], qword[14], qword[15]);
 #endif
 
-    /* Format instruction line */
-                 n += idx_snprintf( n, buf, sizeof( buf ), "INST=%2.2X%2.2X", inst[0], inst[1] );
-    if (ilc > 2){n += idx_snprintf( n, buf, sizeof( buf ), "%2.2X%2.2X",      inst[2], inst[3] );}
-    if (ilc > 4){n += idx_snprintf( n, buf, sizeof( buf ), "%2.2X%2.2X",      inst[4], inst[5] );}
-                 n += idx_snprintf( n, buf, sizeof( buf ), " %s", (ilc < 4) ? "        " :
-                                                                  (ilc < 6) ? "    " : "" );
-    n += PRINT_INST( regs, inst, buf + n );
-    MSGBUF( psw_inst_msg, MSG( HHC02324, "I", buf ));
+        /* Format instruction line */
+                     n += idx_snprintf( n, buf, sizeof( buf ), "INST=%2.2X%2.2X", inst[0], inst[1] );
+        if (ilc > 2){n += idx_snprintf( n, buf, sizeof( buf ), "%2.2X%2.2X",      inst[2], inst[3] );}
+        if (ilc > 4){n += idx_snprintf( n, buf, sizeof( buf ), "%2.2X%2.2X",      inst[4], inst[5] );}
+                     n += idx_snprintf( n, buf, sizeof( buf ), " %s", (ilc < 4) ? "        " :
+                                                                      (ilc < 6) ? "    " : "" );
+        n += PRINT_INST( regs->arch_mode, inst, buf + n );
+        MSGBUF( psw_inst_msg, MSG( HHC02324, "I", buf ));
+    }
 
     n = 0;
     buf[0] = '\0';
@@ -1057,80 +1068,98 @@ char    regs_msg_buf[4*512] = {0};
         PTT_PGM( "dinst rel1=", addr1, offset, relative_long_operand );
     }
 
-    /* Format storage at first storage operand location */
-    if (b1 >= 0)
+    if (trace2file)
     {
-        n = 0;
-        buf2[0] = '\0';
+        tf2326.op1.vaddr = addr1;
+        tf2326.op2.vaddr = addr2;
+        tf_2326( regs, &tf2326, inst[0], inst[1], b1, b2 );
+    }
+    else
+    {
+        /* Format storage at first storage operand location */
+        if (b1 >= 0)
+        {
+            n = 0;
+            buf2[0] = '\0';
 
 #if defined( _FEATURE_SIE )
-        if (SIE_MODE( regs ))
-            n += idx_snprintf( n, buf2, sizeof( buf2 ), "SIE: " );
+            if (SIE_MODE( regs ))
+                n += idx_snprintf( n, buf2, sizeof( buf2 ), "SIE: " );
 #endif
-        if (sysblk.cpus > 1)
-            n += idx_snprintf( n, buf2, sizeof( buf2 ), "%s%02X: ",
-                          PTYPSTR( regs->cpuad ), regs->cpuad );
+            if (sysblk.cpus > 1)
+                n += idx_snprintf( n, buf2, sizeof( buf2 ), "%s%02X: ",
+                              PTYPSTR( regs->cpuad ), regs->cpuad );
 
-        if (REAL_MODE( &regs->psw ))
-            ARCH_DEP( display_virt )( regs, addr1, buf2+n, sizeof( buf2 )-n-1,
-                                      USE_REAL_ADDR, ACCTYPE_HW, "", &xcode );
-        else
-            ARCH_DEP( display_virt )( regs, addr1, buf2+n, sizeof( buf2 )-n-1,
-                                      b1, (opcode == 0x44                 // EX?
+            if (REAL_MODE( &regs->psw ))
+                ARCH_DEP( display_virt )( regs, addr1, buf2+n, sizeof( buf2 )-n-1,
+                                          USE_REAL_ADDR, ACCTYPE_HW, "", &xcode );
+            else
+                ARCH_DEP( display_virt )( regs, addr1, buf2+n, sizeof( buf2 )-n-1,
+                                          b1, (opcode == 0x44                 // EX?
 #if defined( FEATURE_035_EXECUTE_EXTN_FACILITY )
-                                 || (opcode == 0xc6 && !(inst[1] & 0x0f)) // EXRL?
+                                 || (opcode == 0xc6 && !(inst[1] & 0x0f) &&
+                                     FACILITY_ENABLED( 035_EXECUTE_EXTN, regs )) // EXRL?
 #endif
-                                                ? ACCTYPE_HW :     // EX/EXRL
-                                 opcode == 0xB1 ? ACCTYPE_HW :
-                                                  ACCTYPE_HW ), "", &xcode );
+                                                    ? ACCTYPE_HW :     // EX/EXRL
+                                     opcode == 0xB1 ? ACCTYPE_HW :
+                                                      ACCTYPE_HW ), "", &xcode );
 
-        MSGBUF( op1_stor_msg, MSG( HHC02326, "I", RTRIM( buf2 )));
-    }
+            MSGBUF( op1_stor_msg, MSG( HHC02326, "I", RTRIM( buf2 )));
+        }
 
-    /* Format storage at second storage operand location */
-    if (b2 >= 0)
-    {
-        int ar = b2;
-        n = 0;
-        buf2[0] = '\0';
+        /* Format storage at second storage operand location */
+        if (b2 >= 0)
+        {
+            int ar = b2;
+            n = 0;
+            buf2[0] = '\0';
 
 #if defined(_FEATURE_SIE)
-        if (SIE_MODE( regs ))
-            n += idx_snprintf( n, buf2, sizeof( buf2 ), "SIE: " );
+            if (SIE_MODE( regs ))
+                n += idx_snprintf( n, buf2, sizeof( buf2 ), "SIE: " );
 #endif
-        if (sysblk.cpus > 1)
-            n += idx_snprintf( n, buf2, sizeof( buf2 ), "%s%02X: ",
-                           PTYPSTR( regs->cpuad ), regs->cpuad );
-        if (0
-            || REAL_MODE( &regs->psw )
-            || IS_REAL_ADDR_OP( opcode, inst[1] )
-        )
-            ar = USE_REAL_ADDR;
+            if (sysblk.cpus > 1)
+                n += idx_snprintf( n, buf2, sizeof( buf2 ), "%s%02X: ",
+                               PTYPSTR( regs->cpuad ), regs->cpuad );
+            if (0
+                || REAL_MODE( &regs->psw )
+                || IS_REAL_ADDR_OP( opcode, inst[1] )
+            )
+                ar = USE_REAL_ADDR;
 
-        ARCH_DEP( display_virt )( regs, addr2, buf2+n, sizeof( buf2 )-n-1,
-                                  ar, ACCTYPE_HW, "", &xcode );
+            ARCH_DEP( display_virt )( regs, addr2, buf2+n, sizeof( buf2 )-n-1,
+                                      ar, ACCTYPE_HW, "", &xcode );
 
-        MSGBUF( op2_stor_msg, MSG( HHC02326, "I", RTRIM( buf2 )));
+            MSGBUF( op2_stor_msg, MSG( HHC02326, "I", RTRIM( buf2 )));
+        }
     }
 
-    /* Format registers associated with the instruction */
-    if (!sysblk.showregsnone)
-        display_inst_regs( regs, inst, opcode, regs_msg_buf, sizeof( regs_msg_buf )-1 );
-
-    if (sysblk.showregsfirst)
+    if (trace2file)
     {
-        /* Remove unwanted extra trailing newline from regs_msg_buf */
-        size_t len = strlen( regs_msg_buf );
-        if (len)
-            regs_msg_buf[ len-1 ] = 0;
+        display_inst_regs( true, regs, inst, opcode, regs_msg_buf, sizeof( regs_msg_buf )-1 );
+        tf_2324( regs, inst );
     }
+    else
+    {
+        /* Format registers associated with the instruction */
+        if (!sysblk.showregsnone)
+            display_inst_regs( false, regs, inst, opcode, regs_msg_buf, sizeof( regs_msg_buf )-1 );
 
-    /* Now display all instruction tracing messages all at once */
-    if (sysblk.showregsfirst)
-         LOGMSG( "%s%s%s%s", regs_msg_buf,
-                             psw_inst_msg, op1_stor_msg, op2_stor_msg );
-    else LOGMSG( "%s%s%s%s", psw_inst_msg, op1_stor_msg, op2_stor_msg,
-                             regs_msg_buf );
+        if (sysblk.showregsfirst)
+        {
+            /* Remove unwanted extra trailing newline from regs_msg_buf */
+            size_t len = strlen( regs_msg_buf );
+            if (len)
+                regs_msg_buf[ len-1 ] = 0;
+        }
+
+        /* Now display all instruction tracing messages all at once */
+        if (sysblk.showregsfirst)
+             LOGMSG( "%s%s%s%s", regs_msg_buf,
+                                 psw_inst_msg, op1_stor_msg, op2_stor_msg );
+        else LOGMSG( "%s%s%s%s", psw_inst_msg, op1_stor_msg, op2_stor_msg,
+                                 regs_msg_buf );
+    }
 
     if (!iregs->ghostregs)
         free_aligned( regs );
@@ -1166,6 +1195,59 @@ void ARCH_DEP( display_guest_inst )( REGS* regs, BYTE* inst )
     default: CRASH();
     }
 }
+
+/*-------------------------------------------------------------------*/
+/*               Display floating point registers                    */
+/*-------------------------------------------------------------------*/
+int ARCH_DEP( display_fregs )( REGS* regs, char* buf, int buflen, char* hdr )
+{
+char cpustr[32] = "";
+
+    if (sysblk.cpus>1)
+        MSGBUF( cpustr, "%s%s%02X: ", hdr, PTYPSTR( regs->cpuad ), regs->cpuad );
+    else
+        MSGBUF( cpustr, "%s", hdr );
+
+    if (regs->CR(0) & CR0_AFP)
+    {
+        return snprintf( buf, buflen,
+
+            "%sFP00=%8.8X%8.8X FP08=%8.8X%8.8X\n"
+            "%sFP01=%8.8X%8.8X FP09=%8.8X%8.8X\n"
+            "%sFP02=%8.8X%8.8X FP10=%8.8X%8.8X\n"
+            "%sFP03=%8.8X%8.8X FP11=%8.8X%8.8X\n"
+            "%sFP04=%8.8X%8.8X FP12=%8.8X%8.8X\n"
+            "%sFP05=%8.8X%8.8X FP13=%8.8X%8.8X\n"
+            "%sFP06=%8.8X%8.8X FP14=%8.8X%8.8X\n"
+            "%sFP07=%8.8X%8.8X FP15=%8.8X%8.8X\n"
+
+            ,cpustr, regs->fpr[FPR2I(0)], regs->fpr[FPR2I(0)+1], regs->fpr[FPR2I( 8)], regs->fpr[FPR2I( 8)+1]
+            ,cpustr, regs->fpr[FPR2I(1)], regs->fpr[FPR2I(1)+1], regs->fpr[FPR2I( 9)], regs->fpr[FPR2I( 9)+1]
+            ,cpustr, regs->fpr[FPR2I(2)], regs->fpr[FPR2I(2)+1], regs->fpr[FPR2I(10)], regs->fpr[FPR2I(10)+1]
+            ,cpustr, regs->fpr[FPR2I(3)], regs->fpr[FPR2I(3)+1], regs->fpr[FPR2I(11)], regs->fpr[FPR2I(11)+1]
+            ,cpustr, regs->fpr[FPR2I(4)], regs->fpr[FPR2I(4)+1], regs->fpr[FPR2I(12)], regs->fpr[FPR2I(12)+1]
+            ,cpustr, regs->fpr[FPR2I(5)], regs->fpr[FPR2I(5)+1], regs->fpr[FPR2I(13)], regs->fpr[FPR2I(13)+1]
+            ,cpustr, regs->fpr[FPR2I(6)], regs->fpr[FPR2I(6)+1], regs->fpr[FPR2I(14)], regs->fpr[FPR2I(14)+1]
+            ,cpustr, regs->fpr[FPR2I(7)], regs->fpr[FPR2I(7)+1], regs->fpr[FPR2I(15)], regs->fpr[FPR2I(15)+1]
+        );
+    }
+    else
+    {
+        return snprintf( buf, buflen,
+
+            "%sFP00=%8.8X%8.8X\n"
+            "%sFP02=%8.8X%8.8X\n"
+            "%sFP04=%8.8X%8.8X\n"
+            "%sFP06=%8.8X%8.8X\n"
+
+            ,cpustr, regs->fpr[FPR2I(0)], regs->fpr[FPR2I(0)+1]
+            ,cpustr, regs->fpr[FPR2I(2)], regs->fpr[FPR2I(2)+1]
+            ,cpustr, regs->fpr[FPR2I(4)], regs->fpr[FPR2I(4)+1]
+            ,cpustr, regs->fpr[FPR2I(6)], regs->fpr[FPR2I(6)+1]
+        );
+    }
+
+} /* end function display_fregs */
 
 /*-------------------------------------------------------------------*/
 /*          (delineates ARCH_DEP from non-arch_dep)                  */
@@ -1212,43 +1294,64 @@ void ARCH_DEP( display_guest_inst )( REGS* regs, BYTE* inst )
 /*                                                                   */
 /*-------------------------------------------------------------------*/
 
-static int wait_sigq_pending = 0;
+static bool guest_is_quiesced = true;  // (Yes! This is the default!)
 
-static int is_wait_sigq_pending()
+static bool wait_for_quiesce_cancelled = false;
+
+static int is_guest_quiesced()
 {
-int pending;
+    bool quiesced;
 
-    OBTAIN_INTLOCK(NULL);
-    pending = wait_sigq_pending;
-    RELEASE_INTLOCK(NULL);
-
-    return pending;
-}
-
-static void wait_sigq_resp()
-{
-int pending;
-    /* Wait for all CPU's to stop */
-    do
+    OBTAIN_INTLOCK( NULL );
     {
-        OBTAIN_INTLOCK(NULL);
-        wait_sigq_pending = 0;
-        if (!are_all_cpus_stopped_intlock_held())
-            wait_sigq_pending = 1;
-        pending = wait_sigq_pending;
-        RELEASE_INTLOCK(NULL);
-
-        if(pending)
-            SLEEP(1);
+        quiesced = guest_is_quiesced;
     }
-    while(is_wait_sigq_pending());
+    RELEASE_INTLOCK( NULL );
+
+    return quiesced;
 }
 
-static void cancel_wait_sigq()
+static void wait_for_guest_to_quiesce()
 {
-    OBTAIN_INTLOCK(NULL);
-    wait_sigq_pending = 0;
-    RELEASE_INTLOCK(NULL);
+    int  i;
+    bool keep_waiting = true;
+
+    guest_is_quiesced = false;
+
+    /* Wait for all CPU's to stop or time has expired */
+    for (i=0; keep_waiting && (!sysblk.quitmout || i < sysblk.quitmout); ++i)
+    {
+        /* If not the first time, wait a bit before checking again */
+        if (i != 0 && !is_guest_quiesced())
+            SLEEP( 1 );
+
+        /* Check if guest has finally quiesced itself */
+        OBTAIN_INTLOCK( NULL );
+        {
+            if (!guest_is_quiesced)
+                 guest_is_quiesced = are_all_cpus_stopped_intlock_held();
+
+            keep_waiting = !guest_is_quiesced;
+        }
+        RELEASE_INTLOCK( NULL );
+    }
+
+    /* Guest has finished quiescing itself or else we lost patience */
+}
+
+static void cancel_wait_for_guest_quiesce()
+{
+    OBTAIN_INTLOCK( NULL );
+    {
+        /* Purposely LIE by setting the flag indicating the guest has
+           finished quiescing (regardless of whether it actually has
+           or not!) so as to cause the above "wait_for_guest_to_quiesce"
+           function to break out of its wait loop and return.
+        */
+        wait_for_quiesce_cancelled = true;  // (if anyone's interested)
+        guest_is_quiesced = true;           // PURPOSELY LIE! (maybe)
+    }
+    RELEASE_INTLOCK( NULL );
 }
 
 
@@ -1393,8 +1496,9 @@ static void do_shutdown_now()
 static void* do_shutdown_wait(void* arg)
 {
     UNREFERENCED( arg );
-    WRMSG(HHC01426, "I");
-    wait_sigq_resp();
+    // "Shutdown initiated"
+    WRMSG( HHC01426, "I" );
+    wait_for_guest_to_quiesce();
     do_shutdown_now();
     return NULL;
 }
@@ -1411,19 +1515,53 @@ static void* do_shutdown_wait(void* arg)
 /*-------------------------------------------------------------------*/
 void do_shutdown()
 {
-TID tid;
-    if ( sysblk.shutimmed )
+    /* If an immediate shutdown has been triggered, then do so now! */
+    if (sysblk.shutimmed)
+    {
         do_shutdown_now();
+    }
     else
     {
-        if(is_wait_sigq_pending())
-            cancel_wait_sigq();
+        /* If this was the second time we've been called, give up
+           waiting for the guest to quiesce. This should cause the
+           "wait_for_guest_to_quiesce" function the "do_shutdown_wait"
+           thread called to immediately give up and return, thereby
+           causing it to proceed on to performing a normal shutdown.
+
+           Otherwise, if this is our first time here, signal the guest
+           to quiesce itself and then create a worker thread to WAIT
+           for it to finish quiescing itself before then continuing on
+           with our own normal Hercules shutdown.
+        */
+
+        if (!is_guest_quiesced())             // (second request?)
+        {
+            cancel_wait_for_guest_quiesce();  // (then stop waiting!)
+        }
         else
-            if(can_signal_quiesce() && !signal_quiesce(0,0))
-                create_thread(&tid, DETACHED, do_shutdown_wait,
-                              NULL, "do_shutdown_wait");
+        {
+            TID tid;  // (work for create_thread)
+
+            /* This is our first time here. If the guest supports
+               the quiesce signal (SigQuiesce), then send the signal
+               and then create a thread that waits for the guest to
+               finish quiescing itself before then continuing with
+               our own shutdown.
+            */
+            if (can_signal_quiesce() && signal_quiesce( 0,0 ) == 0)
+            {
+                create_thread( &tid,
+                               DETACHED, do_shutdown_wait,
+                               NULL,    "do_shutdown_wait" );
+            }
             else
+            {
+                /* Otherwise the guest does not support the quiesce
+                   signal, so just do a normal Hercules shutdown.
+                */
                 do_shutdown_now();
+            }
+        }
     }
 }
 
@@ -1515,7 +1653,7 @@ static int display_regs64(char *hdr,U16 cpuad,U64 *r,int numcpus,char *buf,int b
 /*-------------------------------------------------------------------*/
 /*        Display registers for the instruction display              */
 /*-------------------------------------------------------------------*/
-static int display_inst_regs (REGS *regs, BYTE *inst, BYTE opcode, char *buf, int buflen )
+int display_inst_regs( bool trace2file, REGS *regs, BYTE *inst, BYTE opcode, char *buf, int buflen )
 {
     int len=0;
 
@@ -1526,19 +1664,28 @@ static int display_inst_regs (REGS *regs, BYTE *inst, BYTE opcode, char *buf, in
                 || (inst[1] >= 0xE1 && inst[1] <= 0xFE)
            )))
     {
-        len += display_gregs (regs, buf + len, buflen - len - 1, "HHC02269I " );
+        if (trace2file)
+            tf_2269( regs, inst );
+        else
+            len += display_gregs (regs, buf + len, buflen - len - 1, "HHC02269I " );
     }
 
     /* Display control registers if appropriate */
     if (!REAL_MODE(&regs->psw) || opcode == 0xB2 || opcode == 0xB6 || opcode == 0xB7)
     {
-        len += display_cregs (regs, buf + len, buflen - len - 1, "HHC02271I ");
+        if (trace2file)
+            tf_2271( regs );
+        else
+            len += display_cregs (regs, buf + len, buflen - len - 1, "HHC02271I ");
     }
 
     /* Display access registers if appropriate */
     if (!REAL_MODE(&regs->psw) && ACCESS_REGISTER_MODE(&regs->psw))
     {
-        len += display_aregs (regs, buf + len, buflen - len - 1, "HHC02272I ");
+        if (trace2file)
+            tf_2272( regs );
+        else
+            len += display_aregs (regs, buf + len, buflen - len - 1, "HHC02272I ");
     }
 
     /* Display floating point control register if AFP enabled */
@@ -1562,7 +1709,10 @@ static int display_inst_regs (REGS *regs, BYTE *inst, BYTE opcode, char *buf, in
                                 || (opcode == 0xED && (inst[1] >= 0xA8 && inst[1] <= 0xAF)))   /* RXE DFP conversions  */
         )
     {
-        len += idx_snprintf( len, buf, buflen, MSG( HHC02276,"I", regs->fpc ));
+        if (trace2file)
+            tf_2276( regs );
+        else
+            len += idx_snprintf( len, buf, buflen, MSG( HHC02276,"I", regs->fpc ));
     }
 
     /* Display floating-point registers if appropriate */
@@ -1579,7 +1729,10 @@ static int display_inst_regs (REGS *regs, BYTE *inst, BYTE opcode, char *buf, in
         || (opcode == 0x01 && inst[1] == 0x0A) /* PFPO Perform Floating Point Operation  */
         )
     {
-        len += display_fregs (regs, buf + len, buflen - len - 1, "HHC02270I ");
+        if (trace2file)
+            tf_2270( regs );
+        else
+            len += display_fregs (regs, buf + len, buflen - len - 1, "HHC02270I ");
     }
 
     if (len && sysblk.showregsfirst)
@@ -1679,43 +1832,27 @@ int display_aregs (REGS *regs, char *buf, int buflen, char *hdr)
 /*-------------------------------------------------------------------*/
 /*               Display floating point registers                    */
 /*-------------------------------------------------------------------*/
-int display_fregs (REGS *regs, char *buf, int buflen, char *hdr)
+int display_fregs( REGS* regs, char* buf, int buflen, char* hdr )
 {
-char cpustr[32] = "";
-
-    if(sysblk.cpus>1)
-        MSGBUF(cpustr, "%s%s%02X: ", hdr, PTYPSTR(regs->cpuad), regs->cpuad);
-    else
-        MSGBUF(cpustr, "%s", hdr);
-
-    if(regs->CR(0) & CR0_AFP)
-        return(snprintf(buf,buflen,
-            "%sFPR0=%8.8X%8.8X FPR2=%8.8X%8.8X\n"
-            "%sFPR1=%8.8X%8.8X FPR3=%8.8X%8.8X\n"
-            "%sFPR4=%8.8X%8.8X FPR6=%8.8X%8.8X\n"
-            "%sFPR5=%8.8X%8.8X FPR7=%8.8X%8.8X\n"
-            "%sFPR8=%8.8X%8.8X FP10=%8.8X%8.8X\n"
-            "%sFPR9=%8.8X%8.8X FP11=%8.8X%8.8X\n"
-            "%sFP12=%8.8X%8.8X FP14=%8.8X%8.8X\n"
-            "%sFP13=%8.8X%8.8X FP15=%8.8X%8.8X\n"
-            ,cpustr, regs->fpr[0],  regs->fpr[1],  regs->fpr[4],  regs->fpr[5]
-            ,cpustr, regs->fpr[2],  regs->fpr[3],  regs->fpr[6],  regs->fpr[7]
-            ,cpustr, regs->fpr[8],  regs->fpr[9],  regs->fpr[12], regs->fpr[13]
-            ,cpustr, regs->fpr[10], regs->fpr[11], regs->fpr[14], regs->fpr[15]
-            ,cpustr, regs->fpr[16], regs->fpr[17], regs->fpr[20], regs->fpr[21]
-            ,cpustr, regs->fpr[18], regs->fpr[19], regs->fpr[22], regs->fpr[23]
-            ,cpustr, regs->fpr[24], regs->fpr[25], regs->fpr[28], regs->fpr[29]
-            ,cpustr, regs->fpr[26], regs->fpr[27], regs->fpr[30], regs->fpr[31]
-        ));
-    else
-        return(snprintf(buf,buflen,
-            "%sFPR0=%8.8X%8.8X FPR2=%8.8X%8.8X\n"
-            "%sFPR4=%8.8X%8.8X FPR6=%8.8X%8.8X\n"
-            ,cpustr, regs->fpr[0], regs->fpr[1], regs->fpr[2], regs->fpr[3]
-            ,cpustr, regs->fpr[4], regs->fpr[5], regs->fpr[6], regs->fpr[7]
-        ));
-
-} /* end function display_fregs */
+    int rc = 0;
+    switch (sysblk.arch_mode)
+    {
+#if defined(_370)
+        case ARCH_370_IDX:
+            rc = s370_display_fregs( regs, buf, buflen, hdr ); break;
+#endif
+#if defined(_390)
+        case ARCH_390_IDX:
+            rc = s390_display_fregs( regs, buf, buflen, hdr ); break;
+#endif
+#if defined(_900)
+        case ARCH_900_IDX:
+            rc = z900_display_fregs( regs, buf, buflen, hdr ); break;
+#endif
+        default: CRASH();
+    }
+    return rc;
+}
 
 
 /*-------------------------------------------------------------------*/
@@ -2211,62 +2348,6 @@ const char* FormatCRW( U32 crw, char* buf, size_t bufsz )
     }
     else
         strlcpy( buf, "(end)", bufsz ); // (end of channel report)
-
-    return buf;
-}
-
-
-/*-------------------------------------------------------------------*/
-/*      Format Operation-Request Block (ORB) for display             */
-/*-------------------------------------------------------------------*/
-const char* FormatORB( ORB* orb, char* buf, size_t bufsz )
-{
-    if (!buf)
-        return NULL;
-
-    if (bufsz)
-        *buf = 0;
-
-    if (bufsz <= 1 || !orb)
-        return buf;
-
-    snprintf( buf, bufsz,
-
-        "IntP:%2.2X%2.2X%2.2X%2.2X Key:%d LPM:%2.2X "
-        "Flags:%X%2.2X%2.2X %c%c%c%c%c%c%c%c%c%c%c%c %c%c.....%c "
-        "%cCW:%2.2X%2.2X%2.2X%2.2X"
-
-        , orb->intparm[0], orb->intparm[1], orb->intparm[2], orb->intparm[3]
-        , (orb->flag4 & ORB4_KEY) >> 4
-        , orb->lpm
-
-        , (orb->flag4 & ~ORB4_KEY)
-        , orb->flag5
-        , orb->flag7
-
-        , ( orb->flag4 & ORB4_S ) ? 'S' : '.'
-        , ( orb->flag4 & ORB4_C ) ? 'C' : '.'
-        , ( orb->flag4 & ORB4_M ) ? 'M' : '.'
-        , ( orb->flag4 & ORB4_Y ) ? 'Y' : '.'
-
-        , ( orb->flag5 & ORB5_F ) ? 'F' : '.'
-        , ( orb->flag5 & ORB5_P ) ? 'P' : '.'
-        , ( orb->flag5 & ORB5_I ) ? 'I' : '.'
-        , ( orb->flag5 & ORB5_A ) ? 'A' : '.'
-
-        , ( orb->flag5 & ORB5_U ) ? 'U' : '.'
-        , ( orb->flag5 & ORB5_B ) ? 'B' : '.'
-        , ( orb->flag5 & ORB5_H ) ? 'H' : '.'
-        , ( orb->flag5 & ORB5_T ) ? 'T' : '.'
-
-        , ( orb->flag7 & ORB7_L ) ? 'L' : '.'
-        , ( orb->flag7 & ORB7_D ) ? 'D' : '.'
-        , ( orb->flag7 & ORB7_X ) ? 'X' : '.'
-
-        , ( orb->flag5 & ORB5_B ) ? 'T' : 'C'  // (TCW or CCW)
-
-        , orb->ccwaddr[0], orb->ccwaddr[1], orb->ccwaddr[2], orb->ccwaddr[3]
-    );
 
     return buf;
 }
@@ -3075,5 +3156,34 @@ int pid, status;
   #error 'HOW_TO_IMPLEMENT_SH_COMMAND' not #defined correctly
 #endif
 } /* end function herc_system */
+
+/*-------------------------------------------------------------------*/
+/*     Test whether instruction tracing is active SYSTEM-WIDE        */
+/*-------------------------------------------------------------------*/
+/*                                                                   */
+/*   Returns true ONLY if *BOTH* sysblk.insttrace is on,             */
+/*   *AND* regs->insttrace is ALSO on for *ALL* online cpus.         */
+/*                                                                   */
+/*   Otherwise returns false if either sysblk.insttrace is NOT on,   */
+/*   or regs->insttrace is NOT on for *any* online cpu.              */
+/*                                                                   */
+/*-------------------------------------------------------------------*/
+bool insttrace_all()
+{
+    if (sysblk.insttrace)
+    {
+        int  cpu;
+        for (cpu=0; cpu < sysblk.maxcpu; cpu++)
+        {
+            if (IS_CPU_ONLINE( cpu ))
+            {
+                if (!sysblk.regs[ cpu ]->insttrace)
+                    return false;
+            }
+        }
+        return true;  /* insttrace is active on all CPUs */
+    }
+    return false;     /* insttrace NOT active for at least one CPU */
+}
 
 #endif // !defined(_GEN_ARCH)

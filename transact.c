@@ -1,5 +1,6 @@
 /* TRANSACT.C   (C) Copyright "Fish" (David B. Trout), 2017-2021     */
 /*              (C) Copyright Bob Wood, 2019-2020                    */
+/*              (C) and others 2021-2023                             */
 /*      Defines Transactional Execution Facility instructions        */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -112,23 +113,33 @@ U32     abort_count;                    /* Transaction Abort count   */
 #if defined( FEATURE_081_PPA_IN_ORDER_FACILITY )
     case 15: // In-order Execution Assist
     {
-        /*
-           "When the function code in the M3 field is 15 and the
-            PPA-in-order facility is installed, the processor is
-            requested to complete processing all instructions prior
-            to this PPA instruction, as observed by this CPU, before
-            attempting storage-operand references for any instruction
-            after this PPA instruction."
+        if (FACILITY_ENABLED( 081_PPA_IN_ORDER, regs ))
+        {
+            /*
+               "When the function code in the M3 field is 15 and the
+                PPA-in-order facility is installed, the processor is
+                requested to complete processing all instructions prior
+                to this PPA instruction, as observed by this CPU, before
+                attempting storage-operand references for any instruction
+                after this PPA instruction."
 
-           "The R1 and R2 fields are ignored and the instruction is
-            executed as a no-operation."
+               "The R1 and R2 fields are ignored and the instruction is
+                executed as a no-operation."
 
-           "The in-order-execution assist does not necessarily perform
-            any of the steps for architectural serialization described
-            in the section "CPU Serialization" on page 5-130."
-        */
+               "The in-order-execution assist does not necessarily perform
+                any of the steps for architectural serialization described
+                in the section "CPU Serialization" on page 5-130."
+            */
 
-        /* Hercules does not currently support this assist */
+            /* NOTE: Hercules does not currently support this assist,
+               but if we ever do add code to support it this is where
+               such code should go...
+            */
+
+            // TODO: add PPA-in-order Facility support code here...
+
+            return;
+        }
 
         return;  /* (ignore unsupported assists) */
     }
@@ -2434,7 +2445,7 @@ void dump_tdb( REGS* regs, TDB* tdb )
                                      n += idx_snprintf( n, buf, sizeof( buf ), " %s", (ilc < 4) ? "        "
                                                                                     : (ilc < 6) ? "    "
                                                                                     :             "" );
-                        n += PRINT_INST( regs, inst, buf + n );
+                        n += PRINT_INST( regs->arch_mode, inst, buf + n );
 
                         // "AAAAAAAAAAAAAAAA INST=112233445566 XXXXX op1,op2                name"
                         WRMSG( HHC17721, "D", TXF_CPUAD( regs ), TXF_QSIE( regs ), buf );

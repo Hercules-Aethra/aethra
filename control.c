@@ -1,6 +1,6 @@
 /* CONTROL.C    (C) Copyright Roger Bowler, 1994-2012                */
 /*              (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              (C) and others 2013-2022                             */
+/*              (C) and others 2013-2023                             */
 /*              ESA/390 CPU Emulator                                 */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -1784,10 +1784,12 @@ RADR    pto;                            /* Page Table Origin         */
 VADR    vaddr;                          /* Virtual Address of first or
                                            only page to invalidate   */
 int     pageidx;                        /* Starting page index       */
-int     pages;                          /* Total Pages to invalidate */
+int     pages = 1;                      /* Total Pages to invalidate */
 int     i;                              /* work (for loop iterator)  */
-bool    do_range;                       /* helper flag               */
 bool    local = false;                  /* true == m4 bit 3 is on    */
+#if defined( FEATURE_013_IPTE_RANGE_FACILITY )
+bool    do_range = false;               /* helper flag               */
+#endif
 
 #if defined( FEATURE_013_IPTE_RANGE_FACILITY ) || \
     defined( FEATURE_051_LOCAL_TLB_CLEARING_FACILITY )
@@ -1800,8 +1802,8 @@ bool    local = false;                  /* true == m4 bit 3 is on    */
 #endif
 
     if (1
+        && (m4 & 0x01) /* LC == Local Clearing bit on? */
         && FACILITY_ENABLED( 051_LOCAL_TLB_CLEARING, regs )
-        && m4 & 0x01 /* LC == Local Clearing bit on? */
     )
         local = true;
 #else
@@ -1814,11 +1816,9 @@ bool    local = false;                  /* true == m4 bit 3 is on    */
     pto = regs->GR(r1);
     vaddr = regs->GR(r2);
     pageidx = (vaddr >> SHIFT_4K) & 0xFF;
-    pages = 1;
-    do_range = false;
 
 #if defined( FEATURE_013_IPTE_RANGE_FACILITY )
-    if (FACILITY_ENABLED( 013_IPTE_RANGE, regs ) && r3)
+    if (r3 && FACILITY_ENABLED( 013_IPTE_RANGE, regs ))
     {
         int additional_pages = regs->GR_LHLCL( r3 );
         if ((pageidx + additional_pages) > 255)
@@ -5961,7 +5961,12 @@ char    log_buf[128];                   /* Log buffer                */
     {
         regs->psw.cc = 2;
         if (log_sigp)
-            WRMSG( HHC00814, "I", log_buf, 2, "" );
+        {
+            if (regs->insttrace && sysblk.traceFILE)
+                tf_0814( regs, order, 2, cpad, status, parm, 0 );
+            else
+                WRMSG( HHC00814, "I", log_buf, 2, "" );
+        }
         return;
     }
 
@@ -5982,7 +5987,12 @@ char    log_buf[128];                   /* Log buffer                */
         release_lock( &sysblk.sigplock );
         regs->psw.cc = 3;
         if (log_sigp)
-            WRMSG(HHC00814, "I", log_buf, 3, "");
+        {
+            if (regs->insttrace && sysblk.traceFILE)
+                tf_0814( regs, order, 3, cpad, status, parm, 0 );
+            else
+                WRMSG(HHC00814, "I", log_buf, 3, "");
+        }
         return;
     }
 
@@ -6005,7 +6015,12 @@ char    log_buf[128];                   /* Log buffer                */
         release_lock( &sysblk.sigplock );
         regs->psw.cc = 2;
         if (log_sigp)
-            WRMSG( HHC00814, "I", log_buf, 2, "" );
+        {
+            if (regs->insttrace && sysblk.traceFILE)
+                tf_0814( regs, order, 2, cpad, status, parm, 0 );
+            else
+                WRMSG( HHC00814, "I", log_buf, 2, "" );
+        }
         sched_yield();
         return;
     }
@@ -6534,7 +6549,9 @@ char    log_buf[128];                   /* Log buffer                */
 
         case SIGP_SENSE_RUNNING_STATE:
 
-            if (tregs->cpustate != CPUSTATE_STARTED)
+            if (!FACILITY_ENABLED( 009_SENSE_RUN_STATUS, regs ))
+                status = SIGP_STATUS_INVALID_ORDER;
+            else if (tregs->cpustate != CPUSTATE_STARTED)
                 status = SIGP_STATUS_NOT_RUNNING;
 
             break;
@@ -6572,12 +6589,22 @@ char    log_buf[128];                   /* Log buffer                */
     if (log_sigp)
     {
         if (regs->psw.cc == 0)
-            WRMSG( HHC00814, "I", log_buf, 0, "" );
+        {
+            if (regs->insttrace && sysblk.traceFILE)
+                tf_0814( regs, order, 0, cpad, status, parm, 0 );
+            else
+                WRMSG( HHC00814, "I", log_buf, 0, "" );
+        }
         else
         {
-            char buf[40];
-            MSGBUF( buf, " status %8.8X", (U32) status );
-            WRMSG( HHC00814, "I", log_buf, 1, buf );
+            if (regs->insttrace && sysblk.traceFILE)
+                tf_0814( regs, order, regs->psw.cc, cpad, status, parm, 1 );
+            else
+            {
+                char buf[40];
+                MSGBUF( buf, " status %8.8X", (U32) status );
+                WRMSG( HHC00814, "I", log_buf, 1, buf );
+            }
         }
     }
 
@@ -7045,18 +7072,22 @@ static BYTE hexebcdic[16] = { 0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,
              curlvl = STSI_GPR0_FC_BASIC;
 
     /* Check function code */
-    if ((regs->GR_L(0) & STSI_GPR0_FC_MASK) > curlvl
-#if defined( FEATURE_011_CONFIG_TOPOLOGY_FACILITY )
-        && (regs->GR_L(0) & STSI_GPR0_FC_MASK) != STSI_GPR0_FC_CURRINFO
-#endif
-    )
+    if ((regs->GR_L(0) & STSI_GPR0_FC_MASK) > curlvl)
     {
-        PTT_ERR("*STSI",regs->GR_L(0),regs->GR_L(1),(U32)(effective_addr2 & 0xffffffff));
-#if defined( DEBUG_STSI )
-        LOGMSG( "control.c: STSI cc=3 function code invalid\n" );
+#if defined( FEATURE_011_CONFIG_TOPOLOGY_FACILITY )
+        if (0
+            || !FACILITY_ENABLED( 011_CONFIG_TOPOLOGY, regs )
+            || (regs->GR_L(0) & STSI_GPR0_FC_MASK) != STSI_GPR0_FC_CURRINFO
+        )
 #endif
-        regs->psw.cc = 3;
-        return;
+        {
+            PTT_ERR("*STSI",regs->GR_L(0),regs->GR_L(1),(U32)(effective_addr2 & 0xffffffff));
+#if defined( DEBUG_STSI )
+            LOGMSG( "control.c: STSI cc=3 function code invalid\n" );
+#endif
+            regs->psw.cc = 3;
+            return;
+        }
     }
 
     /* Program check if reserved bits not zero */
@@ -7080,67 +7111,83 @@ static BYTE hexebcdic[16] = { 0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,
         ARCH_DEP( program_interrupt )( regs, PGM_SPECIFICATION_EXCEPTION );
 
     /* Return with cc3 if selector codes invalid */
-    /*
-      Func-
-      tion  Selec- Selec-
-      Code  tor 1  tor 2  Information Requested about
-      ----  -----  -----  ----------------------------
+    {
+        U32 fcod = (regs->GR_L(0) & STSI_GPR0_FC_MASK);
+        U32 sel1 = (regs->GR_L(0) & STSI_GPR0_SEL1_MASK);
+        U32 sel2 = (regs->GR_L(1) & STSI_GPR1_SEL2_MASK);
 
-        1     1      1    Basic-machine configuration
-        1     2      1    Basic-machine CPU
-        1     2      2    Basic-machine CPUs
+        /*
+          Func-
+          tion  Selec- Selec-
+          Code  tor 1  tor 2  Information Requested about
+          ----  -----  -----  ----------------------------
 
-        2     2      1    Logical-partition CPU
-        2     2      2    Logical-partition CPUs
+            1     1      1    Basic-machine configuration
+            1     2      1    Basic-machine CPU
+            1     2      2    Basic-machine CPUs
 
-        3     2      2    Virtual-machine CPUs
+            2     2      1    Logical-partition CPU
+            2     2      2    Logical-partition CPUs
 
-        15    1      2    Topology information of current configuration
-    */
-    if (0
-        || ((regs->GR_L(0) & STSI_GPR0_FC_MASK) == STSI_GPR0_FC_BASIC
-            && (0
-                || (regs->GR_L(0) & STSI_GPR0_SEL1_MASK) == 0
-                || (regs->GR_L(0) & STSI_GPR0_SEL1_MASK) >  2
-                || (regs->GR_L(1) & STSI_GPR1_SEL2_MASK) == 0
-                || (regs->GR_L(1) & STSI_GPR1_SEL2_MASK) >  2
+            3     2      2    Virtual-machine CPUs
+
+            15    1      2    Topology information of current configuration
+            15    1      3    (not currently supported) (TODO!)
+            15    1      4    (not currently supported) (TODO!)
+            15    1      5    (not currently supported) (TODO!)
+            15    1      6    (not currently supported) (TODO!)
+        */
+        if (0
+            || (STSI_GPR0_FC_BASIC == fcod
+                && (0
+                    || sel1 == 0
+                    || sel1 >  2
+                    || sel2 == 0
+                    || sel2 >  2
+                   )
                )
-           )
 #if defined( _FEATURE_HYPERVISOR )
-        || ((regs->GR_L(0) & STSI_GPR0_FC_MASK) == STSI_GPR0_FC_LPAR
-            && (0
-                || !FACILITY_ENABLED( HERC_LOGICAL_PARTITION, regs )
-                || !sysblk.lparmode
-                || (regs->GR_L(0) & STSI_GPR0_SEL1_MASK) != 2
-                || (regs->GR_L(1) & STSI_GPR1_SEL2_MASK) == 0
-                || (regs->GR_L(1) & STSI_GPR1_SEL2_MASK) >  2
+            || (STSI_GPR0_FC_LPAR == fcod
+                && (0
+                    || !FACILITY_ENABLED( HERC_LOGICAL_PARTITION, regs )
+                    || !sysblk.lparmode
+                    || sel1 != 2
+                    || sel2 == 0
+                    || sel2 >  2
+                   )
                )
-           )
 #endif
 #if defined( _FEATURE_EMULATE_VM )
-        || ((regs->GR_L(0) & STSI_GPR0_FC_MASK) == STSI_GPR0_FC_VM
-            && (0
-                || (regs->GR_L(0) & STSI_GPR0_SEL1_MASK) != 2
-                || (regs->GR_L(1) & STSI_GPR1_SEL2_MASK) != 2
+            || (STSI_GPR0_FC_VM == fcod
+                && (0
+                    || sel1 != 2
+                    || sel2 != 2
+                   )
                )
-           )
 #endif
 #if defined( FEATURE_011_CONFIG_TOPOLOGY_FACILITY )
-        || ((regs->GR_L(0) & STSI_GPR0_FC_MASK) == STSI_GPR0_FC_CURRINFO
-            && (0
-                || (regs->GR_L(0) & STSI_GPR0_SEL1_MASK) != 1
-                || (regs->GR_L(1) & STSI_GPR1_SEL2_MASK) != 2
+            || (STSI_GPR0_FC_CURRINFO == fcod
+                && (0
+                    || !FACILITY_ENABLED( 011_CONFIG_TOPOLOGY, regs )
+                    || sel1 != 1
+#if 1 // (the only selector 2 value we currently support)
+                    || sel2 != 2
+#else // (TODO: provide support for selectors 3-6)
+                    || sel2 < 2
+                    || sel2 > 6
+#endif
+                   )
                )
-           )
 #endif
-    )
-    {
-        PTT_ERR("*STSI",regs->GR_L(0),regs->GR_L(1),(U32)(effective_addr2 & 0xffffffff));
+        )
+        {
+            PTT_ERR("*STSI",regs->GR_L(0),regs->GR_L(1),(U32)(effective_addr2 & 0xffffffff));
 #if defined( DEBUG_STSI )
-        LOGMSG( "control.c: STSI cc=3 selector codes invalid\n" );
+            LOGMSG( "control.c: STSI cc=3 selector codes invalid\n" );
 #endif
-        regs->psw.cc = 3;
-        return;
+            regs->psw.cc = 3;
+            return;
+        }
     }
 
     switch (regs->GR_L(0) & STSI_GPR0_FC_MASK) {
@@ -7343,6 +7390,13 @@ static BYTE hexebcdic[16] = { 0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,
 #if defined( FEATURE_011_CONFIG_TOPOLOGY_FACILITY )
     case STSI_GPR0_FC_CURRINFO:
 
+        if (!FACILITY_ENABLED( 011_CONFIG_TOPOLOGY, regs ))
+        {
+            PTT_ERR("*STSI",regs->GR_L(0),regs->GR_L(1),(U32)(effective_addr2 & 0xffffffff));
+            regs->psw.cc = 3;
+            break;
+        }
+
         /* Obtain absolute address of main storage block,
            check protection, and set reference and change bits */
         m = MADDR( effective_addr2, b2, regs, ACCTYPE_WRITE, regs->psw.pkey );
@@ -7426,6 +7480,11 @@ static BYTE hexebcdic[16] = { 0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,
                 }
                 RELEASE_INTLOCK( regs );
                 break;
+
+            case 3: // TODO...
+            case 4: // TODO...
+            case 5: // TODO...
+            case 6: // TODO...
 
             default:
                 PTT_ERR("*STSI",regs->GR_L(0),regs->GR_L(1),(U32)(effective_addr2 & 0xffffffff));

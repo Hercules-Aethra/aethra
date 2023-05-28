@@ -217,7 +217,7 @@ with every new release, which contains important late-breaking information about
 
     <p><i>Note: On CentOS 7, there is no package for CMAKE 3.x, it must be built from source.</i>
 
-    <li>openSUSE (15.1)
+    <li>openSUSE (15.1+)
     <p><code>
     sudo zypper install -y git<br>
     sudo zypper install -y -t pattern devel_basis autoconf automake cmake flex gawk m4 libtool<br>
@@ -225,7 +225,7 @@ with every new release, which contains important late-breaking information about
     sudo zypper install -y libcap-progs
     </code>
 
-    <li>Apple Darwin (macOS High Sierra, Mojave, Catalina, Big Sur) with Homebrew
+    <li>Apple Darwin (macOS High Sierra, Mojave, Catalina, Big Sur, etc.) with Homebrew
     <p><code>
         xcode-select --install<br>
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"<br>
@@ -233,6 +233,18 @@ with every new release, which contains important late-breaking information about
         brew install wget gsed<br>
         brew install cmake autoconf automake libtool<br>
         <!-- ( flex gawk m4 bzip2 zlib ) -->
+    </code>
+
+    <p><i>Note: So configure/make will find ltdl.h and libltdl:</i>
+    <p><code>
+        export CFLAGS="$CFLAGS -I$(find $(brew --cellar libtool) -type d -name "include" | sort -n | tail -n 1)"<br>
+        export LDFLAGS="$LDFLAGS -L$(find $(brew --cellar libtool) -type d -name "lib" | sort -n | tail -n 1)"
+    </code>
+
+    <p><i>And include these options to configure:</i>
+    <p><code>
+        --disable-getoptwrapper<br>
+        --without-included-ltdl
     </code>
 
     <li>Apple Darwin (macOS Big Sur) with MacPorts
@@ -261,6 +273,10 @@ with every new release, which contains important late-breaking information about
     <p><code>
         export CFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib
     </code>
+
+    <li>OpenBSD is not currently supported
+    <p>
+
   </ul>
 
 <li>Verify you have all of the correct versions of the more important packages installed:
@@ -325,10 +341,11 @@ document.
     <p>
     By default, the configure script will attempt to guess appropriate
     compiler optimization flags for your system.  If its guesses
-    turn out to be wrong, you can disable all optimization by
-    passing the <code><nobr>--disable-optimization</nobr></code> option to
-    configure, or specify your own optimization flags with
-    <code><nobr>--enable-optimization=FLAGS</nobr></code>. For additional configuration
+    turn out to be wrong, you can either specify your own optimization
+    flags with <code><nobr>--enable-optimization=FLAGS</nobr></code>
+    (<i>preferred</i>) or else as a last resort disable all optimization
+    by passing the <code><nobr>--disable-optimization</nobr></code> option
+    instead (<i><b>not</b> recommended</i>). For additional configuration
     options, run: <code>./configure <nobr>--help=short</nobr></code>.
 
     <p>For Apple macOS, these additional configure switches are recommended:
@@ -1131,7 +1148,7 @@ panel commands:
      tt32                 *Control/query CTCI-WIN functionality
      txf                  *Transactional-Execution Facility tracing
      tzoffset              Set tzoffset parameter
-     t{+/-}CKD             Turn CKD_KEY tracing on/off
+     t{+/-}CKD [devnum]    Turn CKD Search Key tracing on/off
      t{+/-}dev             Turn CCW tracing on/off
      u                    *Disassemble storage
      uptime                Display how long Hercules has been running

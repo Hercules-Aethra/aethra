@@ -1,5 +1,6 @@
-/* cckdmap.c   (C) Copyright "Fish" (David B. Trout), 2019-2022      */
-/*                 Compressed dasd file map                          */
+/* cckdmap.c    (C) Copyright "Fish" (David B. Trout), 2019-2022     */
+/*              (C) and others 2022-2023                             */
+/*               Compressed dasd file map                            */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
 /*   (http://www.hercules-390.org/herclic.html) as modifications to  */
@@ -153,21 +154,6 @@ static void L2tab_to_64()
             L2tab[i].L2_size = L2tab32[i].L2_size;
         }
     }
-}
-
-/*-------------------------------------------------------------------*/
-/* Determine if running on a big endian system or not                */
-/*-------------------------------------------------------------------*/
-static bool are_big_endian()
-{
-    static union
-    {
-        uint32_t  ui32;
-        char      b[4];
-    }
-    test = {0x01020304};
-
-    return (0x01 == test.b[0]);
 }
 
 /*-------------------------------------------------------------------*/

@@ -1,5 +1,6 @@
-/* CONVTO64.c (C) Copyright "Fish" (David B. Trout), 2018-2019       */
-/*                Convert compressed ckd to cckd64 format            */
+/* CONVTO64.c   (C) Copyright "Fish" (David B. Trout), 2018-2019     */
+/*              (C) and others 2020-2023                             */
+/*              Convert compressed ckd to cckd64 format              */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
 /*   (http://www.hercules-390.org/herclic.html) as modifications to  */
@@ -187,21 +188,6 @@ static void L2tabs_to_64()
             }
         }
     }
-}
-
-/*-------------------------------------------------------------------*/
-/* Determine if running on a big endian system or not                */
-/*-------------------------------------------------------------------*/
-static bool are_big_endian()
-{
-    static union
-    {
-        uint32_t  ui32;
-        char      b[4];
-    }
-    test = {0x01020304};
-
-    return (0x01 == test.b[0]);
 }
 
 /*-------------------------------------------------------------------*/

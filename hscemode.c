@@ -2,6 +2,7 @@
 /*              (C) Copyright Jan Jaeger, 1999-2012                  */
 /*              (C) Copyright "Fish" (David B. Trout), 2002-2009     */
 /*              (C) Copyright TurboHercules, SAS 2010-2011           */
+/*              (C) and others 2011-2023                             */
 /*              CE mode functions                                    */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -910,6 +911,312 @@ REGS *regs;
 
 
 /*-------------------------------------------------------------------*/
+/* tf -- trace file command: ON|OFF FILE=filename MAX=nnnS NOSTOP    */
+/*-------------------------------------------------------------------*/
+int tf_cmd( int argc, char* argv[], char* cmdline )
+{
+    U64          maxsize    = 0;
+    FILE*        traceFILE  = NULL;
+
+    char         filename[MAX_PATH+1] = {0};
+    char         buf[sizeof(filename)+32] = {0};
+
+    int          mgs = 0;
+    char         mg = 'M';
+    const char*  quote = "\"";
+    bool         enable = false;
+    bool         nostop = false;
+
+    UNREFERENCED( cmdline );
+    UPPER_ARGV_0( argv );
+
+    // Too many arguments?
+
+    if (argc > 5)
+    {
+        // "Invalid command usage. Type 'help %s' for assistance."
+        WRMSG( HHC02299, "E", argv[0] );
+        return -1;
+    }
+
+    // Parse new values...
+
+    maxsize = sysblk.maxtracesize;
+    enable = sysblk.traceFILE ? true : false;
+#ifdef FISH_TFNOSTOP2
+    nostop = sysblk.tfnostop2 ? true : false;
+#else
+    nostop = sysblk.tfnostop ? true : false;
+#endif
+
+    if (argc > 1)
+    {
+        int  i;
+        for (i=1; i < argc; i++)
+        {
+            if (0
+                || strcasecmp( argv[i], "ON"   ) == 0
+                || strcasecmp( argv[i], "OPEN" ) == 0
+            )
+            {
+                enable = true;
+            }
+            else if (0
+                || strcasecmp( argv[i], "OFF"   ) == 0
+                || strcasecmp( argv[i], "CLOSE" ) == 0
+            )
+            {
+                enable = false;
+            }
+            else if (0
+                || strcasecmp( argv[i], "NOSTOP" ) == 0
+                || strcasecmp( argv[i], "CONT"   ) == 0
+            )
+            {
+                nostop = true;
+            }
+            else if (0
+                || strcasecmp( argv[i], "STOP"   ) == 0
+                || strcasecmp( argv[i], "NOCONT" ) == 0
+            )
+            {
+                nostop = false;
+            }
+            else if (strncasecmp( argv[i], "FILE=", 5 ) == 0)
+            {
+                if (traceFILE)
+                    VERIFY( 0 == fclose( traceFILE ));
+
+                STRLCPY( filename, argv[i]+5 );
+                traceFILE = NULL;
+
+                if (!filename[0])
+                {
+                    // "Invalid %s= value: %s"
+                    WRMSG( HHC02380, "E", "FILE", "(null)" );
+                    if (traceFILE)
+                        VERIFY( 0 == fclose( traceFILE ));
+                    return -1;
+                }
+
+                if (!(traceFILE = fopen( filename, "wb" )))
+                {
+                    // "Trace file open error %s: \"%s\""
+                    WRMSG( HHC02377, "E", strerror( errno ), filename );
+                    return -1;
+                }
+            }
+            else if (strncasecmp( argv[i], "MAX=", 4 ) == 0)
+            {
+                char* endptr;
+                U64 factor = ONE_GIGABYTE;
+                errno = 0;
+                maxsize = strtoul( argv[i]+4, &endptr, 10 );
+
+                if (0
+                    || errno
+                    || (1
+                        && endptr[0] != 'M'
+                        && endptr[0] != 'm'
+                        && endptr[0] != 'G'
+                        && endptr[0] != 'g'
+                       )
+                    || endptr[1] // (not NULL terminator)
+                    || maxsize < 1
+                    || maxsize > 999
+                )
+                {
+                    // "Invalid MAX= value: %s"
+                    WRMSG( HHC02378, "E", argv[i]+4 );
+                    if (traceFILE)
+                        VERIFY( 0 == fclose( traceFILE ));
+                    return -1;
+                }
+
+                if (endptr[0] == 'M' ||
+                    endptr[0] == 'm') factor = ONE_MEGABYTE;
+                else                  factor = ONE_GIGABYTE;
+
+                maxsize *= factor;
+            }
+            else
+            {
+                // "Invalid command usage. Type 'help %s' for assistance."
+                WRMSG( HHC02299, "E", argv[0] );
+                if (traceFILE)
+                    VERIFY( 0 == fclose( traceFILE ));
+                return -1;
+            }
+        }
+        // end for()
+
+        if (enable)
+        {
+            // File is required if they want to enable it
+            if (!sysblk.traceFILE && !sysblk.tracefilename && !traceFILE)
+            {
+                // "Invalid %s= value: %s"
+                WRMSG( HHC02380, "E", "FILE", "(null)" );
+                return -1;
+            }
+
+            // A non-zero maximum filesize is also required to enable
+            if (!sysblk.maxtracesize && !maxsize)
+            {
+                // "Invalid %s= value: %s"
+                WRMSG( HHC02380, "E", "MAX", "0" );
+                if (traceFILE)
+                    VERIFY( 0 == fclose( traceFILE ));
+                return -1;
+            }
+        }
+        else
+        {
+            // They don't want to enable it (yet),
+            // or they want to disable it.
+
+            if (!maxsize)
+                maxsize = sysblk.maxtracesize;
+            if (!maxsize)
+                maxsize = ONE_MEGABYTE;
+        }
+
+        // Activate/Deactivate (enable/disable) tracefile tracing...
+        OBTAIN_TRACEFILE_LOCK();
+        {
+            if (enable)
+            {
+                void* tracebuff;
+
+                // Allocate a fresh buffer
+
+                if (!(tracebuff = calloc( 1, tf_MAX_RECSIZE() )))
+                {
+                    RELEASE_TRACEFILE_LOCK();
+
+                    // "Out of memory"
+                    WRMSG( HHC00152, "E" );
+                    RELEASE_TRACEFILE_LOCK();
+
+                    if (traceFILE)
+                        VERIFY( 0 == fclose( traceFILE ));
+
+                    return -1;
+                }
+
+                free( sysblk.tracefilebuff );
+                sysblk.tracefilebuff = tracebuff;
+
+                // Switch over to using the new file if specified
+                // (or reuse existing one if new one wasn't given)
+
+                if (sysblk.traceFILE)
+                    tf_close_locked();
+
+                if (traceFILE)
+                {
+                    // switch over to using their new tracefile
+                    sysblk.traceFILE = traceFILE;
+                    free( sysblk.tracefilename );
+                    sysblk.tracefilename = strdup( filename );
+                }
+                else // (continue use existing tracefile)
+                {
+                    if (!(sysblk.traceFILE = fopen( sysblk.tracefilename, "wb" )))
+                    {
+                        // "Trace file open error %s: \"%s\""
+                        WRMSG( HHC02377, "E", strerror( errno ), sysblk.tracefilename );
+                        RELEASE_TRACEFILE_LOCK();
+                        return -1;
+                    }
+                }
+
+                sysblk.curtracesize = 0;
+            }
+            else // (Deactivate/disable)
+            {
+                // Close trace file and free buffer,
+                // but keep existing filename unless
+                // they specified a new one.
+
+                if (traceFILE)
+                {
+                    // (switch to new file)
+                    VERIFY( 0 == fclose( traceFILE ));
+                    free( sysblk.tracefilename );
+                    sysblk.tracefilename = strdup( filename );
+                }
+
+                // (close existing file)
+                if (sysblk.traceFILE)
+                    tf_close_locked();
+
+                free( sysblk.tracefilebuff );
+                sysblk.tracefilebuff = NULL;
+                sysblk.traceFILE     = NULL;
+                sysblk.curtracesize  = 0;
+            }
+
+            sysblk.tfnostop = nostop;
+
+            if (maxsize)
+                sysblk.maxtracesize = maxsize;
+            else
+                maxsize = sysblk.maxtracesize;
+        }
+        RELEASE_TRACEFILE_LOCK();
+    }
+    // end if (argc > 1)
+
+    // Display current values...
+
+    if ((maxsize = sysblk.maxtracesize) >= ONE_GIGABYTE)
+    {
+        mg = 'G';
+        maxsize = ROUND_UP( maxsize, ONE_GIGABYTE );
+        mgs = (int) (maxsize / ONE_GIGABYTE);
+    }
+    else
+    {
+        mg = 'M';
+        maxsize = ROUND_UP( maxsize, ONE_MEGABYTE );
+        mgs = (int) (maxsize / ONE_MEGABYTE);
+    }
+
+    if (sysblk.tracefilename)
+    {
+        STRLCPY( filename, sysblk.tracefilename );
+        if (strchr( filename, ' ' )) quote = "\"";
+        else                         quote = "";
+    }
+
+    MSGBUF( buf, "%s MAX=%d%c %sSTOP %sFILE=%s%s",
+        sysblk.traceFILE ? "ON" : "OFF",
+        mgs, mg,
+        sysblk.tfnostop ? "NO" : "",
+        quote, filename, quote
+    );
+
+    if (argc > 1)
+        // "%-14s set to %s"
+        WRMSG( HHC02204, "I", argv[0], buf );
+    else
+        // "%-14s: %s"
+        WRMSG( HHC02203, "I", argv[0], buf );
+
+    /* Auto-stop tracing unless asked not to */
+    if (!enable && !nostop)
+    {
+        if (tf_autostop())
+            // "File closed, tracing %s"
+            WRMSG( HHC02381, "I", "auto-stopped" );
+    }
+
+    return 0;
+}
+
+
+/*-------------------------------------------------------------------*/
 /* tracing commands: x, x+, x-, x?, where 'x' is either t, s or b.   */
 /*-------------------------------------------------------------------*/
 int trace_cmd( int argc, char* argv[], char* cmdline )
@@ -1067,6 +1374,7 @@ int trace_cmd( int argc, char* argv[], char* cmdline )
         /* Update and/or enable/disable tracing/stepping */
         if (on || off || update)
         {
+            int cpu;
             bool auto_disabled = false;
 
             /* Explicit tracing overrides automatic tracing */
@@ -1087,7 +1395,15 @@ int trace_cmd( int argc, char* argv[], char* cmdline )
                 }
 
                 if (on || off)
+                {
                     sysblk.insttrace = on;
+
+                    for (cpu=0; cpu < sysblk.maxcpu; cpu++)
+                    {
+                        if (IS_CPU_ONLINE( cpu ))
+                            sysblk.regs[ cpu ]->insttrace = on;
+                    }
+                }
             }
             else // (step || breakp)
             {
@@ -1164,6 +1480,76 @@ int trace_cmd( int argc, char* argv[], char* cmdline )
     if (sysblk.txf_tracing & TXF_TR_INSTR)
         panel_command( "-txf" );
 #endif
+
+    if (query)
+    {
+        unlock = (TRY_OBTAIN_INTLOCK( NULL ) == 0);
+        {
+            DEVBLK* dev;
+            char typ[16] = {0};
+            char who[16] = {0};
+            int cpu, on = 0, off = 0;
+
+            /* Also show instruction tracing for each individual CPU,
+               but only if not all CPUs are being traced or not (i.e.
+               only if some are being traced but not others, or vice-
+               versa).
+            */
+            for (cpu=0; cpu < sysblk.maxcpu; cpu++)
+            {
+                if (IS_CPU_ONLINE( cpu ))
+                {
+                    if (sysblk.regs[ cpu ]->insttrace)
+                        ++on;
+                    else
+                        ++off;
+                }
+            }
+
+            /* If only some (but not all) have instruction tracing enabled
+               (or vice versa), then show them which ones have it enabled.
+            */
+            if (on && off)  // Some on, some off? (i.e. neither is zero?)
+            {
+                ASSERT( sysblk.insttrace ); // sanity check
+
+                for (cpu=0; cpu < sysblk.maxcpu; cpu++)
+                {
+                    if (IS_CPU_ONLINE( cpu ))
+                    {
+                        if (sysblk.regs[ cpu ]->insttrace)
+                        {
+                            MSGBUF( who, "CPU %s%02X",
+                                ptyp2short( sysblk.ptyp[ cpu ] ), cpu );
+
+                            // "%stracing active for %s"
+                            WRMSG( HHC02382, "I", "instruction ", who );
+                        }
+                    }
+                }
+            }
+
+            /* Also show CCW/ORB tracing if enabled */
+            for (dev = sysblk.firstdev; dev != NULL; dev = dev->nextdev)
+            {
+                typ[0] = 0;
+
+                if (dev->orbtrace   ) STRLCAT( typ, "ORB " );
+                if (dev->ccwtrace   ) STRLCAT( typ, "CCW " );
+                if (dev->ckdkeytrace) STRLCAT( typ, "CKD " );
+
+                if (typ[0])
+                {
+                    MSGBUF( who, "device %1d:%04X",
+                        SSID_TO_LCSS( dev->ssid ), dev->devnum );
+
+                    // "%stracing active for %s"
+                    WRMSG( HHC02382, "I", typ, who );
+                }
+            }
+        }
+        if (unlock) RELEASE_INTLOCK( NULL );
+    }
 
     return 0;
 }
@@ -1520,7 +1906,7 @@ int txf_cmd( int argc, char* argv[], char* cmdline )
 
 
 /*-------------------------------------------------------------------*/
-/* automatic tracing command:   "t+-  [ON=nnnn  [OFF=nnnn]]"         */
+/* automatic tracing command:  "t+- [ BEG=<instrcount>  AMT=num ]"   */
 /*-------------------------------------------------------------------*/
 int auto_trace_cmd( int argc, char* argv[], char* cmdline )
 {
