@@ -18,7 +18,7 @@
 #include "hercules.h"
 
 #define HERCULES_COPYRIGHT \
-       "(C) Copyright 1999-2022 by Roger Bowler, Jan Jaeger, and others"
+       "Copyright Roger Bowler, Jan Jaeger, and others"
 
 #if !defined( _MSVC_ )
 
@@ -64,7 +64,7 @@
    (which also contains the git hash and other unwanted information).
 */
 #define HDL_NAME_HERCULES   "HERCULES"
-#define HDL_VERS_HERCULES   "SDL " QSTR( VERS_MAJ ) "." QSTR( VERS_INT ) QSTR( VERS_MIN )
+#define HDL_VERS_HERCULES   "Aethra " QSTR( VERS_MAJ ) "." QSTR( VERS_INT ) QSTR( VERS_MIN )
 #define HDL_SIZE_HERCULES   sizeof( HDL_VERS_HERCULES ) - 1
 
 VER_DLL_IMPORT void init_sysblk_version_str_arrays( const char* prog );

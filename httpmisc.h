@@ -76,7 +76,7 @@ typedef struct MIMETAB  MIMETAB;
 struct WEBBLK
 {
     #define HDL_NAME_WEBBLK     "WEBBLK"
-    #define HDL_VERS_WEBBLK     "SDL 4.00"
+    #define HDL_VERS_WEBBLK     "Aethra 4.00"
     #define HDL_SIZE_WEBBLK     sizeof( WEBBLK )
 
     int sock;

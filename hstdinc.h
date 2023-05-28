@@ -14,7 +14,7 @@
 #ifndef _HSTDINC_H
 #define _HSTDINC_H
 
-#define SDL_HYPERION            /* Distinguish ourselves from others */
+#define HERCULES_AETHRA         /* Distinguish ourselves from others */
 //#define NOT_HERC              /* This is Hercules, NOT the utility */
 
 /*-------------------------------------------------------------------*/

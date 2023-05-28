@@ -835,7 +835,7 @@ EXTRA_DIST =                  \
   msvc.makefile.includes/REXX_RULES.msvc      \
   README.md                       \
   readme/images/herclogo.jpg      \
-  readme/images/image_header_herculeshyperionSDL.png  \
+  readme/images/image_header_herculesaethra.png  \
   readme/README.ADDING.md         \
   readme/README.AIX.md            \
   readme/README.APL360.md         \

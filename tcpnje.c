@@ -25,12 +25,12 @@
 /* TCPNJE hacked from commadpt by Peter Coghlan and integrated into  */
 /* SDL Hercules Hyperion by Ivan Warren.                             */
 /*                                                                   */
-/* PLEASE DO NOT CONTACT PETER COGHLAN FOR SUPPORT! This is a SDL    */
-/* Hercules Hyperion implementation that is NOT supported by Peter!  */
+/* PLEASE DO NOT CONTACT PETER COGHLAN FOR SUPPORT! This is a        */
+/* Hercules Aethra implementation that is NOT supported by Peter!    */
 /* If you need support or wish to report a bug, please do so via     */
-/* the official SDL Hercules Hyperions GitHub Issues web page at:    */
+/* the official Hercules Aethra GitHub Issues web page at:           */
 /*                                                                   */
-/*    https://github.com/SDL-Hercules-390/hyperion/issues            */
+/*    https://github.com/Hercules-Aethra/aethra/issues               */
 /*                                                                   */
 /* For more information regarding this implementation please refer   */
 /* to our README.TCPNJE.md document.                                 */

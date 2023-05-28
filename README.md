@@ -1,7 +1,7 @@
-![SDL Hyperion](./readme/images/image_header_herculeshyperionSDL.png)  
-[![Build Status](https://travis-ci.org/SDL-Hercules-390/hyperion.svg?branch=master)](https://travis-ci.org/SDL-Hercules-390/hyperion)
+![Hercules Aethra](./readme/images/image_header_herculesaethra.png)  
+[![Build Status](https://travis-ci.org/Hercules-Aethra/aethra.svg?branch=master)](https://travis-ci.org/Hercules-Aethra/aethra)
 
-## The [SoftDevLabs](http://www.softdevlabs.com) version of Hercules 4.x (Hyperion)
+## The Aethra version of Hercules 4.x (Hyperion)
 
 ## Contents
 
@@ -15,19 +15,19 @@
 
 Hercules is [OSI Certified Open Source Software](http://www.opensource.org/) licensed under the terms of the [Q Public Licence](http://sdl-hercules-390.github.io/html/herclic.html).
 
-This version of Hercules 4.x Hyperion is a SoftDevLabs maintained version of the Hercules emulator containing fixes made by myself and others for bugs that may still exist in the original hercules-390 version of Hercules 4.0 Hyperion, as well as enhancements and improvements to the overall functionality above and beyond what is provided by the hercules-390 version of Hercules.
+This version of Hercules 4.x Hyperion is a version of the Hercules emulator, maintained by Jay Maynard, containing fixes made by David "Fish" Trout and others for bugs that may still exist in the original hercules-390 version of Hercules 4.0 Hyperion, as well as enhancements and improvements to the overall functionality above and beyond what is provided by the hercules-390 version of Hercules.
 
 Hercules was created by Roger Bowler.
 
-Jay Maynard "the Tron Guy" was the maintainer from 2000 to 2012.
+Jay Maynard "the Tron Guy" was the maintainer from 2000 to 2012, and is the maintainer of Aethra.
 
 Jan Jaeger designed and implemented many of the advanced features of Hercules, including dynamic reconfiguration, integrated console, interpretive execution and z/Architecture support.
 
-The SoftDevLabs version of Hercules 4.x Hyperion is currently the only 'active' version of the Hercules emulator in existence (so it seems).
+The SoftDevLabs version of Hercules 4.x Hyperion is developed and maintained by David "Fish" Trout. It is under active development, with a somewhat different emphasis from Hercules Aethra. Aethra was forked from it, and it is anticipated that the two will be developed in cooperation with each other.
 
 ## Find out more
 
-To find out more about this particular version of Hercules 4.x Hyperion, follow this link: [Hercules 4.x (Hyperion)](http://sdl-hercules-390.github.io/html/)
+To find out more about this particular version of Hercules 4.x Hyperion, follow this link: [Hercules 4.x (Aethra)](http://hercules-aethra.github.io/html/)
 
 ## Additional README files
 
@@ -37,11 +37,11 @@ To find out more about this particular version of Hercules 4.x Hyperion, follow 
 
 _**Bug reports** (together with your diagnosis of the fault please!)_ should be reported
 to our **bug report tracking system** by adding/creating a new
-[**"GitHub Issue"**](https://github.com/SDL-Hercules-390/hyperion/issues) on GitHub.
+[**"GitHub Issue"**](https://github.com/Hercules-Aethra/aethra/issues) on GitHub.
 
 ### Building Hercules
 
-[**Building Hercules (Overview)**](http://sdl-hercules-390.github.io/html/hercinst.html#install) &nbsp; _(Important!)_  
+[**Building Hercules (Overview)**](http://hercules-aethra.github.io/html/hercinst.html#install) &nbsp; _(Important!)_  
 [**Building "External Packages"**](readme/README.EXTPKG.md) &nbsp; _(Important!)_  
 [Building Hercules under AIX](readme/README.AIX.md)  
 [Building Hercules under BSD/OSX](readme/README.BSD.md)  

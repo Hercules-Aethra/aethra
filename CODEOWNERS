@@ -74,13 +74,13 @@
 #
 #                                  CODEOWNERS
 #
-#                           (SDL-Hercules-390/hyperion)
+#                              (Hercules Aethra)
 #
 #
-#   *ALL* owners/administrators of the "SDL-Hercules-390" GitHub Organization
+#   *ALL* owners/administrators of the "Hercules-Aethra" GitHub Organization
 #   are considered the "owners" of *ALL* files in the repository and will thus
 #   receive notifications for any Pull Requests.
 #
 #-------------------------------------------------------------------------------
 
-*  @Fish-Git  @ivan-w  @Juergen-Git  @Peter-J-Jansen
+*  @jmaynard

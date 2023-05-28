@@ -614,13 +614,13 @@
   %TRACE%.
 
   ::--------------------------------------------------------------
-  ::  Make it PAINFULLY CLEAR this is a *SOFTDEVLABS* version
+  ::  Make it PAINFULLY CLEAR this is the Aethra version
   ::  of 4.x Hyperion and not the original 4.0 Hyperion version,
-  ::  by embedding "-SDL" into the "VERSION" string. Same idea
+  ::  by embedding "-Aethra" into the "VERSION" string. Same idea
   ::  for "-DEV" indicating a development version.
   ::--------------------------------------------------------------
 
-  set VERSION="%VERS_MAJ%.%VERS_INT%.%VERS_MIN%.%VERS_BLD%-SDL%dev_string%%modified_str%"
+  set VERSION="%VERS_MAJ%.%VERS_INT%.%VERS_MIN%.%VERS_BLD%-Aethra%dev_string%%modified_str%"
 
   %exit%
 

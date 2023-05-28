@@ -226,7 +226,7 @@ fi
 # Construct a quoted VERSION string value
 
 QUOTE='"'
-VERSION="${QUOTE}${VERS_MAJ}.${VERS_INT}.${VERS_MIN}.${VERS_BLD}-SDL${dev_string}${git_hash}${modified_str}${QUOTE}"
+VERSION="${QUOTE}${VERS_MAJ}.${VERS_INT}.${VERS_MIN}.${VERS_BLD}-Aethra${dev_string}${git_hash}${modified_str}${QUOTE}"
 
 
 # Finally, return (via echo) the desired version component back to the caller
