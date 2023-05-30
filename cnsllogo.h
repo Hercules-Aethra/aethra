@@ -107,19 +107,16 @@ static char *herclogo[]={
 "",
 "",
 "         The Hercules S/370, ESA/390 and z/Architecture Emulator",
-"                          SDL 4.x Hyperion",
-"           _    _                            _",
-"          | |  | |                          (_)",
-"          | |__| | _   _  _ __    ___  _ __  _   ___   _ __",
-"          |  __  || | | || '_ \\  / _ \\| '__|| | / _ \\ | '_ \\",
-"          | |  | || |_| || |_) ||  __/| |   | || (_) || | | |",
-"          |_|  |_| \\__, || .__/  \\___||_|   |_| \\___/ |_| |_|",
-"                    __/ || |",
-"                   |___/ |_|",
+"                                  _    _                 ",
+"                     /\\         | |  | |                ",
+"                    /  \\    ___ | |_ | |__   _ __  __ _ ",
+"                   / /\\ \\  / _ \\| __|| '_ \\ | '__|/ _` |",
+"                  / ____ \\|  __/| |_ | | | || |  | (_| |",
+"                 /_/    \\_\\\\___| \\__||_| |_||_|   \\__,_|",
 "",
-"                   My PC thinks it's a MAINFRAME!",
+"                      My PC thinks it's a MAINFRAME!",
 "",
-"       Copyright (C) 1999-2023 Roger Bowler, Jan Jaeger, and others"
+"             Copyright Roger Bowler, Jan Jaeger, and others"
 };
 
 #endif /* #ifndef _CNSLLOGO_H_ */
