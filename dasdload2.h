@@ -1,5 +1,5 @@
-/* DASDLOAD2.H  (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
+/* DASDLOAD2.H  Copyright Roger Bowler                               */
+/*              Copyright TurboHercules, SAS                         */
 /*              Hercules DASD Utilities: DASD image loader           */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -2203,7 +2203,13 @@ char            hex[49];                /* Character work areas      */
     /* Update the CCHHR in the copy of the directory block */
     store_hw( blkp->cyl,  cyl  );
     store_hw( blkp->head, head );
-              blkp->rec = rec;
+    /* Yes, this is ugly. Doing a simple assignment gets a warning from */
+    /* gcc, which thinks we're allocating only 276 bytes to hold a 32k+ */
+    /* long struct, even though we're not. C99 allows DATABLK to have a */
+    /* flexible array member at the end, but we can't assume C99, so... */
+    /* we use this grody hack instead. */
+    c = rec;
+    memcpy ( (BYTE *)&blkp->rec, &c, sizeof(BYTE) );
 
     /* Load number of bytes in directory block */
     dirptr = xbuf->kdarea + 8;
@@ -2846,7 +2852,7 @@ char            pathname[MAX_PATH];     /* xfname in host path format*/
                 return -1;
             }
 
-            // "Input record:   CCHHR[%04X%04X%02X] (TTR[%04X%02X]) kl[%d] dl[%d]\n" \
+            // "Input record:   CCHHR[%04X%04X%02X] (TTR[%04X%02X]) kl[%d] dl[%d]\n" 
             //       "HHC02564I relocated to:   CCHHR[%04X%04X%02X] (TTR[%04X%02X])"
             XMINFF (4, MSG( HHC02564, "I", blkcyl, blkhead, blkrec, blktrk, blkrec, keylen, datalen,
                                            outcyl, outhead, outrec, outtrk, outrec ) );

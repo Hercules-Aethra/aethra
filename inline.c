@@ -1,6 +1,4 @@
-/* INLINE.C     (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) and others 2013-2022                             */
+/* INLINE.C     Copyright Jan Jaeger, Roger Bowler, and others       */
 /*              Inline function definitions                          */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -64,7 +62,7 @@ extern inline void ARCH_DEP( store_fullword_absolute )  ( U32 value, RADR addr, 
   extern inline BYTE* ARCH_DEP( fetch_main_absolute )( RADR addr, REGS* regs );
 #endif
 
-extern inline void ARCH_DEP( per1_gra )( REGS* regs );
+extern void ARCH_DEP( per1_gra )( REGS* regs );
 extern inline bool ARCH_DEP( is_per3_event_suppressed )( REGS* regs, U32 cr9_per_event );
 extern inline void ARCH_DEP( per3_zero )( REGS* regs );
 extern inline void ARCH_DEP( per3_zero_check )( REGS* regs, int r1 );
