@@ -151,6 +151,9 @@ autoconf/compile
 .vs
 *.VC.db
 
+# VS Code
+settings.json
+
 # Editors
 *.aus
 *.bak
