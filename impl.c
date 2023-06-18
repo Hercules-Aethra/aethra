@@ -1242,7 +1242,7 @@ int     rc;
 
   #elif !defined( HAVE_FULL_KEEPALIVE )
 
-    #if !defined( SUPPRESS_PARTIAL_KEEPALIVE_WARNING )
+    #if !defined( SUPPRESS_PARTIAL_KEEPALIVE_WARNING ) && !defined(__APPLE__)
     WARNING("This build of Hercules will only have partial TCP keepalive support")
     #endif
 

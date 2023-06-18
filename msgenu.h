@@ -614,8 +614,7 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 #define HHC00658 "I/O error on read(): rc=%d: \"%s\""
 #define HHC00659 "%s is outside of main storage"
 #define HHC00660 "%-8s %s"
-#define HHC00661 "Hardware loader: %s request: SCCB = 0x%"PRIX64
-//efine HHC00662 - HHC00669 (available)
+#define HHC00661 "Hardware loader: %s request: SCCB = 0x%zX"
 #define HHC00670 "Invalid %s"
 #define HHC00671 "Invalid option %s"
 //efine HHC00672 - HHC00679 (available)
