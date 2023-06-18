@@ -9352,7 +9352,7 @@ int qproc_cmd( int argc, char* argv[], char* cmdline )
     int   i, j;
     int   cpupct = 0;
     U32   mipsrate = 0;
-    char  msgbuf[128];
+    char  msgbuf[128] = "";
 
     UNREFERENCED( cmdline );
     UNREFERENCED( argv );
@@ -9403,8 +9403,14 @@ int qproc_cmd( int argc, char* argv[], char* cmdline )
     {
         if (IS_CPU_ONLINE( i ))
         {
+            char*          pmsg     = msgbuf;
+// This usage of getrusage() is only valid with the version
+// supplied in w32util.c. The Unix/Linux version does not
+// accept a thread ID as the first argument. Since it will
+// always return EINVAL instead of zero, we simply ignore the
+// call on platforms that aren't Windows.
+#if defined(WIN32) || defined(WIN64)
             struct rusage  rusage;
-            char*          pmsg     = "";
 
             if (getrusage( (int) sysblk.cputid[i], &rusage ) == 0)
             {
@@ -9461,9 +9467,8 @@ int qproc_cmd( int argc, char* argv[], char* cmdline )
                                           "User(%s%02d:%02d:%02d.%03d)",
                         kdays, (int) khh, (int) kmm, (int) kss, (int) kms,
                         udays, (int) uhh, (int) umm, (int) uss, (int) ums);
-
-                pmsg = msgbuf;
             }
+#endif // defined(WIN32) || defined(WIN64)
 
             mipsrate = sysblk.regs[i]->mipsrate;
 
