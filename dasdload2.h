@@ -698,7 +698,8 @@ int             keylen;                 /* Key length                */
 int             datalen;                /* Data length               */
 int             maxtrks = 1;            /* Maximum track count       */
 DATABLK        *datablk;                /* -> data block             */
-BYTE            buf[sizeof(DATABLK)];   /* Buffer for data block     */
+BYTE            buf[sizeof(DATABLK) + MAX_DATALEN];
+                                        /* Buffer for data block     */
 
     /* For 2311, the complete IPL text doesn't fit on track 0 record 4
        so the IPL2 text is adjusted further below to load from track 1
@@ -2203,13 +2204,7 @@ char            hex[49];                /* Character work areas      */
     /* Update the CCHHR in the copy of the directory block */
     store_hw( blkp->cyl,  cyl  );
     store_hw( blkp->head, head );
-    /* Yes, this is ugly. Doing a simple assignment gets a warning from */
-    /* gcc, which thinks we're allocating only 276 bytes to hold a 32k+ */
-    /* long struct, even though we're not. C99 allows DATABLK to have a */
-    /* flexible array member at the end, but we can't assume C99, so... */
-    /* we use this grody hack instead. */
-    c = rec;
-    memcpy ( (BYTE *)&blkp->rec, &c, sizeof(BYTE) );
+              blkp->rec = rec;
 
     /* Load number of bytes in directory block */
     dirptr = xbuf->kdarea + 8;
@@ -3006,7 +3001,10 @@ int             totblks;                /* Number of blocks in CVOL  */
 int             bytes;                  /* Bytes used in this block  */
 U32             ucbtype;                /* UCB device type           */
 PDSDIR         *catent;                 /* -> Catalog entry          */
-DATABLK         datablk;                /* Data block                */
+DATABLK        *datablk;                /* Data block                */
+BYTE            buf[sizeof(DATABLK) + MAX_DATALEN];
+                                        /* Buffer for data block     */
+
 #define NUM_SYS1_DATASETS       8       /* Number of SYS1 datasets   */
 static char    *sys1name[NUM_SYS1_DATASETS] =
                 {"DUMP", "IMAGELIB", "LINKLIB", "NUCLEUS",
@@ -3015,6 +3013,7 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     /* Set the key length and data length for SYSCTLG dataset */
     keylen = 8;
     datalen = 256;
+    datablk = (DATABLK*) buf;
 
     /* Obtain the number of blocks which will fit on a track */
     capacity_calc (cif, 0, keylen, datalen, NULL, NULL,
@@ -3030,14 +3029,14 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     /*-----------------------------------*/
     /* Initialize the volume index block */
     /*-----------------------------------*/
-    memset (datablk.kdarea, 0, keylen + datalen);
+    memset( datablk->kdarea, 0, keylen + datalen );
 
     /* The key field contains all X'FF' */
-    memcpy( datablk.kdarea, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
+    memcpy( datablk->kdarea, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
 
     /* The first entry begins after the 2 byte count field */
     bytes = 2;
-    catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+    catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
     /* Build the volume index control entry (VICE) */
 
@@ -3071,7 +3070,7 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
 
     /* Increment bytes used by the length of the VICE */
     bytes += 22;
-    catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+    catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
     /* Build the index pointer for SYS1 */
     convert_to_ebcdic (catent->pds2name, 8, "SYS1");
@@ -3087,20 +3086,20 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
 
     /* Increment bytes used by the length of the index pointer */
     bytes += 12;
-    catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+    catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
     /* Set the last entry in block marker */
     memcpy( catent->pds2name, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
 
     /* Increment bytes used by the last entry marker */
     bytes += 12;
-    catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+    catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
     /* Set the number of bytes used in this block */
-    store_hw( &datablk.kdarea[ keylen+0 ], bytes );
+    store_hw( &datablk->kdarea[ keylen+0 ], bytes );
 
     /* Write the volume index block to the output file */
-    rc = write_block (cif, ofname, &datablk, keylen, datalen,
+    rc = write_block (cif, ofname, datablk, keylen, datalen,
                 devtype, heads, trklen, extsize,
                 &outusedv, &outusedr, &outtrkbr,
                 &outtrk, &outcyl, &outhead, &outrec);
@@ -3110,7 +3109,7 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     XMINFF (4, MSG( HHC02565, "I", outcyl, outcyl, outhead, outhead, outrec, outrec ) );
 
     if (infolvl >= 5)
-        data_dump (datablk.kdarea, keylen + datalen);
+        data_dump (datablk->kdarea, keylen + datalen);
 
     /* Count number of blocks written */
     totblks--;
@@ -3118,14 +3117,14 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     /*---------------------------------*/
     /* Initialize the SYS1 index block */
     /*---------------------------------*/
-    memset (datablk.kdarea, 0, keylen + datalen);
+    memset (datablk->kdarea, 0, keylen + datalen);
 
     /* The key field contains all X'FF' */
-    memcpy( datablk.kdarea, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
+    memcpy( datablk->kdarea, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
 
     /* The first entry begins after the 2 byte count field */
     bytes = 2;
-    catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+    catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
     /* Build the index control entry (ICE) */
 
@@ -3160,7 +3159,7 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     for (i = 0; i < NUM_SYS1_DATASETS; i++)
     {
         /* Point to next dataset pointer entry */
-        catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+        catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
         /* Set the name of the dataset pointer entry */
         convert_to_ebcdic (catent->pds2name, 8, sys1name[i]);
@@ -3197,20 +3196,20 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     } /* end for(i) */
 
     /* Point to last entry in block */
-    catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+    catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
     /* Set the last entry in block marker */
     memcpy( catent->pds2name, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
 
     /* Increment bytes used by the last entry marker */
     bytes += 12;
-    catent = (PDSDIR*)(datablk.kdarea + keylen + bytes);
+    catent = (PDSDIR*)(datablk->kdarea + keylen + bytes);
 
     /* Set the number of bytes used in this block */
-    store_hw( &datablk.kdarea[ keylen+0 ], bytes );
+    store_hw( &datablk->kdarea[ keylen+0 ], bytes );
 
     /* Write the index block to the output file */
-    rc = write_block (cif, ofname, &datablk, keylen, datalen,
+    rc = write_block (cif, ofname, datablk, keylen, datalen,
                 devtype, heads, trklen, extsize,
                 &outusedv, &outusedr, &outtrkbr,
                 &outtrk, &outcyl, &outhead, &outrec);
@@ -3219,7 +3218,7 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     // "Catalog block:  cyl[%04X/%d] head[%04X/%d] rec[%02X/%d]"
     XMINFF (4, MSG( HHC02565, "I", outcyl, outcyl, outhead, outhead, outrec, outrec ) );
 
-    if (infolvl >= 5) data_dump (datablk.kdarea, keylen + datalen);
+    if (infolvl >= 5) data_dump (datablk->kdarea, keylen + datalen);
 
     /* Count number of blocks written */
     totblks--;
@@ -3229,10 +3228,10 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
     /*--------------------------------------------*/
     while (totblks > 0)
     {
-        memset (datablk.kdarea, 0, keylen + datalen);
+        memset (datablk->kdarea, 0, keylen + datalen);
 
         /* Write the volume index block to the output file */
-        rc = write_block (cif, ofname, &datablk, keylen, datalen,
+        rc = write_block (cif, ofname, datablk, keylen, datalen,
                     devtype, heads, trklen, extsize,
                     &outusedv, &outusedr, &outtrkbr,
                     &outtrk, &outcyl, &outhead, &outrec);
@@ -3241,7 +3240,7 @@ static char    *sys1name[NUM_SYS1_DATASETS] =
         // "Catalog block:  cyl[%04X/%d] head[%04X/%d] rec[%02X/%d]"
         XMINFF (4, MSG( HHC02565, "I", outcyl, outcyl, outhead, outhead, outrec, outrec ) );
 
-        if (infolvl >= 5) data_dump (datablk.kdarea, keylen + datalen);
+        if (infolvl >= 5) data_dump (datablk->kdarea, keylen + datalen);
 
         /* Count number of blocks written */
         totblks--;
@@ -3315,11 +3314,14 @@ int             cyl90;                  /* 90% full cylinder number  */
 int             head90;                 /* 90% full head number      */
 int             reltrk90;               /* 90% full relative track   */
 DIPHDR         *diphdr;                 /* -> Record in data block   */
-DATABLK         datablk;                /* Data block                */
+DATABLK        *datablk;                /* Data block                */
+BYTE            buf[sizeof(DATABLK) + MAX_DATALEN];
+                                        /* Buffer for data block     */
 
     /* Set the key length and data length for the header record */
     keylen = 0;
     datalen = sizeof(DIPHDR);
+    datablk = (DATABLK*) buf;
 
     /* Obtain the physical track size and the track balance
        remaining on the first track after the header record */
@@ -3350,7 +3352,7 @@ DATABLK         datablk;                /* Data block                */
     }
 
     /* Initialize the DIP header record */
-    diphdr = (DIPHDR*) (datablk.kdarea);
+    diphdr = (DIPHDR*) (datablk->kdarea);
     memset( diphdr, 0, sizeof( DIPHDR ));
 
     store_hw( diphdr->recid, 0xFFFF );
@@ -3385,7 +3387,7 @@ DATABLK         datablk;                /* Data block                */
     diphdr->endid = 0xFF;
 
     /* Write the data block to the output file */
-    rc = write_block (cif, ofname, &datablk, keylen, datalen,
+    rc = write_block (cif, ofname, datablk, keylen, datalen,
                 devtype, heads, trklen, extsize,
                 &outusedv, &outusedr, &outtrkbr,
                 &outtrk, &outcyl, &outhead, &outrec);
@@ -3457,9 +3459,12 @@ int             outtrkbr = 0;           /* Output bytes remaining on
 int             outtrk = 0;             /* Output relative track     */
 int             outrec = 0;             /* Output record number      */
 struct stat     st;                     /* Data area for fstat()     */
-DATABLK         datablk;                /* Data block                */
+DATABLK        *datablk;                /* Data block                */
+BYTE            buf[sizeof(DATABLK) + MAX_DATALEN];
+                                        /* Buffer for data block     */
 char            pathname[MAX_PATH];     /* sfname in host path format*/
 
+    datablk = (DATABLK*) buf;
     /* Perform some checks */
     if (!(dsorg & DSORG_PS) && !(dsorg & DSORG_DA))
     {
@@ -3523,7 +3528,7 @@ char            pathname[MAX_PATH];     /* sfname in host path format*/
     while (size > 0)
     {
         /* Read a block of data from the input file */
-        rc = read (sfd, &datablk.kdarea, blksz < size ? blksz : size);
+        rc = read (sfd, &datablk->kdarea, blksz < size ? blksz : size);
         if (rc < (blksz < size ? blksz : size))
         {
             // "File %s; %s error: %s"
@@ -3539,10 +3544,10 @@ char            pathname[MAX_PATH];     /* sfname in host path format*/
             /* Adjust blksize down to next
                highest multiple of lrecl */
             blksz = (((rc-1) / lrecl) + 1) * lrecl;
-            memset (&datablk.kdarea[rc], 0, blksz - rc);
+            memset (&datablk->kdarea[rc], 0, blksz - rc);
         }
 
-        rc = write_block (cif, ofname, &datablk, keyln, blksz - keyln,
+        rc = write_block (cif, ofname, datablk, keyln, blksz - keyln,
                         devtype, heads, trklen, extsize,
                         &outusedv, &outusedr, &outtrkbr,
                         &outtrk, &outcyl, &outhead, &outrec);
@@ -3557,7 +3562,7 @@ char            pathname[MAX_PATH];     /* sfname in host path format*/
     close (sfd);
 
     /* Create the end of file record */
-    rc = write_block (cif, ofname, &datablk, 0, 0,
+    rc = write_block (cif, ofname, datablk, 0, 0,
                 devtype, heads, trklen, extsize,
                 &outusedv, &outusedr, &outtrkbr,
                 &outtrk, &outcyl, &outhead, &outrec);
@@ -3623,8 +3628,11 @@ int             outdblu = 0;            /* Output bytes used in last
                                            directory block           */
 int             outtrk = 0;             /* Output relative track     */
 int             outrec = 0;             /* Output record number      */
-DATABLK         datablk;                /* Data block                */
+DATABLK        *datablk;                /* Data block                */
+BYTE            buf[sizeof(DATABLK) + MAX_DATALEN];
+                                        /* Buffer for data block     */
 
+    datablk = (DATABLK*) buf;
     /* Initialize the directory if dataset is a PDS */
     if (dsorg & DSORG_PO)
     {
@@ -3632,23 +3640,23 @@ DATABLK         datablk;                /* Data block                */
         keylen = 8;
         datalen = 256;
         outdblu = 14;
-        memset( datablk.kdarea, 0, keylen + datalen);
-        memcpy( datablk.kdarea, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
-        store_hw( &datablk.kdarea[ keylen+0 ], outdblu );
-        memcpy( datablk.kdarea + keylen + 2, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
+        memset( datablk->kdarea, 0, keylen + datalen);
+        memcpy( datablk->kdarea, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
+        store_hw( &datablk->kdarea[ keylen+0 ], outdblu );
+        memcpy( datablk->kdarea + keylen + 2, &CKD_ENDTRK, CKD_ENDTRK_SIZE );
 
         /* Write directory blocks to output dataset */
         for (i = 0; i < dirblks; i++)
         {
             /* Write a directory block */
-            rc = write_block (cif, ofname, &datablk, keylen, datalen,
+            rc = write_block (cif, ofname, datablk, keylen, datalen,
                         devtype, heads, trklen, extsize,
                         &outusedv, &outusedr, &outtrkbr,
                         &outtrk, &outcyl, &outhead, &outrec);
             if (rc < 0) return -1;
 
             /* Clear subsequent directory blocks to zero */
-            memset (datablk.kdarea, 0, keylen + datalen);
+            memset (datablk->kdarea, 0, keylen + datalen);
 
         } /* end for(i) */
 
@@ -3657,7 +3665,7 @@ DATABLK         datablk;                /* Data block                */
     /* Create the end of file record */
     keylen = 0;
     datalen = 0;
-    rc = write_block (cif, ofname, &datablk, keylen, datalen,
+    rc = write_block (cif, ofname, datablk, keylen, datalen,
                 devtype, heads, trklen, extsize,
                 &outusedv, &outusedr, &outtrkbr,
                 &outtrk, &outcyl, &outhead, &outrec);

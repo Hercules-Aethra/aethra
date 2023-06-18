@@ -413,9 +413,9 @@ struct DATABLK {                        /* IEBCOPY unload data rec   */
         BYTE    rec;                    /* Record number             */
         BYTE    klen;                   /* Key length                */
         HWORD   dlen;                   /* Data length               */
-#define MAX_DATALEN      32767
-        BYTE    kdarea[MAX_DATALEN];    /* Key and data area         */
+        BYTE    kdarea[FLEXIBLE_ARRAY]; /* Key and data area         */
 };
+#define MAX_DATALEN      32767          /* maximum data area length  */
 
 /*-------------------------------------------------------------------*/
 /* Internal structures used by DASD utility functions                */
