@@ -1458,6 +1458,7 @@ struct DEVBLK {                         /* Device configuration block*/
                 oslinux:1,              /* 1=Linux                   */
                 orbtrace:1,             /* 1=ORB trace               */
                 ccwtrace:1,             /* 1=CCW trace               */
+                ccwopstrace:1,          /* 1=trace CCW opcodes       */
                 cdwmerge:1,             /* 1=Channel will merge data
                                              chained write CCWs      */
                 debug:1,                /* 1=generic debug flag      */
@@ -1900,6 +1901,8 @@ struct DEVBLK {                         /* Device configuration block*/
 #define QTYPE_READ   1
 #define QTYPE_WRITE  2
 #define QTYPE_DATA   3
+
+        BYTE    ccwops[256];            /* CCW opcodes to trace      */
 
         BLOCK_TRAILER;                  /* eye-end                   */
 };
