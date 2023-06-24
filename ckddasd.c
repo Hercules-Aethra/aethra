@@ -5481,6 +5481,8 @@ static void PerformSubsystemFunction
     int  i;
     U32  num;
 
+    UNREFERENCED( more );
+
     /* Command reject if within the domain of a Locate Record */
     if (dev->ckdlcount > 0)
     {
@@ -5860,6 +5862,12 @@ static void LocateRecordExtended
     BYTE        binzero[5];             /* Binary zeros              */
     BYTE        sector;                 /* Sector number             */
 
+    UNREFERENCED( flags    );
+    UNREFERENCED( chained  );
+    UNREFERENCED( prevcode );
+    UNREFERENCED( ccwseq   );
+    UNREFERENCED( more     );
+
     /* LRE only valid for 3990-3 or 3990-6 (or greater) */
     if (0
         || dev->ckdcu->devt != 0x3990
@@ -6172,8 +6180,6 @@ static void LocateRecordExtended
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
-
-    sector = iobuf[13];
 
     /*
      * When byte 1, bit 0 is '0', bytes 14-15 must contain zeros; if
@@ -6508,6 +6514,12 @@ static void DefineExtent
     BYTE fmask, xgattr;
     U16 bcyl, bhead, ecyl, ehead, xblksz;
     U32 num;
+
+    UNREFERENCED( flags    );
+    UNREFERENCED( chained  );
+    UNREFERENCED( prevcode );
+    UNREFERENCED( ccwseq   );
+    UNREFERENCED( more     );
 
     /* Calculate residual byte count */
     num = (count < 16) ? count : 16;
