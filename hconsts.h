@@ -617,4 +617,10 @@
         | PGMBIT(  PGM_REGION_THIRD_TRANSLATION_EXCEPTION    )        \
      ))
 
+/*-------------------------------------------------------------------*/
+/*         Default command prefixes for Integrated Consoles          */
+/*-------------------------------------------------------------------*/
+
+#define DEF_CMDPREFIXES     "/`=~@$%^&_:?0123456789"
+
 #endif // _HCONSTS_H
