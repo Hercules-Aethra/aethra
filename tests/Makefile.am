@@ -248,6 +248,7 @@ EXTRA_DIST =                    \
      dummy.subtst               \
      dxtr.txt                   \
      epsw.txt                   \
+     ex.txt                     \
      exrl.txt                   \
      FAC53.asm                  \
      FAC53.core                 \
