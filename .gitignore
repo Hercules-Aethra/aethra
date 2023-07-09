@@ -10,8 +10,10 @@
 .deps/
 .libs/
 build/
+libltdl/
 Makefile
 autogen.log
+autoreconf.log
 config.log
 autoconf/compile
 /aclocal.m4
