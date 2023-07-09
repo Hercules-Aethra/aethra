@@ -107,6 +107,7 @@ dyndev_SRC =  \
   cardpch.c   \
   cardrdr.c   \
   comm3705.c  \
+  cm3705ii.c  \
   commadpt.c  \
   tcpnje.c    \
   con1052c.c  \
@@ -197,6 +198,7 @@ HERCMODS =      \
   hdt2703.la    \
   hdttcpnje.la  \
   hdt3705.la    \
+  hdt3705ii.la  \
   hdt3088.la    \
   hdt3270.la    \
   hdt3420.la    \
@@ -298,6 +300,10 @@ hdttcpnje_la_LIBADD  = $(DYNMOD_LD_ADD)
 hdt3705_la_SOURCES  = comm3705.c
 hdt3705_la_LDFLAGS  = $(DYNMOD_LD_FLAGS)
 hdt3705_la_LIBADD   = $(DYNMOD_LD_ADD)
+
+hdt3705ii_la_SOURCES  = cm3705ii.c
+hdt3705ii_la_LDFLAGS  = $(DYNMOD_LD_FLAGS)
+hdt3705ii_la_LIBADD   = $(DYNMOD_LD_ADD)
 
 hdt3088_la_SOURCES  = ctc_lcs.c ctc_ctci.c ctcadpt.c tuntap.c netsupp.c
 hdt3088_la_LDFLAGS  = $(DYNMOD_LD_FLAGS)

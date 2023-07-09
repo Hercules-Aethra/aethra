@@ -1,7 +1,5 @@
-/* MSGENU.H     (C) Copyright Roger Bowler and others, 1999-2022     */
-/*              (C) Copyright Bernard van der Helm, 2010-2012        */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              (C) and others 2011-2023                             */
+/* MSGENU.H     Copyright Roger Bowler, Bernard van der Helm,        */
+/*              TurboHercules, SAS, and others                       */
 /*              Header file for Hercules messages (US English)       */
 /*                                                                   */
 /*   Released under "The Q Public License Version 1"                 */
@@ -2434,7 +2432,28 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 // range 03400 - 03499 available
 // range 03500 - 03599 available
 // range 03600 - 03699 available
-// range 03700 - 03799 available
+// range 03700 - 03799 for 3705-II SIMH emulation
+#define HHC03700 "%1d:%04X: Devicetype set to %04X"
+#define HHC03701 "%1d:%04X: Initialization starting"
+#define HHC03702 "%1d:%04X: Initialization not performed"
+#define HHC03703 "%1d:%04X: Error parsing %s"
+#define HHC03704 "%1d:%04X: Unrecognized parameter %s"
+#define HHC03705 "%1d:%04X: Found parameter %s"
+#define HHC03706 "%1d:%04X: Incorrect %s specification %s"
+#define HHC03707 "%1d:%04X: Initialization failed due to previous errors"
+#define HHC03708 "%1d:%04X: Memory allocation failure for main control block"
+#define HHC03709 "%1d:%04X: Clean : Control block freed"
+#define HHC03710 "%1d:%04X: Clean : Control block not freed : not allocated"
+#define HHC03711 "%1d:%04X: RU type=%s, RU code=%s"
+#define HHC03712 "%1d:%04X: Starting thread %s"
+#define HHC03713 "%1d:%04X: Error in function create_thread(): %s"
+#define HHC03714 "%1d:%04X: Closing down"
+#define HHC03715 "%1d:%04X: Closed down"
+#define HHC03716 "%1d:%04X: CCW=%02X, CCW count=%04X"
+#define HHC03717 "%1d:%04X: Sending CCW %02X"
+#define HHC03718 "%1d:%04X: Sense data %02X"
+#define HHC03719 "%1d:%04X: Release lock OK"
+//efine HHC03720 - HHC03799 (available)
 
 // range 03800 - 03849 for qeth related messages
 #define HHC03800 "%1d:%04X %s: Adapter mode set to %s"
@@ -2564,7 +2583,43 @@ LOGM_DLL_IMPORT int  panel_command_capture( char* cmd, char** resp, bool quiet )
 
 //efine HHC05087 - HHC05099 (available)
 
-// range 05100 - 05199 available
+// range 05100 - 05149 for 3705-II SIMH channel bus emulation
+#define HHC05100 "%1d:%04X: Bus connection established on socket %d"
+#define HHC05101 "%1d:%04X: BUS/TAG: Socket not connected"
+#define HHC05102 "%1d:%04X: BUS/TAG: Socket: %d rc: %d error: %s"
+#define HHC05103 "%1d:%04X: BUS: socket creation failed"
+#define HHC05104 "%1d:%04X: BUS: socket option failed"
+#define HHC05105 "%1d:%04X: Waiting for bus(%d) connection to be established"
+#define HHC05106 "%1d:%04X: Connect_adpt() failed: %s"
+#define HHC05107 "%1d:%04X: Bus connection closed"
+#define HHC05108 "%1d:%04X: Write adpt(%d) completed. Bytes sent: %d "
+#define HHC05109 "%1d:%04X: Write_adpt(%d) failed: %s"
+#define HHC05110 "%1d:%04X:%s"
+#define HHC05111 "%1d:%04X:%s : Dump of %ld (%ld) byte(s)"
+#define HHC05112 "%1d:%04X:%s : %ld:%s"
+#define HHC05113 "%1d:%04X:%s : %ld:%s"
+//efine HHC05114 - HHC05149 (available)
+
+// range 05150 - 05199 for 3705-II SIMH channel tag emulation
+#define HHC05150 "%1d:%04X: Tag connection established on socket %d"
+//efine HHC05151 (available)
+//efine HHC05152 (available)
+#define HHC05153 "%1d:%04X: TAG: socket creation failed"
+#define HHC05154 "%1d:%04X: TAG: socket option failed"
+#define HHC05155 "%1d:%04X: Waiting for tag(%d) connection to be established"
+//efine HHC05156 (available)
+#define HHC05157 "%1d:%04X: Tag connection closed"
+//efine HHC05158 - HHC05163 (available)
+#define HHC05164 "%1d:%04X: Preparing tag connection with remote channel adapter"
+#define HHC05165 "%1d:%04X: Connections on port %d; Bus socket: %d, Tag socket: %d"
+#define HHC05166 "%1d:%04X: ATTN received %02X"
+#define HHC05167 "%1d:%04X: Device busy: %02X CCW active %02X "
+#define HHC05168 "%1d:%04X: Attention raised after %d us delay, rc=%d"
+#define HHC05169 "%1d:%04X: Release lock OK"
+#define HHC05170 "%1d:%04X: Closing sockets due to error"
+#define HHC05171 "%1d:%04X: Closing sockets due to devinit or shutdown"
+//efine HHC05172 - HHC05199 (available)
+
 // range 05200 - 05299 available
 // range 05300 - 05399 available
 // range 05400 - 05499 available
