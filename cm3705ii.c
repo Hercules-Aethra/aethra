@@ -160,18 +160,18 @@ static int write_adpt(BYTE* bufferp, int len, COMMADPT* ca);
 // ************************************************************
 // Function to check if socket is (still) connected
 // ************************************************************
-static bool IsSocketConnected(int sockfd, U16 ssid, U16 devnum)
+static bool IsSocketConnected(int sockfd, DEVBLK* dev)
 {
     int rc;
     struct sockaddr_in ccu_addr;
     socklen_t addrlen = sizeof(ccu_addr);
     if (sockfd < 1) {
-        WRMSG(HHC05101, "E", ssid, devnum);
+        WRMSG(HHC05101, "E", LCSS_DEVNUM);
         return false;
     }
     rc = getpeername(sockfd, (struct sockaddr*)&ccu_addr, &addrlen);
     if (rc != 0) {
-        WRMSG(HHC05102, "E" , ssid, devnum, sockfd, rc, strerror(errno));
+        WRMSG(HHC05102, "E" , LCSS_DEVNUM, sockfd, rc, strerror(errno));
         return false;
     }
     return true;
@@ -189,26 +189,26 @@ static int connect_adpt(COMMADPT *ca) {
     // Bus socket creation
     ca->busfd = socket(AF_INET, SOCK_STREAM, 0);
     if (ca->busfd <= 0 ) {
-        WRMSG(HHC05103, "E", ca->dev->ssid, ca->dev->devnum);
+        WRMSG(HHC05103, "E", LCSS_DEVNUM_DEV(ca->dev));
         return(-1);
     }
 
     // ATTN (Tag) socket creation
     ca->tagfd = socket(AF_INET, SOCK_STREAM, 0);
     if (ca->tagfd <= 0) {
-        WRMSG(HHC05153, "E", ca->dev->ssid, ca->dev->devnum);
+        WRMSG(HHC05153, "E", LCSS_DEVNUM_DEV(ca->dev));
         return(-1);
     }
 
 #ifdef WIN32
     rc = ioctlsocket(ca->busfd, FIONBIO, &bmode);
     if (rc != 0) {
-        WRMSG(HHC05104, "E", ca->dev->ssid, ca->dev->devnum);
+        WRMSG(HHC05104, "E", LCSS_DEVNUM_DEV(ca->dev));
         return(-1);
     }
     rc = ioctlsocket(ca->tagfd, FIONBIO, &bmode);
     if (rc != 0) {
-        WRMSG(HHC05154, "E", ca->dev->ssid, ca->dev->devnum);
+        WRMSG(HHC05154, "E", LCSS_DEVNUM_DEV(ca->dev));
         return(-1);
     }
 #endif
@@ -223,7 +223,7 @@ static int connect_adpt(COMMADPT *ca) {
 
 
     // Connect to the bus socket
-    WRMSG(HHC05105, "I",  ca->dev->ssid, ca->dev->devnum, ca->busfd);
+    WRMSG(HHC05105, "I",  LCSS_DEVNUM_DEV(ca->dev), ca->busfd);
     while (connect(ca->busfd, (struct sockaddr*)&ca->servaddr, sizeof(ca->servaddr)) != 0) {
         if (ca->attn_halt)
             return(-1);
@@ -231,22 +231,22 @@ static int connect_adpt(COMMADPT *ca) {
     }
 
     // Connect to the tag (ATTN) socket
-    WRMSG(HHC05155, "I", ca->dev->ssid, ca->dev->devnum, ca->tagfd);
+    WRMSG(HHC05155, "I", LCSS_DEVNUM_DEV(ca->dev), ca->tagfd);
     while (connect(ca->tagfd, (struct sockaddr*)&ca->servaddr, sizeof(ca->servaddr)) != 0) {
         if (ca->attn_halt)
             return(-1);
         sleep(1);
     }
-    WRMSG(HHC05150, "I", ca->dev->ssid, ca->dev->devnum, ca->tagfd);
+    WRMSG(HHC05150, "I", LCSS_DEVNUM_DEV(ca->dev), ca->tagfd);
 
     cua[0] = (ca->devnum & 0x0000FF00) >> 8;
     cua[1] = (ca->devnum & 0x000000FF);
     if (ca->busfd  > 0) {
         rc = send (ca->busfd, cua, 2, 0);
         if (rc == 2)
-            WRMSG(HHC05100, "I", ca->dev->ssid, ca->dev->devnum, ca->busfd);
+            WRMSG(HHC05100, "I", LCSS_DEVNUM_DEV(ca->dev), ca->busfd);
     } else {
-        WRMSG(HHC05106, "E",  ca->dev->ssid, ca->dev->devnum, strerror(HSO_errno));
+        WRMSG(HHC05106, "E",  LCSS_DEVNUM_DEV(ca->dev), strerror(HSO_errno));
         return(-1);
     }
     return(0);
@@ -261,13 +261,13 @@ static void close_adpt(COMMADPT *ca) {
     if (ca->busfd > 0) {
         shutdown(ca->busfd, SHUT_RDWR);
         ca->busfd = -1;
-        WRMSG(HHC05107, "I",  ca->dev->ssid, ca->dev->devnum);
+        WRMSG(HHC05107, "I",  LCSS_DEVNUM_DEV(ca->dev));
     }
     // Tag socket close
     if (ca->tagfd > 0) {
         shutdown(ca->tagfd, SHUT_RDWR);
         ca->tagfd = -1;
-        WRMSG(HHC05157, "I",  ca->dev->ssid, ca->dev->devnum);
+        WRMSG(HHC05157, "I",  LCSS_DEVNUM_DEV(ca->dev));
     }
     return;
 }
@@ -282,12 +282,12 @@ write_adpt(BYTE *bufferp, int len, COMMADPT *ca) {
     if (ca->busfd > 0) {
         rc = send (ca->busfd, bufferp, len, 0);
         if (ca->debug)
-            WRMSG(HHC05108, "I", ca->dev->ssid, ca->dev->devnum, ca->busfd, rc);
+            WRMSG(HHC05108, "I", LCSS_DEVNUM_DEV(ca->dev), ca->busfd, rc);
   }
     else
         rc = -1;
     if (rc < 0) {
-        WRMSG(HHC05109, "E",  ca->dev->ssid, ca->dev->devnum, ca->busfd,
+        WRMSG(HHC05109, "E",  LCSS_DEVNUM_DEV(ca->dev), ca->busfd,
             strerror(HSO_errno));
         return -1;
     }
@@ -315,8 +315,8 @@ static void logdump(char *txt, DEVBLK *dev, BYTE *bfr, size_t sz) {
     if (!dev->ccwtrace) {
         return;
     }
-    WRMSG(HHC05110, "D", dev->ssid, dev->devnum, txt);
-    WRMSG(HHC05111, "D", dev->ssid, dev->devnum, txt, (long int)sz, (long int)sz);
+    WRMSG(HHC05110, "D", LCSS_DEVNUM, txt);
+    WRMSG(HHC05111, "D", LCSS_DEVNUM, txt, (long int)sz, (long int)sz);
 
     for (i = 0; i < sz; i++) {
         if (i%4 == 0) {
@@ -328,7 +328,7 @@ static void logdump(char *txt, DEVBLK *dev, BYTE *bfr, size_t sz) {
         snprintf(workbuf_ptr, 2, "%2.2X", bfr[i]);
         workbuf_ptr += 2;
         if (i%16 == 0) {
-            WRMSG(HHC05112, "D", dev->ssid, dev->devnum, txt, (long int)i, workbuf);
+            WRMSG(HHC05112, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
             workbuf_ptr = workbuf;
         }
     }
@@ -337,13 +337,13 @@ static void logdump(char *txt, DEVBLK *dev, BYTE *bfr, size_t sz) {
             *workbuf_ptr++ = EBCDIC2ASCII(bfr[i]);
             if (i%16 == 0) {
                 *workbuf_ptr = '\0';
-                WRMSG(HHC05113, "D", dev->ssid, dev->devnum, txt, (long int)i, workbuf);
+                WRMSG(HHC05113, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
                 workbuf_ptr = workbuf;
             }
         }
         if (i%16 != 0) {
             *workbuf_ptr = '\0';
-            WRMSG(HHC05113, "D", dev->ssid, dev->devnum, txt, (long int)i, workbuf);
+            WRMSG(HHC05113, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
         }
 }
 
@@ -458,7 +458,7 @@ static void tracesna(DEVBLK *dev, BYTE *bfr, BYTE code) {
                 else ru_type = "Request";
             }  // End if ru_len
         }  // End if Only_segment
-        WRMSG(HHC03711, "D", dev->ssid, dev->devnum, ru_type,  ru_code);
+        WRMSG(HHC03711, "D", LCSS_DEVNUM, ru_type,  ru_code);
 }
 
 static void put_bufpool(void ** anchor, BYTE * ele) {
@@ -508,10 +508,10 @@ static void commadpt_clean_device(DEVBLK *dev) {
 
         free(dev->commadpt);
         dev->commadpt = NULL;
-        WRMSG(HHC03709, "I", dev->ssid, dev->devnum);
+        WRMSG(HHC03709, "I", LCSS_DEVNUM);
     }
     else {
-        WRMSG(HHC03710, "I", dev->ssid, dev->devnum);
+        WRMSG(HHC03710, "I", LCSS_DEVNUM);
     }
     return;
 }
@@ -522,7 +522,7 @@ static void commadpt_clean_device(DEVBLK *dev) {
 static int commadpt_alloc_device(DEVBLK *dev) {
     dev->commadpt = malloc(sizeof(COMMADPT));
     if (dev->commadpt == NULL) {
-        WRMSG(HHC03708, "E", dev->ssid, dev->devnum);
+        WRMSG(HHC03708, "E", LCSS_DEVNUM);
         return -1;
     }
     memset(dev->commadpt, 0, sizeof(COMMADPT));
@@ -574,30 +574,30 @@ static void *CSW_adpt(void *vca) {
     ca = (COMMADPT*)vca;
     ca->dev->commadpt->attn_run = 1;
 
-    while ((!IsSocketConnected(ca->busfd, ca->dev->ssid, ca->dev->devnum)) && !ca->dev->commadpt->attn_halt) {
+    while ((!IsSocketConnected(ca->busfd, ca->dev)) && !ca->dev->commadpt->attn_halt) {
         if (ca->dev->commadpt->debug)
-            WRMSG(HHC05164, "D", ca->dev->ssid, ca->dev->devnum);
+            WRMSG(HHC05164, "D", LCSS_DEVNUM_DEV(ca->dev));
 
         rc = connect_adpt(ca);
 
         if ((rc == 0) && !ca->dev->commadpt->attn_halt) {
             if (ca->dev->commadpt->debug)
-                WRMSG(HHC05165, "D", ca->dev->ssid, ca->dev->devnum, ca->port, ca->busfd, ca->tagfd);
+                WRMSG(HHC05165, "D", LCSS_DEVNUM_DEV(ca->dev), ca->port, ca->busfd, ca->tagfd);
         } else {
             if (!ca->dev->commadpt->attn_halt)
                 *ca->unitstat |= CSW_UC;    // Signal unit check
         }
 
-        while ((IsSocketConnected(ca->tagfd, ca->dev->ssid, ca->dev->devnum)) && !ca->dev->commadpt->attn_halt) {
+        while ((IsSocketConnected(ca->tagfd, ca->dev)) && !ca->dev->commadpt->attn_halt) {
             // Wait for Channel Adapter status byte
             rc = recv(ca->tagfd, &ca->carnstat, 1, 0);
 
             if (rc > 0) {
                 if (ca->dev->commadpt->debug)
-                    WRMSG(HHC05166, "D", ca->dev->ssid, ca->dev->devnum, ca->carnstat);
+                    WRMSG(HHC05166, "D", LCSS_DEVNUM_DEV(ca->dev), ca->carnstat);
 
                 if (ca->dev->commadpt->debug)
-                    WRMSG(HHC05167, "D", ca->dev->ssid, ca->dev->devnum, ca->dev->busy, ca->ccwactive);
+                    WRMSG(HHC05167, "D", LCSS_DEVNUM_DEV(ca->dev), ca->dev->busy, ca->ccwactive);
 
                 /************************************************************************************************************/
                 /* The code below injects the CSW into the channel subsys.                                                  */
@@ -611,14 +611,14 @@ static void *CSW_adpt(void *vca) {
                 obtain_lock(&ca->dev->commadpt->lock);
                 rc_attn = device_attention(ca->dev, CSW_ATTN);  // Inject Attention
                 if (ca->dev->commadpt->debug)
-                    WRMSG(HHC05168, "D", ca->dev->ssid, ca->dev->devnum, delay, rc_attn);
+                    WRMSG(HHC05168, "D", LCSS_DEVNUM_DEV(ca->dev), delay, rc_attn);
                 release_lock(&ca->dev->commadpt->lock);
                 if (ca->dev->commadpt->debug)
-                    WRMSG(HHC05169, "D", ca->dev->ssid, ca->dev->devnum);
+                    WRMSG(HHC05169, "D", LCSS_DEVNUM_DEV(ca->dev));
 
             } else {  // If Error during receive of CA status, close both sockets and try to re-open
                 if (ca->dev->commadpt->debug)
-                    WRMSG(HHC05170, "D", ca->dev->ssid, ca->dev->devnum);
+                    WRMSG(HHC05170, "D", LCSS_DEVNUM_DEV(ca->dev));
                 close_adpt(ca);
                 if (!ca->dev->commadpt->attn_halt) {
                     ca->dev->scsw.unitstat |= CSW_UC;       // Signal unit check
@@ -627,7 +627,7 @@ static void *CSW_adpt(void *vca) {
             }  // End if rc > 0
 
             if (ca->dev->commadpt->attn_halt == 1) {
-                WRMSG(HHC05171, "I", ca->dev->ssid, ca->dev->devnum);
+                WRMSG(HHC05171, "I", LCSS_DEVNUM_DEV(ca->dev));
                 close_adpt(ca);
             }
         }  // End while ca->tagfd
@@ -651,10 +651,10 @@ static void commadpt_halt(DEVBLK *dev) {
 /* instance exist for the same numbered msg that is issued on        */
 /* multiple situations                                               */
 static void msg005i(DEVBLK *dev, char *kv) {
-    WRMSG(HHC03705, "I", dev->ssid, dev->devnum, kv);
+    WRMSG(HHC03705, "I", LCSS_DEVNUM, kv);
 }
 static void msg006e(DEVBLK *dev, char *kw, char *kv) {
-    WRMSG(HHC03706, "E", dev->ssid, dev->devnum, kw, kv);
+    WRMSG(HHC03706, "E", LCSS_DEVNUM, kw, kv);
 }
 
 /*-------------------------------------------------------------------*/
@@ -676,14 +676,14 @@ static int commadpt_init_handler (DEVBLK *dev, int argc, char *argv[]) {
     dev->devtype = dev->devtype | ((dev->typname[1] & 0x0F) << 8);
     dev->devtype = dev->devtype | ((dev->typname[2] & 0x0F) << 4);
     dev->devtype = dev->devtype | (dev->typname[3] & 0x0F);
-    WRMSG(HHC03700, "I", dev->ssid, dev->devnum, dev->devtype);
+    WRMSG(HHC03700, "I", LCSS_DEVNUM, dev->devtype);
 
     /* For re-initialisation, close the existing file, if any */
     if (dev->fd >= 0)
         (dev->hnd->close)(dev);
 
     dev->excps = 0;
-    WRMSG(HHC03701, "I", dev->ssid, dev->devnum);
+    WRMSG(HHC03701, "I", LCSS_DEVNUM);
 
     /* Legacy sense-id not supported */
     dev->numdevid = 0;
@@ -694,7 +694,7 @@ static int commadpt_init_handler (DEVBLK *dev, int argc, char *argv[]) {
     rc = commadpt_alloc_device(dev);
 
     if (rc < 0) {
-        WRMSG(HHC03702, "E", dev->ssid, dev->devnum);
+        WRMSG(HHC03702, "E", LCSS_DEVNUM);
         return(-1);
     }
     errcnt = 0;
@@ -710,12 +710,12 @@ static int commadpt_init_handler (DEVBLK *dev, int argc, char *argv[]) {
         pc = parser(ptab, argv[i], &res);
 
         if (pc < 0) {
-            WRMSG(HHC03703, "E", dev->ssid, dev->devnum, argv[i]);
+            WRMSG(HHC03703, "E", LCSS_DEVNUM, argv[i]);
             errcnt++;
             continue;
         }
         if (pc == 0) {
-            WRMSG(HHC03704, "E", dev->ssid, dev->devnum, argv[i]);
+            WRMSG(HHC03704, "E", LCSS_DEVNUM, argv[i]);
             errcnt++;
             continue;
         }
@@ -768,7 +768,7 @@ static int commadpt_init_handler (DEVBLK *dev, int argc, char *argv[]) {
     }  // End of for stmt.
 
     if (errcnt > 0) {
-        WRMSG(HHC03707, "E", dev->ssid, dev->devnum);
+        WRMSG(HHC03707, "E", LCSS_DEVNUM);
         return -1;
     }
 
@@ -799,11 +799,11 @@ static int commadpt_init_handler (DEVBLK *dev, int argc, char *argv[]) {
 
     /* Set thread-name for debugging purposes */
     if (dev->commadpt->debug)
-        WRMSG(HHC03712, "D", dev->ssid, dev->devnum, thread_name);
+        WRMSG(HHC03712, "D", LCSS_DEVNUM, thread_name);
 
     rc = create_thread(&dev->commadpt->tthread, &sysblk.detattr, CSW_adpt, dev->commadpt, thread_name);
     if (rc) {
-        WRMSG(HHC03713, "E", dev->ssid, dev->devnum, strerror(rc));
+        WRMSG(HHC03713, "E", LCSS_DEVNUM, strerror(rc));
         release_lock(&dev->commadpt->lock);
         return -1;
     }
@@ -831,7 +831,7 @@ static void commadpt_query_device (DEVBLK *dev, char **class,
 /*-------------------------------------------------------------------*/
 static int commadpt_close_device (DEVBLK *dev) {
     if (dev->ccwtrace) {
-        WRMSG(HHC03714, "D", dev->ssid, dev->devnum);
+        WRMSG(HHC03714, "D", LCSS_DEVNUM);
     }
 
     /* Obtain the CA lock */
@@ -853,7 +853,7 @@ static int commadpt_close_device (DEVBLK *dev) {
     dev->fd = -1;
 
     if (dev->ccwtrace) {
-        WRMSG(HHC03715, "D", dev->ssid, dev->devnum);
+        WRMSG(HHC03715, "D", LCSS_DEVNUM);
     }
     return 0;
 }
@@ -889,17 +889,17 @@ static void commadpt_execute_ccw (DEVBLK *dev, BYTE code, BYTE flags,
     ccw.count_lo = (count & 0x000000FF);
 
     if (dev->commadpt->debug)
-        WRMSG(HHC03716, "D", dev->ssid, dev->devnum, code, count);
+        WRMSG(HHC03716, "D", LCSS_DEVNUM, code, count);
 
     *residual = 0;
 
-    if (IsSocketConnected(dev->commadpt->busfd, dev->ssid, dev->devnum)) {
+    if (IsSocketConnected(dev->commadpt->busfd, dev)) {
         /* Obtain the COMMADPT lock */
         obtain_lock(&dev->commadpt->lock);
         dev->commadpt->unitstat = unitstat;
 
         if (dev->commadpt->debug)
-            WRMSG(HHC03717, "D", dev->ssid , dev->devnum, code);
+            WRMSG(HHC03717, "D", LCSS_DEVNUM, code);
 
         rc = write_adpt((void*)&ccw, sizeof(ccw), dev->commadpt);
         /* Wait for ACK */
@@ -934,7 +934,7 @@ static void commadpt_execute_ccw (DEVBLK *dev, BYTE code, BYTE flags,
                 dev->commadpt->unack_attn_count = 0;
                 *more = 0;
                 if (dev->commadpt->debug)
-                    WRMSG(HHC03718, "D", dev->ssid, dev->devnum, dev->sense[0]);
+                    WRMSG(HHC03718, "D", LCSS_DEVNUM, dev->sense[0]);
                 /* Copy device sense bytes to channel I/O buffer */
                 memcpy (iobuf, dev->sense, rc);
                 *residual = 0;
@@ -1066,7 +1066,7 @@ static void commadpt_execute_ccw (DEVBLK *dev, BYTE code, BYTE flags,
         release_lock(&dev->commadpt->lock);
         //dev->commadpt->ccwactive = 0x00;
         if (dev->commadpt->debug)
-            WRMSG(HHC03719, "D", dev->ssid, dev->devnum);
+            WRMSG(HHC03719, "D", LCSS_DEVNUM);
     } else {
 
         /*-------------------------------------------------------------*/
