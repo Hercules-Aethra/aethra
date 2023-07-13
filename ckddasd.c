@@ -777,8 +777,7 @@ int             trk;                    /* Track number              */
     /* Command reject if seek position is outside volume */
     if (cyl >= dev->ckdcyls || head >= dev->ckdheads)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -859,8 +858,7 @@ CKD_TRKHDR     *trkhdr;                 /* -> New track header       */
             // "%1d:%04X CKD file %s: error in function %s: %s"
             WRMSG( HHC00404, "E", LCSS_DEVNUM,
                    dev->filename, "lseek()", strerror( errno ));
-            ckd_build_sense (dev, SENSE_EC, 0, 0,
-                            FORMAT_1, MESSAGE_0);
+            ckd_build_sense( dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             cache_lock(CACHE_DEVBUF);
             cache_setflag(CACHE_DEVBUF, dev->cache, ~CKD_CACHE_ACTIVE, 0);
@@ -879,8 +877,7 @@ CKD_TRKHDR     *trkhdr;                 /* -> New track header       */
             // "%1d:%04X CKD file %s: error in function %s: %s"
             WRMSG( HHC00404, "E", LCSS_DEVNUM,
                    dev->filename, "write()", strerror( errno ));
-            ckd_build_sense (dev, SENSE_EC, 0, 0,
-                            FORMAT_1, MESSAGE_0);
+            ckd_build_sense( dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             cache_lock(CACHE_DEVBUF);
             cache_setflag(CACHE_DEVBUF, dev->cache, ~CKD_CACHE_ACTIVE, 0);
@@ -1001,7 +998,7 @@ ckd_read_track_retry:
         // "%1d:%04X CKD file %s: error in function %s: %s"
         WRMSG( HHC00404, "E", LCSS_DEVNUM,
                dev->filename, "lseek()", strerror( errno ));
-        ckd_build_sense (dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0);
+        ckd_build_sense( dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         dev->bufcur = dev->cache = -1;
         cache_lock(CACHE_DEVBUF);
@@ -1020,7 +1017,7 @@ ckd_read_track_retry:
             // "%1d:%04X CKD file %s: error in function %s: %s"
             WRMSG( HHC00404, "E", LCSS_DEVNUM,
                    dev->filename, "read()", (rc < 0 ? strerror( errno ) : "unexpected end of file" ));
-            ckd_build_sense (dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0);
+            ckd_build_sense( dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             dev->bufcur = dev->cache = -1;
             cache_lock(CACHE_DEVBUF);
@@ -1059,7 +1056,7 @@ ckd_read_track_retry:
                dev->filename, cyl, head, trkhdr->bin,
                trkhdr->cyl[0], trkhdr->cyl[1],
                trkhdr->head[0], trkhdr->head[1] );
-        ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+        ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         dev->bufcur = dev->cache = -1;
         cache_lock(CACHE_DEVBUF);
@@ -1096,8 +1093,7 @@ int             rc;                     /* Return code               */
     /* Error if opened read-only */
     if (dev->ckdrdonly)
     {
-        ckd_build_sense (dev, SENSE_EC, SENSE1_WRI, 0,
-                        FORMAT_1, MESSAGE_0);
+        ckd_build_sense( dev, SENSE_EC, SENSE1_WRI, 0, FORMAT_1, MESSAGE_0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -1116,7 +1112,7 @@ int             rc;                     /* Return code               */
     /* Invalid track format if going past buffer end */
     if (off + len > dev->bufoffhi)
     {
-        ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+        ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -1423,8 +1419,8 @@ BYTE byte;
 /*-------------------------------------------------------------------*/
 /* Build sense data                                                  */
 /*-------------------------------------------------------------------*/
-void ckd_build_sense ( DEVBLK *dev, BYTE sense0, BYTE sense1,
-                       BYTE sense2, BYTE format, BYTE message )
+void ckd_build_sense( DEVBLK *dev, BYTE sense0, BYTE sense1,
+                      BYTE sense2, BYTE format, BYTE message )
 {
 int shift;  /* num of bits to shift left 'high cyl' in sense6 */
     /* Clear the sense bytes */
@@ -1626,9 +1622,9 @@ int             head;                   /* Next head for multitrack  */
             LOGDEVTR( HHC00432, "E", dev->filename, dev->ckdlcount, dev->ckdfmask );
 
         if (dev->ckdtrkof)
-            ckd_build_sense (dev, 0, SENSE1_FP | SENSE1_IE, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP | SENSE1_IE, 0, 0, 0 );
         else
-           ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+           ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -1639,9 +1635,9 @@ int             head;                   /* Next head for multitrack  */
         && dev->ckdcurhead + trks >= dev->ckdheads)
     {
         if (dev->ckdtrkof)
-            ckd_build_sense (dev, 0, SENSE1_EOC | SENSE1_IE, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_EOC | SENSE1_IE, 0, 0, 0 );
         else
-            ckd_build_sense (dev, 0, SENSE1_EOC, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_EOC, 0, 0, 0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -1744,8 +1740,7 @@ char           *orient[] = {"none", "index", "count", "key", "data", "eot"};
                    dev->filename, dev->bufoff, dev->bufoffhi );
 
             /* Set unit check with equipment check */
-            ckd_build_sense (dev, SENSE_EC, 0, 0,
-                            FORMAT_1, MESSAGE_0);
+            ckd_build_sense( dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             return -1;
         }
@@ -1840,7 +1835,7 @@ char           *orient[] = {"none", "index", "count", "key", "data", "eot"};
                    )
             )
             {
-                ckd_build_sense(dev, 0, SENSE1_NRF, 0, 0, 0);
+                ckd_build_sense( dev, 0, SENSE1_NRF, 0, 0, 0 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 return -1;
             }
@@ -1918,8 +1913,7 @@ CKD_RECHDR      rechdr;                 /* CKD record header         */
                    dev->filename, dev->bufoff, dev->bufoffhi );
 
             /* Set unit check with equipment check */
-            ckd_build_sense (dev, SENSE_EC, 0, 0,
-                            FORMAT_1, MESSAGE_0);
+            ckd_build_sense( dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             return -1;
         }
@@ -1974,8 +1968,7 @@ CKD_RECHDR      rechdr;                 /* Record header             */
                    dev->filename, dev->bufoff, dev->bufoffhi );
 
             /* Set unit check with equipment check */
-            ckd_build_sense (dev, SENSE_EC, 0, 0,
-                            FORMAT_1, MESSAGE_0);
+            ckd_build_sense( dev, SENSE_EC, 0, 0, FORMAT_1, MESSAGE_0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             return -1;
         }
@@ -2026,7 +2019,7 @@ int             ckdlen;                 /* Count+key+data length     */
     if (dev->bufoff + ckdlen + CKD_ENDTRK_SIZE >= dev->bufoffhi)
     {
         /* Unit check with invalid track format */
-        ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+        ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -2081,7 +2074,7 @@ U32             ckdlen;                 /* Count+key+data length     */
     if ((int)(dev->bufoff + ckdlen + CKD_ENDTRK_SIZE) >= dev->bufoffhi)
     {
         /* Unit check with invalid track format */
-        ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+        ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -2149,8 +2142,7 @@ int             kdlen;                  /* Key+data length           */
     {
         // "%1d:%04X CKD file %s: error write kd orientation"
         WRMSG( HHC00420, "E", LCSS_DEVNUM, dev->filename );
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -2196,8 +2188,7 @@ int             rc;                     /* Return code               */
     {
         // "%1d:%04X CKD file %s: error write data orientation"
         WRMSG( HHC00421, "E", LCSS_DEVNUM, dev->filename );
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return -1;
     }
@@ -2392,8 +2383,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         && code != 0x3E // READ SUBSYSTEM DATA
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -2406,7 +2396,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         && code != 0xDE // READ TRACK
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0,FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -2422,8 +2412,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
            Set File Mask, or within the domain of a Locate Record */
         if (dev->ckdxtdef || dev->ckdsetfm || dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2482,8 +2471,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->prevcode != 0x02 // READ IPL
         )
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2499,8 +2487,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2525,8 +2512,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2538,8 +2524,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -2621,8 +2606,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2640,8 +2624,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                /* || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY */
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2);
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -2726,8 +2709,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2742,8 +2724,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                       && (dev->ckdlaux & CKDLAUX_RDCNTSUF)
                       && dev->ckdlcount == 1)))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -2788,8 +2769,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2805,8 +2785,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                                 == CKDOPER_ORIENT_INDEX
                         ))))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -2876,8 +2855,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2891,8 +2869,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                                 == CKDOPER_ORIENT_INDEX
                     )))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -2939,8 +2916,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2954,8 +2930,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                                 == CKDOPER_ORIENT_INDEX
                     )))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2) ;
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -2964,7 +2939,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* File protected if file mask does not allow Write HA */
         if ((dev->ckdfmask & CKDMASK_WRCTL) != CKDMASK_WRCTL_ALLWRT)
         {
-            ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -2999,8 +2974,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3012,8 +2986,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -3104,8 +3077,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3113,8 +3085,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3174,8 +3145,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
          || (((dev->ckdloper & CKDOPER_CODE) != CKDOPER_RDTRKS)
           && ((dev->ckdloper & CKDOPER_CODE) != CKDOPER_RDTSET)))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3191,8 +3161,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                )
         )
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3286,8 +3255,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3304,8 +3272,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdrecal == 0
         )
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3330,7 +3297,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                )
         )
         {
-            ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3342,8 +3309,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if count is less than 6 */
         if (count < 6)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_3);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3360,8 +3326,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if seek address is invalid */
         if (bin != 0 || cyl >= dev->ckdcyls || head >= dev->ckdheads)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3369,7 +3334,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* File protected if outside defined extent */
         if ( EXTENT_CHECK(dev, cyl, head) )
         {
-            ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3392,8 +3357,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if recalibrate is issued to a 3390 */
         if (dev->devtype == 0x3390)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_1);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_1 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3401,8 +3365,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3412,7 +3375,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if ((dev->ckdfmask & CKDMASK_SKCTL) != CKDMASK_SKCTL_ALLSKR
             || (dev->ckdfmask & CKDMASK_AAUTH) == CKDMASK_AAUTH_DIAG)
         {
-            ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3420,7 +3383,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* File protected if cyl 0 head 0 is outside defined extent */
         if ( EXTENT_CHECK0(dev) )
         {
-            ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3444,8 +3407,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
            Set File Mask, or within the domain of a Locate Record */
         if (dev->ckdxtdef || dev->ckdsetfm || dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3457,8 +3419,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if count is less than 1 */
         if (count < 1)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_3);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3475,8 +3436,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if file mask is invalid */
         if ((dev->ckdfmask & CKDMASK_RESV) != 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3495,8 +3455,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if non-RPS device */
         if (dev->ckdtab->sectors == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_1);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_1 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3504,8 +3463,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3529,8 +3487,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if non-RPS device */
         if (dev->ckdtab->sectors == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_1);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_1 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3538,8 +3495,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3551,8 +3507,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3564,8 +3519,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if count is less than 1 */
         if (count < 1)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_3);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3587,8 +3541,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3596,8 +3549,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3672,8 +3624,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3681,8 +3632,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3733,8 +3683,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && dev->ckdlocat == 0 && dev->ckdrdipl == 0
             && dev->ckdrecal == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3742,8 +3691,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3787,8 +3735,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if the current track is in the DSF area */
         if (dev->ckdcurcyl >= dev->ckdcyls)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3802,8 +3749,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (dev->ckdlcount == 0 && dev->ckdideq == 0
             && dev->ckdkyeq == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3811,8 +3757,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if file mask inhibits all write commands */
         if ((dev->ckdfmask & CKDMASK_WRCTL) == CKDMASK_WRCTL_INHWRT)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3825,8 +3770,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                            ((dev->ckdlaux & CKDLAUX_RDCNTSUF) ? 2 : 1))
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRTTRK))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -3847,7 +3791,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                 if (dev->ckdcurdl != num)
                 {
                     /* Unit check with invalid track format */
-                    ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+                    ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
                     *unitstat = CSW_CE | CSW_DE | CSW_UC;
                     break;
                 }
@@ -3917,8 +3861,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
          || ((dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRITE
           && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRTANY))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -3939,7 +3882,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             if (dev->ckdcurdl != dev->ckdltranlf)
             {
                 /* Unit check with invalid track format */
-                ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+                ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -4001,8 +3944,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if the current track is in the DSF area */
         if (dev->ckdcurcyl >= dev->ckdcyls)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4015,8 +3957,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
              the handling of these flags*/
         if (dev->ckdlcount == 0 && dev->ckdideq == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4024,8 +3965,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if file mask inhibits all write commands */
         if ((dev->ckdfmask & CKDMASK_WRCTL) == CKDMASK_WRCTL_INHWRT)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4038,8 +3978,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                            ((dev->ckdlaux & CKDLAUX_RDCNTSUF) ? 2 : 1))
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRTTRK))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -4050,7 +3989,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                 && dev->ckdcurkl + dev->ckdcurdl != dev->ckdltranlf)
             {
                 /* Unit check with invalid track format */
-                ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+                ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -4114,8 +4053,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (dev->ckdlcount == 0
             || (dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRITE)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4136,7 +4074,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             if ((dev->ckdcurkl + dev->ckdcurdl) != dev->ckdltranlf)
             {
                 /* Unit check with invalid track format */
-                ckd_build_sense (dev, 0, SENSE1_ITF, 0, 0, 0);
+                ckd_build_sense( dev, 0, SENSE1_ITF, 0, 0, 0 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -4198,8 +4136,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if the current track is in the DSF area */
         if (dev->ckdcurcyl >= dev->ckdcyls)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4211,8 +4148,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (dev->ckdlcount == 0 && dev->ckdideq == 0
             && dev->ckdkyeq == 0 && dev->ckdwckd == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4221,8 +4157,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if ((dev->ckdfmask & CKDMASK_WRCTL) != CKDMASK_WRCTL_ALLWRT
             && (dev->ckdfmask & CKDMASK_WRCTL) != CKDMASK_WRCTL_INHWR0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4232,8 +4167,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         {
             if ((dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRTTRK)
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -4259,8 +4193,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if the current track is in the DSF area */
         if (dev->ckdcurcyl >= dev->ckdcyls)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             logmsg("DEBUG : WR0 OUTSIDE PACK\n");
             break;
@@ -4273,8 +4206,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* ISW20030819-1 : Added check for previously issued WRHA */
         if (dev->ckdlcount == 0 && dev->ckdhaeq == 0 && dev->ckdwrha==0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             logmsg("DEBUG : WR0 CASE 2\n");
             break;
@@ -4283,8 +4215,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if file mask does not permit Write R0 */
         if ((dev->ckdfmask & CKDMASK_WRCTL) != CKDMASK_WRCTL_ALLWRT)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             logmsg("DEBUG : WR0 BAD FM\n");
             break;
@@ -4300,8 +4231,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                                 == CKDOPER_ORIENT_INDEX
                        )))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 logmsg("DEBUG : LOC REC 2\n");
                 break;
@@ -4336,8 +4266,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if the current track is in the DSF area */
         if (dev->ckdcurcyl >= dev->ckdcyls)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4352,8 +4281,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (dev->ckdlcount == 0 && dev->ckdideq == 0
             && dev->ckdkyeq == 0 && dev->ckdwckd == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4362,8 +4290,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if ((dev->ckdfmask & CKDMASK_WRCTL) != CKDMASK_WRCTL_ALLWRT
             && (dev->ckdfmask & CKDMASK_WRCTL) != CKDMASK_WRCTL_INHWR0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4372,8 +4299,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if ((code == 0x01) // WRITE SPECIAL CKD
             && ((dev->devtype == 0x3380) || (dev->devtype == 0x3390)))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4384,8 +4310,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             if (!((dev->ckdloper & CKDOPER_CODE) == CKDOPER_FORMAT
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRTTRK))
             {
-                ckd_build_sense (dev, SENSE_CR, 0, 0,
-                                FORMAT_0, MESSAGE_2);
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -4427,8 +4352,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (dev->ckdlcount == 0
             || (dev->ckdloper & CKDOPER_CODE) != CKDOPER_FORMAT)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4438,8 +4362,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (chained == 0
             || (prevcode != 0x1D && prevcode != 0x9D))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4558,8 +4481,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
              )
         )
         {
-            ckd_build_sense(dev, SENSE_CR, 0, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4594,8 +4516,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                )
         )
         {
-            ckd_build_sense(dev, SENSE_CR, 0, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4612,8 +4533,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                )
         )
         {
-            ckd_build_sense(dev, SENSE_EC, SENSE1_WRI, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_EC, SENSE1_WRI, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4636,8 +4556,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                )
         )
         {
-            ckd_build_sense(dev, SENSE_CR, 0, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4647,8 +4566,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         {
             if (iobuf[2] != 0)
             {
-                ckd_build_sense(dev, SENSE_CR, 0, 0,
-                    FORMAT_0, MESSAGE_4);
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 break;
             }
@@ -4660,8 +4578,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         {
             if (iobuf[46] != 0)
             {
-                ckd_build_sense(dev, SENSE_CR, 0, 0,
-                    FORMAT_0, MESSAGE_4);
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
                 cyl = 0; // ZZ FIXME (Fish: why?!)
                 break;
@@ -4686,8 +4603,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                )
         )
         {
-            ckd_build_sense(dev, SENSE_CR, 0, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4712,8 +4628,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if seek address is not valid */
         if (cyl >= dev->ckdcyls || head >= dev->ckdheads)
         {
-            ckd_build_sense(dev, SENSE_CR, 0, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4721,7 +4636,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* File protect error if seek address is outside extent */
         if (EXTENT_CHECK(dev, cyl, head))
         {
-            ckd_build_sense(dev, 0, SENSE1_FP, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4746,8 +4661,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if sector number is not valid */
         if (sector != 0xFF && sector >= dev->ckdtab->sectors)
         {
-            ckd_build_sense(dev, SENSE_CR, 0, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4775,8 +4689,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             || dev->ckdltranlf > dev->ckdxblksz
         )
         {
-            ckd_build_sense(dev, SENSE_CR, 0, 0,
-                FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4802,7 +4715,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                with the CCHH in the track header */
             if (memcmp(&(trkhdr.cyl), cchhr, 4) != 0)
             {
-                ckd_build_sense(dev, 0, SENSE1_NRF, 0, 0, 0);
+                ckd_build_sense( dev, 0, SENSE1_NRF, 0, 0, 0 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
             }
             break;
@@ -4880,8 +4793,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4891,8 +4803,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
          && (dev->devtype != 0x3390)
          && (dev->devtype != 0x9345))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4917,8 +4828,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
            buffer by a previous Perform Subsystem Function command */
         if (dev->ckdlcount > 0 || dev->ckdssdlen == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4940,8 +4850,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4959,8 +4868,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         {
             /* Mark Set Special Intercept inactive */
             dev->ckdssi = 0;
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_F);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_F );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4972,8 +4880,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Control information length must be at least 4 bytes */
         if (count < 4)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_3);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -4981,8 +4888,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5001,8 +4907,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
 //            || iobuf[0] == DIAGCTL_ACCDEV_UNKCOND
              ) || iobuf[2] != 0 || iobuf[3] != 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5011,8 +4916,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
            diagnostic or device support authorization */
         if ((dev->ckdfmask & CKDMASK_AAUTH) == CKDMASK_AAUTH_NORMAL)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_5);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_5 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5032,8 +4936,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             || dev->ckdxtdef || dev->ckdspcnt || dev->ckdsetfm
             || (dev->ckdrdipl && dev->devtype == 0x3390))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5062,8 +4965,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             || ccwseq > 1
             || (chained && prevcode != 0x5B))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5088,8 +4990,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5097,7 +4998,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
     sense:
         /* If sense bytes are cleared then build sense */
         if ((dev->sense[0] == 0) & (dev->sense[1] == 0))
-            ckd_build_sense (dev, 0, 0, 0, 0, 0);
+            ckd_build_sense( dev, 0, 0, 0, 0, 0 );
 
         /* Calculate residual byte count */
         num = (count < dev->numsense) ? count : dev->numsense;
@@ -5121,8 +5022,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* If numdevid is 0, then 0xE4 Sense ID is not supported */
         if (dev->numdevid == 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_1);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_1 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5130,8 +5030,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5230,8 +5129,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                 && prevcode != 0x5B)
             || (chained && prevcode == 0x5B && ccwseq > 1))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5261,8 +5159,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                 && prevcode != 0x5B)
             || (chained && prevcode == 0x5B && ccwseq > 1))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5287,8 +5184,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5301,8 +5197,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if ((dev->ckdcu->devt != 0x3990 && dev->ckdcu->devt != 0x2105)
             || (dev->ckdcu->model & 0x07) == 0x02)      /* 3990-1/2  */
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5314,8 +5209,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Control information length must be at least 2 bytes */
         if (count < 2)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_3);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5343,8 +5237,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             (((iobuf[0] & 0x1C) != 0) && (iobuf[1] != 0)))
         {
 
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5362,8 +5255,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         /* Command reject if within the domain of a Locate Record */
         if (dev->ckdlcount > 0)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5384,8 +5276,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
     /* INVALID OPERATION                                             */
     /*---------------------------------------------------------------*/
         /* Set command reject sense byte, and unit check status */
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_1);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_1 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
 
     } /* end switch(code) */
@@ -5457,7 +5348,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
             && code != 0x02 // READ IPL
         )
         {
-            ckd_build_sense (dev, SENSE_CR | SENSE_OC, 0, 0, 0, 0);
+            ckd_build_sense( dev, SENSE_CR | SENSE_OC, 0, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
         }
     } /* end if(ckdlcount) */
@@ -5490,8 +5381,7 @@ static void PerformSubsystemFunction
     /* Command reject if within the domain of a Locate Record */
     if (dev->ckdlcount > 0)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5510,8 +5400,7 @@ static void PerformSubsystemFunction
     /* Command reject if count is less than required */
     if (count < num)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_3);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5525,8 +5414,7 @@ static void PerformSubsystemFunction
     {
         /* Reset SSI condition */
         dev->ckdssi = 0;
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_F);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_F );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         break;
     }
@@ -5586,8 +5474,7 @@ static void PerformSubsystemFunction
             || (iobuf[6] != 0x1C && mem_ne( &iobuf[2], eighthex00, 4 ))
         )
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5719,8 +5606,7 @@ static void PerformSubsystemFunction
             break;
 
         default: /* Unknown suborder code */
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
 
         } /* end switch(iobuf[6]) */
@@ -5740,8 +5626,7 @@ static void PerformSubsystemFunction
                )
         )
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5749,8 +5634,7 @@ static void PerformSubsystemFunction
         /* Command reject if flag byte is not zero */
         if (iobuf[1] != 0x00)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5758,8 +5642,7 @@ static void PerformSubsystemFunction
         /* Command reject if any command is chained from this command */
         if (flags & CCW_FLAGS_CC)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_2);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5774,8 +5657,7 @@ static void PerformSubsystemFunction
         /* Command reject if flag byte is not zero */
         if (iobuf[1] != 0x00)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5788,8 +5670,7 @@ static void PerformSubsystemFunction
            or bits 6-7 are 11 or 10 */
         if ((iobuf[1] & 0xFE) != 0x00)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0,
-                            FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             break;
         }
@@ -5822,8 +5703,7 @@ static void PerformSubsystemFunction
 
     default: /* Unknown order code */
 
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
 
     } /* end switch(iobuf[0]) */
@@ -5882,7 +5762,7 @@ static void LocateRecordExtended
     )
     {
         /* Set command reject sense byte, and unit check status */
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_1);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_1 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5898,7 +5778,7 @@ static void LocateRecordExtended
 
     if (count < 20)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5910,7 +5790,7 @@ static void LocateRecordExtended
      */
     if (dev->ckdlcount > 0)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5927,7 +5807,7 @@ static void LocateRecordExtended
     //FIXME not sure what that last sentence means
     if (dev->ckdxtdef == 0 && dev->ckdrdipl == 0)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5943,7 +5823,7 @@ static void LocateRecordExtended
      && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_READ
      && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_EXTOP)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5957,7 +5837,7 @@ static void LocateRecordExtended
             && iobuf[17] != CKDOPER_RDTSET
         )
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             return;
         }
@@ -5967,7 +5847,7 @@ static void LocateRecordExtended
     }
     else if (iobuf[17] != 0)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -5986,8 +5866,7 @@ static void LocateRecordExtended
            )
     )
     {
-        ckd_build_sense (dev, SENSE_EC, SENSE1_WRI, 0,
-                        FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_EC, SENSE1_WRI, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6055,7 +5934,7 @@ static void LocateRecordExtended
      */
     if ((iobuf[1] & CKDLAUX_RESV) != 0)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6076,7 +5955,7 @@ static void LocateRecordExtended
         && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_READ
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6086,7 +5965,7 @@ static void LocateRecordExtended
     /* Byte 2 must contain zeroes */
     if (iobuf[2] != 0)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6112,7 +5991,7 @@ static void LocateRecordExtended
            )
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6140,14 +6019,14 @@ static void LocateRecordExtended
         || head >= dev->ckdheads
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
 
     if (EXTENT_CHECK( dev, cyl, head ))
     {
-        ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+        ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6180,7 +6059,7 @@ static void LocateRecordExtended
         && iobuf[13] >= dev->ckdtab->sectors
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6226,7 +6105,7 @@ static void LocateRecordExtended
         || fetch_hw( &iobuf[14] ) > dev->ckdxblksz
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6269,7 +6148,7 @@ static void LocateRecordExtended
         || (iobuf[17] == CKDOPER_RDTSET && num != 1 && num != 2)
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6283,7 +6162,7 @@ static void LocateRecordExtended
     if (count < 20 + num)
     {
         *residual = 0;
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6310,7 +6189,7 @@ static void LocateRecordExtended
         || (iobuf[17] == CKDOPER_RDANY  && iobuf[20] != 1)
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6372,7 +6251,7 @@ static void LocateRecordExtended
 
         if (!(mask & 0x8000))
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             return;
         }
@@ -6395,7 +6274,7 @@ static void LocateRecordExtended
         /* Number of one bits must match count */
         if (i != dev->ckdlcount)
         {
-            ckd_build_sense (dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4);
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             return;
         }
@@ -6412,7 +6291,7 @@ static void LocateRecordExtended
 
         if (EXTENT_CHECK( dev, lastcyl, lasthead ))
         {
-            ckd_build_sense (dev, 0, SENSE1_FP, 0, 0, 0);
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
             *unitstat = CSW_CE | CSW_DE | CSW_UC;
             return;
         }
@@ -6436,7 +6315,7 @@ static void LocateRecordExtended
                with the CCHH in the track header */
             if (memcmp( &(trkhdr.cyl), cchhr, 4 ) != 0)
             {
-                ckd_build_sense (dev, 0, SENSE1_NRF, 0, 0, 0);
+                ckd_build_sense( dev, 0, SENSE1_NRF, 0, 0, 0 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
             }
             break;
@@ -6532,8 +6411,7 @@ static void DefineExtent
     /* Control information length must be at least 16 bytes */
     if (count < 16)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_3);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_3 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6550,8 +6428,7 @@ static void DefineExtent
         || (dev->ckdrdipl && dev->devtype == 0x3390)
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6564,8 +6441,7 @@ static void DefineExtent
        (dev->ckdfmask != fmask || dev->ckdxgattr != xgattr)
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6576,8 +6452,7 @@ static void DefineExtent
     /* Validate the global attributes byte bits 0-1 */
     if ((dev->ckdxgattr & CKDGATR_ARCH) != CKDGATR_ARCH_ECKD)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6585,8 +6460,7 @@ static void DefineExtent
     /* Validate the file mask */
     if ((dev->ckdfmask & CKDMASK_RESV) != 0)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6604,8 +6478,7 @@ static void DefineExtent
         dev->ckdxblksz != xblksz
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_2);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6615,8 +6488,7 @@ static void DefineExtent
     /* Validate the extent block */
     if (dev->ckdxblksz > dev->ckdtab->r0 + 8)
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6628,8 +6500,7 @@ static void DefineExtent
         || iobuf[6] != 0
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
@@ -6652,8 +6523,7 @@ static void DefineExtent
         || EXTENT_CHECK( dev, ecyl, ehead )
     )
     {
-        ckd_build_sense (dev, SENSE_CR, 0, 0,
-                        FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4);
+        ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4 );
         *unitstat = CSW_CE | CSW_DE | CSW_UC;
         return;
     }
