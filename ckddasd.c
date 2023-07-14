@@ -1791,7 +1791,7 @@ char           *orient[] = {"none", "index", "count", "key", "data", "eot"};
         if (1
             && (code & 0x80)
             && (dev->ckdlaux & CKDLAUX_RDCNTSUF)
-            && dev->ckdlcount > 0
+            && dev->ckdlcount == 1
         )
         {
             memcpy( rechdr, dev->ckdfcwrk, CKD_RECHDR_SIZE );
@@ -2744,9 +2744,14 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
 
         /* Copy count field to I/O buffer */
         memcpy (iobuf, &rechdr, CKD_RECHDR_SIZE);
+
+        /* Save first Read Count if we haven't already */
         if (!dev->ckdfcoun && dev->ckdlaux & CKDLAUX_RDCNTSUF)
-            memcpy(dev->ckdfcwrk, &rechdr, CKD_RECHDR_SIZE);
-        dev->ckdfcoun = 1;
+        {
+            memcpy( dev->ckdfcwrk, &rechdr, CKD_RECHDR_SIZE );
+            dev->ckdfcoun = 1;
+        }
+
         /* Turn off track overflow flag in read record header */
         if(dev->ckdcyls < 32768)
             *iobuf &= 0x7F;
@@ -4711,6 +4716,10 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if ((dev->ckdlaux & CKDLAUX_TLFVALID) == 0)
             dev->ckdltranlf = dev->ckdxblksz;
 
+        /* Reset/initialize our saved first Read Count */
+        dev->ckdfcoun = 0;
+        memset( dev->ckdfcwrk, 0x00, sizeof( dev->ckdfcwrk ));
+
         /* Seek to the required track */
         rc = ckd_seek(dev, cyl, head, &trkhdr, unitstat);
         if (rc < 0)
@@ -6192,8 +6201,11 @@ static void LocateRecordExtended
         if (iobuf[20] & 0x01)
             dev->ckdlaux |= CKDLAUX_RDCNTSUF;
 
+    /* Reset/initialize our saved first Read Count */
     dev->ckdfcoun = 0;
     memset( dev->ckdfcwrk, 0x00, sizeof( dev->ckdfcwrk ));
+
+    /* Save the Extended Operation byte */
     dev->ckdextcd = iobuf[17];
 
     if (0
