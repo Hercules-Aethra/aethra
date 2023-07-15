@@ -309,42 +309,40 @@ char EBCDIC2ASCII (char s) {
 }
 
 static void logdump(char *txt, DEVBLK *dev, BYTE *bfr, size_t sz) {
-    size_t i;
+    size_t i, j;
     char workbuf[50];
-    char *workbuf_ptr = workbuf;
+    char *workbuf_ptr;
     if (!dev->ccwtrace) {
         return;
     }
     WRMSG(HHC05110, "D", LCSS_DEVNUM, txt);
     WRMSG(HHC05111, "D", LCSS_DEVNUM, txt, (long int)sz, (long int)sz);
 
-    for (i = 0; i < sz; i++) {
-        if (i%4 == 0) {
-            *workbuf_ptr++ = ' ';
+    for (i = 0; i < sz; i+=16) {
+        workbuf_ptr = workbuf;
+        for (j = 0; (j < 16) && ((i + j) < sz); j++) {
+            if (j%4 == 0) {
+                *workbuf_ptr++ = ' ';
+            }
+            // We use snprintf directly here instead of MSGBUF because the latter uses
+            // sizeof() on the first argument; normally, that works, but not if you're
+            // passing an address directly. The 3 is so the terminating null is taken
+            // into account for each string, even though it's overwritten.
+            snprintf(workbuf_ptr, 3, "%2.2X", bfr[i+j]);
+            workbuf_ptr += 2;
         }
-        // We use snprintf directly here instead of MSGBUF because the latter uses
-        // sizeof() on the first argument; normally, that works, but not if you're
-        // passing an address directly
-        snprintf(workbuf_ptr, 2, "%2.2X", bfr[i]);
-        workbuf_ptr += 2;
-        if (i%16 == 0) {
-            WRMSG(HHC05112, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
-            workbuf_ptr = workbuf;
-        }
+        WRMSG(HHC05112, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
     }
     workbuf_ptr = workbuf;
-        for (i = 0; i < sz; i++) {
-            *workbuf_ptr++ = EBCDIC2ASCII(bfr[i]);
-            if (i%16 == 0) {
-                *workbuf_ptr = '\0';
-                WRMSG(HHC05113, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
-                workbuf_ptr = workbuf;
-            }
+    for (i = 0; i < sz; i+=16) {
+        workbuf_ptr = workbuf;
+        for (j = 0; (j < 16) && ((i + j) < sz); j++) {
+            *workbuf_ptr++ = EBCDIC2ASCII(bfr[i+j]);
         }
-        if (i%16 != 0) {
-            *workbuf_ptr = '\0';
-            WRMSG(HHC05113, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
-        }
+        *workbuf_ptr = '\0';
+        WRMSG(HHC05113, "D", LCSS_DEVNUM, txt, (long int)i, workbuf);
+        workbuf_ptr = workbuf;
+    }
 }
 
 // ********************************************************************
