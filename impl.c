@@ -1179,6 +1179,7 @@ int     rc;
 
             // "Terminating due to %d argument errors"
             WRMSG( HHC02343, "S", rc );
+            /* FALLTHROUGH */ // silence GCC warning
 
           case PROCESS_ARGS_EXIT:
             delayed_exit( rc );

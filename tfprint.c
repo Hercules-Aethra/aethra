@@ -2051,7 +2051,7 @@ static const char* e7_fmtdata( BYTE code, BYTE* data, BYTE amt )
 /*-------------------------------------------------------------------*/
 /*          fmtdata -- format hex and character buffer data          */
 /*-------------------------------------------------------------------*/
-static const char* fmtdata( BYTE* data, BYTE amt )
+static const char* fmtdata( BYTE code, BYTE* data, BYTE amt )
 {
     if (sys_ffmt >= TF_FMT1 && code == 0xE7)
         return e7_fmtdata( code, data, amt );
@@ -2195,21 +2195,21 @@ static inline void print_TF01301( TF01301* rec )
     case PF_IDAW1:
         // "%1d:%04X CHAN: idaw %8.8"PRIX32", len %3.3"PRIX16"%s"
         TF_DEV_FLOGMSG( 1302 ),
-            rec->rhdr.lcss, rec->rhdr.devnum, (U32)rec->addr, rec->count, fmtdata( rec->data, rec->amt ));
+            rec->rhdr.lcss, rec->rhdr.devnum, (U32)rec->addr, rec->count, fmtdata( rec->code, rec->data, rec->amt ));
         break;
 
     case PF_IDAW2:
 
         // "%1d:%04X CHAN: idaw %16.16"PRIX64", len %4.4"PRIX16"%s"
         TF_DEV_FLOGMSG( 1303 ),
-            rec->rhdr.lcss, rec->rhdr.devnum, (U64)rec->addr, rec->count, fmtdata( rec->data, rec->amt ));
+            rec->rhdr.lcss, rec->rhdr.devnum, (U64)rec->addr, rec->count, fmtdata( rec->code, rec->data, rec->amt ));
         break;
 
     case PF_MIDAW:
 
         // "%1d:%04X CHAN: midaw %2.2X %4.4"PRIX16" %16.16"PRIX64"%s"
         TF_DEV_FLOGMSG( 1301 ),
-            rec->rhdr.lcss, rec->rhdr.devnum, rec->mflag, rec->count, (U64)rec->addr, fmtdata( rec->data, rec->amt ));
+            rec->rhdr.lcss, rec->rhdr.devnum, rec->mflag, rec->count, (U64)rec->addr, fmtdata( rec->code, rec->data, rec->amt ));
         break;
 
     default: CRASH(); UNREACHABLE_CODE( return );
@@ -2288,7 +2288,7 @@ static inline void print_TF01315( TF01315* rec )
         rec->rhdr.lcss, rec->rhdr.devnum,
         rec->ccw[0], rec->ccw[1], rec->ccw[2], rec->ccw[3],
         rec->ccw[4], rec->ccw[5], rec->ccw[6], rec->ccw[7],
-        fmtdata( rec->data, rec->amt ));
+        fmtdata( rec->ccw[0], rec->data, rec->amt ));
 }
 
 // "%1d:%04X CHAN: csw %2.2X, stat %2.2X%2.2X, count %2.2X%2.2X, ccw %2.2X%2.2X%2.2X"

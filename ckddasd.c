@@ -5398,6 +5398,7 @@ static void PerformSubsystemFunction
     U32  num;
 
     UNREFERENCED( more );
+    UNREFERENCED( code );
 
     /* Command reject if within the domain of a Locate Record */
     if (dev->ckdlcount > 0)
@@ -5765,7 +5766,6 @@ static void LocateRecordExtended
     U16         head;                   /* Head number               */
     BYTE        cchhr[5];               /* Search argument           */
     BYTE        binzero[5];             /* Binary zeros              */
-    BYTE        sector;                 /* Sector number             */
 
     UNREFERENCED( flags    );
     UNREFERENCED( chained  );
@@ -6427,6 +6427,7 @@ static void DefineExtent
     UNREFERENCED( prevcode );
     UNREFERENCED( ccwseq   );
     UNREFERENCED( more     );
+    UNREFERENCED( code     );
 
     /* Calculate residual byte count */
     num = (count < 16) ? count : 16;

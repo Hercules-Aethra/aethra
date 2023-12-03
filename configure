@@ -3100,9 +3100,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # -----------------------------------------------------------------------------
 
 VERS_MAJ=4                    # first  digit of version
-VERS_INT=6                    # second digit of version
+VERS_INT=7                    # second digit of version
 VERS_MIN=0                    # third  digit of version
-VERS_DEV=0                    # flag: 1 = between releases development version
+VERS_DEV=1                    # flag: 1 = between releases development version
                               #       0 = official formal release version
 
 am__api_version='1.16'
