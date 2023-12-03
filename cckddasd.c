@@ -6714,7 +6714,7 @@ void cckd_trace( const char* func, int line, DEVBLK* dev, char* fmt, ... )
 
             TIDPAT" @ %s.%6.6ld %1d:%04X",  // "HHHHHHHH @ hh:mm:ss.uuuuuu n:CCUU"
 
-            hthread_self(),                 // "HHHHHHHH" (TIDPAT)
+            TID_CAST(hthread_self()),       // "HHHHHHHH" (TIDPAT)
             todwrk + 11,                    // "hh:mm:ss" (%s)
             (long int)timeval.tv_usec,      // "uuuuuu"   (%6.6ld
             LCSS_DEVNUM                     // "n:CCUU"   (%1d:%04X)
