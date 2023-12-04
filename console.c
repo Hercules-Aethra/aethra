@@ -2864,7 +2864,7 @@ int                     csock;          /* Client socket             */
 
 int                     rc;             /* Return code               */
 DEVBLK                 *dev;            /* -> Device block           */
-size_t                  len;            /* Data length               */
+size_t                  len = 0;        /* Data length               */
 
 struct sockaddr_in      client;         /* Client address structure  */
 socklen_t               namelen;        /* Length of client structure*/
