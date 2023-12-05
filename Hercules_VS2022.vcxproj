@@ -307,6 +307,7 @@
     <ClCompile Include="ckddasd.c" />
     <ClCompile Include="ckddasd64.c" />
     <ClCompile Include="clock.c" />
+    <ClCompile Include="cm3705ii.c" />
     <ClCompile Include="cmdtab.c" />
     <ClCompile Include="cmpscdbg.c" />
     <ClCompile Include="cmpscdct.c" />

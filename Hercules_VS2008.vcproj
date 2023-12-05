@@ -507,6 +507,10 @@
 							Name="Source Files"
 							>
 							<File
+								RelativePath=".\cm3705ii.c"
+								>
+							</File>
+							<File
 								RelativePath=".\comm3705.c"
 								>
 							</File>

@@ -354,6 +354,9 @@
     <ClCompile Include="console.c">
       <Filter>Source Files\Hercules\Devices\Con/Disp/Term\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cm3705ii.c">
+      <Filter>Source Files\Hercules\Devices\CTC\Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="comm3705.c">
       <Filter>Source Files\Hercules\Devices\CTC\Source Files</Filter>
     </ClCompile>
