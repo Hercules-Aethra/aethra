@@ -788,17 +788,19 @@ void* cckd_calloc( DEVBLK* dev, char* id, size_t n, size_t size )
 void* cckd_realloc( DEVBLK *dev, char *id, void* p, size_t size )
 {
     void* p2 = NULL;
+
     // shut up GCC 12 warning about using a pointer after realloc()
-    void* p0 = p;
+    char p_string[33];
+    MSGBUF( p_string, "%p", p );
 
     if (size)
         p2 = realloc( p, size );
-    CCKD_TRACE( "%s realloc %p len %ld", id, p0, (long) size );
+    CCKD_TRACE( "%s realloc %s len %ld", id, p_string, (long) size );
 
     if (!p2)
     {
         char buf[64];
-        MSGBUF( buf, "realloc( %p, %d )", p0, (int) size );
+        MSGBUF( buf, "realloc( %s, %d )", p_string, (int) size );
         // "%1d:%04X CCKD file: error in function %s: %s"
         WRMSG( HHC00303, "E", LCSS_DEVNUM, buf, strerror( errno ));
         cckd_print_itrace();
