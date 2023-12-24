@@ -1,7 +1,7 @@
 ![Hercules Aethra](./readme/images/image_header_herculesaethra.png)  
 [![Build Status](https://travis-ci.org/Hercules-Aethra/aethra.svg?branch=master)](https://travis-ci.org/Hercules-Aethra/aethra)
 
-## The Aethra version of Hercules 4.x (Hyperion)
+## Hercules 4.x Aethra
 
 ## Contents
 
@@ -11,11 +11,11 @@
 
 ## About
 
-**Hercules** is an open source software implementation of the mainframe System/370 and ESA/390 architectures, in addition to the latest 64-bit z/Architecture. Hercules runs under Linux, Windows, Solaris, FreeBSD, and Mac OS X.
+**Hercules** is an open source software implementation of the mainframe System/370 and ESA/390 architectures, in addition to the latest 64-bit z/Architecture. Hercules runs under Linux, Windows, Solaris, FreeBSD, and Mac OS X, and should run on any operating system that provides a POSIX interface.
 
-Hercules is [OSI Certified Open Source Software](http://www.opensource.org/) licensed under the terms of the [Q Public Licence](http://sdl-hercules-390.github.io/html/herclic.html).
+Hercules is [OSI Certified Open Source Software](http://www.opensource.org/) licensed under the terms of the [Q Public Licence](http://hercules-aethra.github.io/html/herclic.html).
 
-This version of Hercules 4.x Hyperion is a version of the Hercules emulator, maintained by Jay Maynard, containing fixes made by David "Fish" Trout and others for bugs that may still exist in the original hercules-390 version of Hercules 4.0 Hyperion, as well as enhancements and improvements to the overall functionality above and beyond what is provided by the hercules-390 version of Hercules.
+Hercules 4.x Aethra is a version of the Hercules emulator, maintained by Jay Maynard, containing fixes made by David "Fish" Trout and others for bugs that may still exist in the original hercules-390 version of Hercules 4.0 Hyperion, as well as enhancements and improvements to the overall functionality above and beyond what is provided by the hercules-390 version of Hercules.
 
 Hercules was created by Roger Bowler.
 
@@ -23,11 +23,11 @@ Jay Maynard "the Tron Guy" was the maintainer from 2000 to 2012, and is the main
 
 Jan Jaeger designed and implemented many of the advanced features of Hercules, including dynamic reconfiguration, integrated console, interpretive execution and z/Architecture support.
 
-The SoftDevLabs version of Hercules 4.x Hyperion is developed and maintained by David "Fish" Trout. It is under active development, with a somewhat different emphasis from Hercules Aethra. Aethra was forked from it, and it is anticipated that the two will be developed in cooperation with each other.
+The SoftDevLabs version of Hercules 4.x Hyperion was developed and maintained by David "Fish" Trout. It was until recently under active development, with a somewhat different emphasis from Hercules Aethra. Aethra was forked from it, and it is anticipated that the two will be developed in cooperation with each other.
 
 ## Find out more
 
-To find out more about this particular version of Hercules 4.x Hyperion, follow this link: [Hercules 4.x (Aethra)](http://hercules-aethra.github.io/html/)
+To find out more about this particular version of Hercules 4.x Aethra, follow this link: [Hercules 4.x (Aethra)](http://hercules-aethra.github.io/html/)
 
 ## Additional README files
 
