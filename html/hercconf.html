@@ -179,6 +179,7 @@ a real System/390.  The configuration file is an ASCII text file.
     0023      <a href="#2703">2703</a>    lport=3780 rhost=localhost rport=3781 dial=no
     0045      <a href="#2703">2703</a>    lport=32003 dial=IN lnctl=ibm1 term=2741 skip=5EDE code=ebcd
 
+    00A0      <a href="#3705II">3705II</a>  port=37051 adaptip=192.168.1.203 tracesna=no debug=no
 
 </pre></code>
 </td></tr></table>
@@ -2412,6 +2413,11 @@ a real System/390.  The configuration file is an ASCII text file.
 
             <tr><td>2703</td>
                 <td><a href="#2703">Communication Line</a>, <a href="#2703">Remote Teletype</a>, etc.</td>
+                <td>TCP Socket</td>
+            </tr>
+
+            <tr><td>3705II, 3720, 3725</td>
+                <td><a href="#3705II">Communication controllers</a></td>
                 <td>TCP Socket</td>
             </tr>
 
@@ -5131,6 +5137,53 @@ ROUTE  00  172.21.3.32  255.255.255.224
 
     </dl> <!-- end Addtional 2703 options -->
 
+    <p><br>
+
+<hr width="50%"><p>
+
+<a name="3705II"></a>
+<dt><em>Communication controllers</em>
+<dd><p>
+    This defines a connection from Hercules to an instance of Edwin Freenkenhorst
+    and Henk Stegeman's <a href="https://github.com/snhstq/IBM3705_R2">3705-II
+    emulator</a>, implemented in SIMH. Work is progressing on a 3720 emulator, and
+    it is supported in the same way as the 3705-II. Details of installing and
+    configuring the emulator are beyond the scope of this document.
+    <p>
+    
+    There are no required arguments, although you will almost certainly need to
+    specify at least the TCP port the emulator uses with <code>port=</code>. There
+    are four optional arguments.
+
+    <dl> <!-- Begin 3705-II options -->
+    <dt><code>PORT=<em>port number</em></code>
+    <dd><p>
+        Specifies the TCP port to use to connect to the 3705-II emulator. The
+        default is 0, which is almost certainly not what you want.
+    <p>
+    
+    <dt><code>ADAPTIP=<em>hostname</em> &#124; <em>ip address</em> &#124; *</code>
+    <dd><p>
+        Specifies the host on which the 3705-II emulator is running. * means that
+        a connection from an emulator running on any host will be accepted. This is
+        the default.
+    <p>
+    
+    <dt><code>TRACESNA=YES &#124; NO</code>
+    <dd><p>
+        Enables tracing of SNA traffic to and from the 3705-II. This is not a
+        complete SNA trace, but is enough to debug the emulator's processing.
+        Default is NO.
+    <p>
+    
+    <dt><code>DEBUG=YES &#124; NO</code>
+    <dd><p>
+        Enables detailed tracing of channel traffic to and from the 3705-II. This
+        produces voluminous output, and is not needed in normal operation. Default
+        is NO.
+    <p>
+                
+    </dl>
 
 </dl> <!-- end Arguments for each device type -->
 
