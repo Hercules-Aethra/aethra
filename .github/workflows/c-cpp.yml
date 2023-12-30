@@ -19,6 +19,8 @@ jobs:
       run: ./configure
     - name: make
       run: make
+    - name: install rexx
+      run: sudo apt-get install -y regina-rexx
     - name: make check
       run: make check
     - name: make distcheck
