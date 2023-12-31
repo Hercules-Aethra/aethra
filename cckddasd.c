@@ -1794,7 +1794,7 @@ int             wrs;
     if (!cckdblk.batch)
     {
         cckdblk.wrprio = sysblk.cpuprio - 1;
-        set_thread_priority( cckdblk.wrprio );
+        SET_THREAD_PRIORITY( cckdblk.wrprio, sysblk.qos_user_initiated );
     }
 
     obtain_lock( &cckdblk.wrlock );

@@ -404,7 +404,7 @@ void* socket_thread( void* arg )
 
     UNREFERENCED( arg );
 
-    set_thread_priority( sysblk.srvprio );
+    SET_THREAD_PRIORITY( sysblk.srvprio, sysblk.qos_user_initiated );
 
     /* Display thread started message on control panel */
     LOG_THREAD_BEGIN( SOCKET_THREAD_NAME  );

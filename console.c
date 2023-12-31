@@ -3405,7 +3405,7 @@ int prev_rlen3270;
     UNREFERENCED( arg );
 
     /* Set server thread priority; ignore any errors */
-    set_thread_priority( sysblk.srvprio );
+    SET_THREAD_PRIORITY( sysblk.srvprio, sysblk.qos_user_interactive );
 
     // "Thread id "TIDPAT", prio %2d, name %s started"
     LOG_THREAD_BEGIN( CON_CONN_THREAD_NAME  );
