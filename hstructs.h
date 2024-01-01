@@ -624,7 +624,7 @@ enum OPERATION_MODE
 
 /* We use this in the sysblk below, but it's not defined except on Apple */
 #if !defined( BUILD_APPLE_M1 )
-    typedef int qos_class_t;
+    typedef unsigned int qos_class_t;
 #endif
 
 /*-------------------------------------------------------------------*/
