@@ -1,0 +1,73 @@
+Hercules is released under the Q Public License (QPL), version 1. For the
+text of the license itself, see the file html/herclic.html in this
+distribution.
+
+The license will be changed for all files in this distribution licensed
+under the QPL to the MIT license, included below, on July 1, 2024, in
+accordance with the following notice posted to the Hercules mailing list,
+hercules-390@groups.io, on January 1, 2024.
+
+Future contributions to Hercules will only be accepted under the MIT license.
+
+***
+
+Hercules is distributed under the Q Public License, a license not used, to
+the best of my knowledge, by any other major project. I think we need to
+relicense it.
+
+The fundamental problem is that we have not been in compliance with the QPL's
+terms for two decades. The QPL requires that software be distributed as the
+original source as released by the original author plus patches. We've never
+done it that way, because it would require things be managed by Roger Bowler,
+and he hasn't done that since the turn of the millennium. This puts all of the
+developers at legal risk, small though it may be. It's even questionable
+whether using a shared forge such as Github is legal.
+
+On top of that, because of our noncompliance with the license, folks who
+maintain Linux distributions, and anyone who distributes Hercules as a binary
+for any operating system, could also be in violation of the license.
+
+In addition, there are major components of the system - all of the external
+packages, for one, and a couple of other pieces - that are distributed under
+the MIT license, and a few pieces that are explicitly public domain. This
+makes for an even larger mess. 
+
+To this end, I intend to relicense the Hercules code in the Aethra repository
+on July 1, 2024, to the MIT license. This process will involve replacing the
+copyright statements in every source file with ones compliant with the SPDX
+standard (the copyrights themselves will not change), as well as replacing any
+license statements with the equivalent SPDX header. For more information on
+SPDX, see https://spdx.dev/ . SPDX is widely adopted as the standard way to
+express copyright and license information in open source software.
+
+I am willing to consider alternative licenses, and would prefer, if the MIT
+license is not acceptable, to use the Apache 2.0 license. None of the
+GPL-style licenses will be considered.
+
+This notice is being sent to the hercules-390 mailing list, as well as
+directly to those who I know to be major contributors to the Hercules
+codebase. Anyone who knows of a contributor that should receive it and is not
+subscribed to hercules-390 is welcome to pass along contact information to me,
+and I will ensure they are notified.
+
+***
+
+The MIT license:
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the “Software”),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+    
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+    
+    THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
