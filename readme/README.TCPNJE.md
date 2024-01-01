@@ -1,4 +1,4 @@
-![header image](images/image_header_herculeshyperionSDL.png)
+![header image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # TCPNJE - NJE over TCP/IP device implementation for VM/370 or MVS 3.8 running on Hercules

@@ -1,4 +1,4 @@
-![test image](images/image_header_herculeshyperionSDL.png)
+![test image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # NOTE!  This file is OUT OF DATE and should probably be deleted!

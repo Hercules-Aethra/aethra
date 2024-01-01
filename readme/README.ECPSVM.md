@@ -1,4 +1,4 @@
-![test image](images/image_header_herculeshyperionSDL.png)
+![test image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # ECPS:VM : Extended Control Program Support : VM/370

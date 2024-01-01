@@ -1,4 +1,4 @@
-![test image](images/image_header_herculeshyperionSDL.png)
+![test image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # VMFPLC2 (VM) Formatted Tape Utility

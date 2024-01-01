@@ -1,4 +1,4 @@
-![header image](images/image_header_herculeshyperionSDL.png)
+![header image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # Adding New Source Files to Hercules

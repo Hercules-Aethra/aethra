@@ -1,4 +1,4 @@
-![test image](images/image_header_herculeshyperionSDL.png)
+![test image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # Hercules CCKD64 Support

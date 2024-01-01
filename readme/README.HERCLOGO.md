@@ -1,4 +1,4 @@
-![header image](images/image_header_herculeshyperionSDL.png)
+![header image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # Customizable Hercules 3270 Logo
@@ -15,7 +15,7 @@ The initial welcome screen presented when a TN 3270 terminal connects to a Hercu
 The customized logo is stored in a plain text file which contains positioning orders, attributes and variable substitutions.
 
 &nbsp;
-![logo image](images/herclogo.jpg)
+![logo image](images/herclogo.png)
 &nbsp;
 
 

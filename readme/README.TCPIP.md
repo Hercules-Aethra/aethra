@@ -1,4 +1,4 @@
-![test image](images/image_header_herculeshyperionSDL.png)
+![test image](images/image_header_herculesaethra.png)
 [Return to master README.md](../README.md)
 
 # Guest Access To Host IP Stack - The TCPIP (X'75') Instruction
