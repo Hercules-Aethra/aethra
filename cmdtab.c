@@ -1,14 +1,12 @@
-/* CMDTAB.C     (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) Copyright "Fish" (David B. Trout), 2002-2012     */
-/*              (C) Copyright Jan Jaeger, 2003-2012                  */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              (C) and others 2013-2023                             */
-/*              Route all Hercules configuration statements          */
+/* CMDTAB.C     Route all Hercules configuration statements          */
 /*              and panel commands to the appropriate functions      */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

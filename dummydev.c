@@ -1,14 +1,12 @@
-/* DUMMYDEV.C   (C) Copyright Roger Bowler & Others, 2002-2012       */
-/*              (C) Copyright, MHP, 2007-2008 (see below)            */
-/*              Hercules Communication Line Driver                   */
+/* DUMMYDEV.C   Hercules Communication Line Driver                   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Max H. Parke                             */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* (c) 2020 Ivan Warren. Licensed as stated above
-
-   This device emulator does NOT emulate any existing or known device.
+/* This device emulator does NOT emulate any existing or known device.
    It has essentially 2 purposes :
    - Provide a skeleton for future device handlers/emulators
    - Provide an exercising tool for the hercules I/O subsystems

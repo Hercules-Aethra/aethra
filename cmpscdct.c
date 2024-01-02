@@ -1,9 +1,7 @@
-/* CMPSCDCT.C   (C) Copyright "Fish" (David B. Trout), 2012-2014     */
-/*              Compression Call Get Dictionary Entry functions      */
+/* CMPSCDCT.C   Compression Call Get Dictionary Entry functions      */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"    // (MUST be first #include in EVERY source file)
 

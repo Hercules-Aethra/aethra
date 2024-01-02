@@ -1,16 +1,14 @@
-/* HAO.C        (C) Copyright Bernard van der Helm, 2002-2012        */
-/*             Hercules Automatic Operator Implementation            */
+/* HAO.C       Hercules Automatic Operator Implementation            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Bernard van der Helm           */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*---------------------------------------------------------------------------*/
 /* file: hao.c                                                               */
 /*                                                                           */
 /* Implementation of the automatic operator within the Hercules emulator.    */
 /*                                                                           */
-/*                            (C) Copyright Bernard van der Helm, 2002-2011  */
+/*                            Copyright Bernard van der Helm                 */
 /*                            Noordwijkerhout, The Netherlands.              */
 /*---------------------------------------------------------------------------*/
 

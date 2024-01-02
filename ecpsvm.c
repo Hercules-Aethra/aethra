@@ -1,18 +1,9 @@
-/*ECPSVM.C      (C) Copyright Roger Bowler, 2000-2012                */
-/*              (C) and others 2013-2021                             */
-/*              Hercules ECPS:VM Support                             */
+/*ECPSVM.C      Hercules ECPS:VM Support                             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/***********************************************************/
-/* HERCULES ECPS:VM Support                                */
-/* (C) Copyright 2003-2009 Roger Bowler and Others         */
-/* Use of this program is governed by the QPL License      */
-/* Original Author : Ivan Warren                           */
-/* Prime Maintainer : Ivan Warren                          */
-/***********************************************************/
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /***********************************************************/
 /*                                                         */

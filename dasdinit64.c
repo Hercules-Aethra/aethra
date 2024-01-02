@@ -1,9 +1,7 @@
-/* DASDINIT64.C (C) Copyright Roger Bowler, 1999-2012                */
-/*              Hercules DASD Utilities: DASD image builder          */
+/* DASDINIT64.C Hercules DASD Utilities: DASD image builder          */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This program creates a disk image file and initializes it as      */

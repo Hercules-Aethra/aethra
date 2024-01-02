@@ -1,9 +1,7 @@
-/* DASDISUP.C   (C) Copyright Roger Bowler, 1999-2012                */
-/*              Hercules DASD Utilities: IEHIOSUP                    */
+/* DASDISUP.C   Hercules DASD Utilities: IEHIOSUP                    */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This program performs the IEHIOSUP function of OS/360.            */

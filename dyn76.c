@@ -1,12 +1,12 @@
-/* DYN76.C      (C) Copyright Harold Grovesteen, 2010-2012           */
-/*              Diagnose Instr for file transfers                    */
+/* DYN76.C      Diagnose Instruction for file transfers              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Harold Grovesteen                        */
+/*  SPDX-FileContributor:   Jason Paul Winter                        */
+/*  SPDX-License-Identifier: BSD-2-Clause                            */
 
-/* DYN76   (C) Copyright Jason Paul Winter, 2010                      */
-/*             See license_dyn76.txt for licensing                    */
+/* DYN76       Copyright Jason Paul Winter                           */
+/*             See license_dyn76.txt for licensing                   */
 
 #include "hstdinc.h"
 

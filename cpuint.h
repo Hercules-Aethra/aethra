@@ -1,9 +1,7 @@
-/* CPUINT.H     (C) Copyright Jan Jaeger, 2001-2012                  */
-/*              Hercules Interrupt State and Mask Definitions        */
+/* CPUINT.H     Hercules Interrupt State and Mask Definitions        */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /**********************************************************************
  Interrupts_State & Interrupts_Mask bits definition (Initial_Mask=800E)

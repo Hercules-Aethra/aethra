@@ -1,10 +1,7 @@
-/* CONVTO64.c   (C) Copyright "Fish" (David B. Trout), 2018-2019     */
-/*              (C) and others 2020-2023                             */
-/*              Convert compressed ckd to cckd64 format              */
+/* CONVTO64.c   Convert compressed ckd to cckd64 format              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /*   This program copies a 32-bit cckd or 64-bit cckd64 base image   */

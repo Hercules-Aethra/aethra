@@ -1,9 +1,7 @@
-/* CCKDSWAP.C   (C) Copyright Roger Bowler, 1999-2012                */
-/*              Swap the 'endianness' of a CCKD file.                */
+/* CCKDSWAP.C   Swap the 'endianness' of a CCKD file.                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module changes the `endianness' of a compressed CKD file.    */

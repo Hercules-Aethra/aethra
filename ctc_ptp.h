@@ -1,9 +1,7 @@
-/* CTC_PTP.H    (C) Copyright Ian Shorter, 2011-2012                 */
-/*              MPC Point-To-Point Support (PTP)                     */
+/* CTC_PTP.H    MPC Point-To-Point Support (PTP)                     */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Ian Shorter                    */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef __CTC_PTP_H_
 #define __CTC_PTP_H_

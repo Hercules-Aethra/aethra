@@ -1,15 +1,14 @@
-/* COMM3705.C   (C) Copyright Roger Bowler, 2008-2012                */
-/*              (C) Copyright MHP, 2007 (see below)                  */
-/*              Hercules 3705 communications controller              */
+/* COMM3705.C   Hercules 3705 communications controller              */
 /*              running NCP                                          */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Max H. Parke <ikj1234i at yahoo dot com> */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /***********************************************************************/
 /*                                                                     */
-/* comm3705.c - (C) Copyright 2007 by MHP <ikj1234i at yahoo dot com>  */
+/* comm3705.c - Copyright by MHP <ikj1234i at yahoo dot com>           */
 /*                                                                     */
 /* Loosely based on commadpt.c by Ivan Warren                          */
 /*                                                                     */

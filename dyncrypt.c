@@ -1,9 +1,7 @@
-/* DYNCRYPT.C   (c) Bernard van der Helm, 2003-2011                  */
-/*              z/Architecture crypto instructions                   */
+/* DYNCRYPT.C   z/Architecture crypto instructions                   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Bernard van der Helm           */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
@@ -11,7 +9,7 @@
 /* SA22-7832-04: z/Architecture Principles of Operation within the Hercules   */
 /* z/Architecture emulator.                                                   */
 /*                                                                            */
-/*                              (C) Copyright Bernard van der Helm, 2003-2011 */
+/*                              Copyright Bernard van der Helm                */
 /*                              Noordwijkerhout, The Netherlands.             */
 /*----------------------------------------------------------------------------*/
 

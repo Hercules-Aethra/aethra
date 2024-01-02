@@ -1,11 +1,9 @@
-/* CTC_LCS.C    (C) Copyright James A. Pierson, 2002-2012            */
-/*              (C) Copyright "Fish" (David B. Trout), 2002-2011     */
-/*              (C) and others 2013-2022                             */
-/*              Hercules LAN Channel Station Support                 */
+/* CTC_LCS.C    Hercules LAN Channel Station Support                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   James A. Pierson                         */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

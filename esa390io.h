@@ -1,9 +1,8 @@
 /* ESA390IO.H   (C) Copyright "Fish" (David B. Trout), 2013          */
 /*              Common I/O Device Commands structures                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* Reference: SA22-7204-01 "ESA/390: Common I/O Device Commands"     */
 

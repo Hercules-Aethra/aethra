@@ -1,9 +1,10 @@
-/* XXXXXXX.C    (C) Copyright Your name or company, YYYY             */
+/* XXXXXXX.C    Module title                                         */
 /*              Short module description goes here                   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   your name <your email>                   */
+/*  SPDX-FileContributor:   another name <another email>             */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module implements blah, blah, blah...                        */

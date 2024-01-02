@@ -1,11 +1,11 @@
-/* DIAGNOSE.C   (C) Copyright Roger Bowler, 2000-2012                */
-/*              ESA/390 Diagnose Functions                           */
+/* DIAGNOSE.C   ESA/390 Diagnose Functions                           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 /*-------------------------------------------------------------------*/
 /* This module implements miscellaneous diagnose functions           */

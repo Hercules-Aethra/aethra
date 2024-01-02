@@ -1,10 +1,7 @@
-/* HBYTESWP.H   (C) Copyright Roger Bowler, 2012                     */
-/*              (C) and others 2013-2022                             */
-/*              Hercules Little <> Big Endian conversion             */
+/* HBYTESWP.H   Hercules Little <> Big Endian conversion             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* These definitions are only nessesary when running on older        */

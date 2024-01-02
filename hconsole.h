@@ -1,10 +1,10 @@
-/* HCONSOLE.H   (C) Copyright "Fish" (David B. Trout), 2009-2012     */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*          Hercules hardware console (panel) support functions      */
+/* HCONSOLE.H Hercules hardware console (panel) support functions    */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-FileContributor:   Peter Kuschnerus                         */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _HCONSOLE_H
 #define _HCONSOLE_H

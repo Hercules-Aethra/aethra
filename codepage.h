@@ -1,10 +1,9 @@
-/* CODEPAGE.H   (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              Code Page conversion                                 */
+/* CODEPAGE.H   Code Page conversion                                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _HERCULES_CODEPAGE_H
 #define _HERCULES_CODEPAGE_H

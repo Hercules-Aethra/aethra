@@ -1,9 +1,7 @@
-/* CMPSC.H      (C) Copyright "Fish" (David B. Trout), 2012-2019     */
-/*              S/390 Compression Call Instruction Functions         */
+/* CMPSC.H      S/390 Compression Call Instruction Functions         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _CMPSC_H_
 #define _CMPSC_H_   // Code to be compiled ONLY ONCE goes after here

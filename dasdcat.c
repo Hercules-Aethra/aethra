@@ -1,9 +1,7 @@
-/* DASDCAT.C    (C) Copyright Roger Bowler, 1999-2012                */
-/*              DASD "cat" functions                                 */
+/* DASDCAT.C    DASD "cat" functions                                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*
  * dasdcat

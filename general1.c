@@ -2,13 +2,15 @@
 /*              (C) and others 2013-2023                             */
 /*              Hercules CPU Emulator - Instructions A-M             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   Peter Kuschnerus                         */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* UPT & CFC                (C) Copyright Peter Kuschnerus, 1999-2009*/
-/* Interpretive Execution - (C) Copyright Jan Jaeger, 1999-2012      */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* UPT & CFC                Copyright Peter Kuschnerus               */
+/* Interpretive Execution - Copyright Jan Jaeger                     */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 /*-------------------------------------------------------------------*/
 /* This module implements general instructions A-M of the            */

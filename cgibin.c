@@ -1,9 +1,7 @@
-/* CGIBIN.C     (C) Copyright Jan Jaeger, 2002-2012                  */
-/*                  HTTP cgi-bin routines                            */
+/* CGIBIN.C         HTTP cgi-bin routines                            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /*                                                                   */

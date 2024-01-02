@@ -1,10 +1,7 @@
-/* CCKDUTIL64.C (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) and others 2013-2022                             */
-/*              CCKD64 (Compressed CKD64) Common routines            */
+/* CCKDUTIL64.C CCKD64 (Compressed CKD64) Common routines            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module contains functions for compressed CKD devices         */

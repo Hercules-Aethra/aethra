@@ -1,9 +1,7 @@
-/* COMMADPT.H   (c)Copyright Ivan Warren, 2003-2012                  */
-/*              Structure definitions for 2703 line driver           */
+/* COMMADPT.H   Structure definitions for 2703 line driver           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Ivan Warren                    */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef __COMMADPT_H__
 #define __COMMADPT_H__

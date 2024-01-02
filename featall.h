@@ -1,10 +1,7 @@
-/* FEATALL.H    (C) Copyright Jan Jaeger, 2000-2012                  */
-/*              (C) and others 2013-2023                             */
-/*              Architecture-dependent macro definitions             */
+/* FEATALL.H    Architecture-dependent macro definitions             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /*               Default OPTIONs and FEATUREs                        */

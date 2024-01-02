@@ -1,10 +1,9 @@
-/* ARCHLVL.C    (C) Copyright Jan Jaeger,   2010-2012                */
-/*              (C) Copyright "Fish" (David B. Trout), 2018-2019     */
-/*                  Architecture Level functions                     */
+/* ARCHLVL.C        Architecture Level functions                     */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

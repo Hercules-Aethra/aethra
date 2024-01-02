@@ -1,10 +1,9 @@
-/* DASDSEQ.C    (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) Copyright James M. Morrison, 2001-2010           */
-/*              Hercules Supported DASD definitions                  */
+/* DASDSEQ.C    Hercules Supported DASD definitions                  */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   James M. Morrison                        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* Code borrowed from dasdpdsu Copyright 1999-2009 Roger Bowler      */
 /* Changes and additions Copyright 2001-2009, James M. Morrison      */

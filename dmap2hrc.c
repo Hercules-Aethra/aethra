@@ -1,9 +1,7 @@
-/* DMAP2HRC.C   (C) Copyright Jay Maynard, 2001-2012                 */
-/*              Convert P/390 DEVMAP to Hercules config file         */
+/* DMAP2HRC.C   Convert P/390 DEVMAP to Hercules config file         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright James R. Maynard III           */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This program reads a P/390 DEVMAP file and extracts the device    */

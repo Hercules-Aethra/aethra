@@ -1,9 +1,7 @@
-/* BUILD_PCH  (c)Copyright Ivan Warren, 2005-2012                    */
-/*            Dummy module for building pre-compiled header files    */
+/* BUILD_PCH  Dummy module for building pre-compiled header files    */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Ivan Warren                    */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 #include "hqawarn.h"

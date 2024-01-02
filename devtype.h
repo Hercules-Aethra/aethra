@@ -1,9 +1,7 @@
-/* DEVTYPE.H    (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              Hercules Device Definitions                          */
+/* DEVTYPE.H    Hercules Device Definitions                          */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _DEVICES_H
 #define _DEVICES_H

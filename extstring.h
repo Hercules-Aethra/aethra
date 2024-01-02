@@ -1,10 +1,8 @@
-/* EXTSTRING.H  (C) Copyright Mark L. Gaubatz, 1985-2012             */
-/*              Adapted for use by Hercules                          */
+/* EXTSTRING.H  Adapted for use by Hercules                          */
 /*              Extended string handling routines                    */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html)                      */
-/*   as modifications to Hercules.                                   */
+/*  SPDX-FileCopyrightText: Copyright Mark L. Gaubatz                */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 /*                                                                   */
 /*********************************************************************/
 

@@ -1,9 +1,7 @@
-/* CCKDDIAG.C   (C) Copyright Roger Bowler, 1999-2012                */
-/*              Hercules CCKD diagnostic tool                        */
+/* CCKDDIAG.C   Hercules CCKD diagnostic tool                        */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* 2003-02-07 James M. Morrison initial implementation               */
 /* portions borrowed from cckdcdsk & other CCKD code                 */

@@ -1,10 +1,7 @@
-/* DASDTAB.H    (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) and others 2013-2023                             */
-/*              DASD table structures                                */
+/* DASDTAB.H    DASD table structures                                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This header file contains defines the table entries that          */

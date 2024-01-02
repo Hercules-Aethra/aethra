@@ -1,10 +1,9 @@
-/* DASDLOAD2.H  Copyright Roger Bowler                               */
-/*              Copyright TurboHercules, SAS                         */
-/*              Hercules DASD Utilities: DASD image loader           */
+/* DASDLOAD2.H  Hercules DASD Utilities: DASD image loader           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This program creates a virtual DASD volume from a list of         */

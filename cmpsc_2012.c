@@ -1,10 +1,9 @@
-/* CMPSC_2012.C (C) Copyright "Fish" (David B. Trout), 2012-2019     */
-/*              (c) Bernard van der Helm, 2000-2012                  */
-/*              S/390 Compression Call Instruction Functions         */
+/* CMPSC_2012.C S/390 Compression Call Instruction Functions         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-FileContributor:   Bernard van der Helm                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module implements ESA/390 Compression Call instruction as    */

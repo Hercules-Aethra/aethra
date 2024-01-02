@@ -1,9 +1,7 @@
-/* FEAT390.H    (C) Copyright Jan Jaeger, 2000-2012                  */
-/*              ESA/390 feature definitions                          */
+/* FEAT390.H    ESA/390 feature definitions                          */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This file defines the architectural features which are included   */

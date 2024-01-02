@@ -1,10 +1,7 @@
-/* CON1052.C    (c)Copyright Jan Jaeger, 2004-2012                   */
-/*              (C) and others 2013-2023                             */
-/*              Emulated Console Printer Keyboard on Hercules HMC    */
+/* CON1052.C    Emulated Console Printer Keyboard on Hercules HMC    */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module contains device handling functions for integrated     */

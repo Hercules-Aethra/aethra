@@ -1,9 +1,9 @@
-/* FLOAT.C      (C) Copyright Peter Kuschnerus, 2000-2012            */
-/*              ESA/390 Hex Floating-point Instructions              */
+/* FLOAT.C      ESA/390 Hex Floating-point Instructions              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Peter Kuschnerus                         */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module implements the ESA/390 Hex Floatingpoint Instructions */
@@ -14,7 +14,7 @@
 /* Incorporated all floating point instructions from cpu.c in order  */
 /* to implement revised instruction decoding.                        */
 /*                                               Jan Jaeger 01/07/00 */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 /*-------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------*/

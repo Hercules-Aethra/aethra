@@ -1,9 +1,7 @@
-/* HERC_GETOPT.H (C) Copyright Roger Bowler, 2006-2012               */
-/*              Hercules getopt interface                            */
+/* HERC_GETOPT.H   Hercules getopt interface                         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #if !defined(__HERC_GETOPT_H__)
 #    define  __HERC_GETOPT_H__

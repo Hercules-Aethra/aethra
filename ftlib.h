@@ -1,9 +1,7 @@
-/* FTLIB.H      (C) Copyright TurboHercules, SAS 2010-2011           */
-/*             Header files for FAKETAPE.                            */
+/* FTLIB.H     Header files for FAKETAPE.                            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright TurboHercules, SAS             */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #if !defined( _FTLIB_H_ )
 #define _FTLIB_H_

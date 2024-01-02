@@ -1,9 +1,7 @@
-/* CCKD64.H    (C) Copyright "Fish" (David B. Trout), 2018-2022      */
-/*              CCKD64 dasd struct and type definitions              */
+/* CCKD64.H     CCKD64 dasd struct and type definitions              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _CCKD64_H_
 #define _CCKD64_H_

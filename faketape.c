@@ -1,9 +1,10 @@
-/* FAKETAPE.C   (C) Copyright Roger Bowler, 1999-2012                */
-/*              Hercules Tape Device Handler for FAKETAPE            */
+/* FAKETAPE.C   Hercules Tape Device Handler for FAKETAPE            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* Original Author: "Fish" (David B. Trout)                          */
 /* Prime Maintainer: "Fish" (David B. Trout)                         */
@@ -14,9 +15,6 @@
 /* The subroutines in this module are called by the general tape     */
 /* device handler (tapedev.c) when the tape format is FAKETAPE.      */
 /* Reference information: FSIMS100 Faketape manual                   */
-/*-------------------------------------------------------------------*/
-/*-------------------------------------------------------------------*/
-/* Messages issued by this module are prefixed HHCTA5nn              */
 /*-------------------------------------------------------------------*/
 
 #include "hstdinc.h"

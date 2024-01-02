@@ -1,9 +1,8 @@
 /* FACILITY.H   (C) Copyright "Fish" (David B. Trout), 2018-2019     */
 /*                  Facility bit structures and functions            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _FACILITY_H_
 #define _FACILITY_H_

@@ -1,13 +1,12 @@
-/* CTCADPT.H    (C) Copyright James A. Pierson, 2002-2012            */
-/*              (C) Copyright Roger Bowler, 2000-2012                */
-/*              (C) Copyright Willem Konynenberg, 2000-2009          */
-/*              (C) Copyright Vic Cross, 2001-2009                   */
-/*              (C) Copyright David B. Trout, 2002-2009              */
-/*              Hercules Channel-to-Channel Emulation Support        */
+/* CTCADPT.H    Hercules Channel-to-Channel Emulation Support        */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   James A. Pierson                         */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Willem Konynenberg                       */
+/*  SPDX-FileContributor:   Vic Cross                                */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef __CTCADPT_H_
 #define __CTCADPT_H_

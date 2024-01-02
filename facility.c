@@ -1,10 +1,7 @@
-/* FACILITY.C   (C) Copyright "Fish" (David B. Trout), 2018-2019     */
-/*              (C) and others 2013-2021                             */
-/*                  Facility bit functions                           */
+/* FACILITY.C       Facility bit functions                           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

@@ -1,6 +1,8 @@
 Hercules is released under the Q Public License (QPL), version 1. For the
 text of the license itself, see the file html/herclic.html in this
-distribution.
+distribution. Some files are released under a different license. In all cases,
+if there is an SPDX-License-Identifier tag in the file, the license designated
+by that tag as listed at https://spdx.org/licenses/ governs that file.
 
 The license will be changed for all files in this distribution licensed
 under the QPL to the MIT license, included below, on July 1, 2024, in

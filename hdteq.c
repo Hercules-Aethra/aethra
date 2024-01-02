@@ -1,9 +1,7 @@
-/* HDTEQ.C      (C) Copyright Jan Jaeger, 2003-2012                  */
-/*              Hercules Dynamic Loader                              */
+/* HDTEQ.C      Hercules Dynamic Loader                              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 #include "hercules.h"

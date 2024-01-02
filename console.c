@@ -1,9 +1,7 @@
-/* CONSOLE.C   (C) Copyright Roger Bowler and others, 1999-2016      */
-/*              Hercules Console Device Handler                      */
+/* CONSOLE.C    Hercules Console Device Handler                      */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module contains device handling functions for console        */

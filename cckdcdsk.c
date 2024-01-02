@@ -1,10 +1,9 @@
-/* CCKDCDSK.C   (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) Copyright Greg Smith, 2002-2012                  */
-/*              CCKD64 dasd image verification utility.              */
+/* CCKDCDSK.C   CCKD64 dasd image verification utility.              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Greg Smith                               */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* Perform check function on a compressed ckd file                   */

@@ -1,11 +1,9 @@
-/* CONSPAWN.C   (c) "Fish" (David B. Trout), 2005-2012               */
+/* CONSPAWN.C   Spawn a shell from the Hercules console              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
-/* CONSPAWN.C   (c) "Fish" (David B. Trout), 2005-2006               */
 /*       This program is spawned by Hercules as a result of          */
 /*       the 'sh' (shell) command. It's purpose is to simply         */
 /*       call the host's shell (command interpreter) program         */

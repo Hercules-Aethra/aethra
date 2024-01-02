@@ -1,10 +1,10 @@
-/* HCHAN.C       (C) Copyright Ivan Warren, 2005-2012                */
-/* Based on work (c)Roger Bowler, Jan Jaeger & Others 1999-2009      */
-/*              Generic channel device handler                       */
+/* HCHAN.C      Generic channel device handler                       */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /**CAUTION*CAUTION*CAUTION*CAUTION*CAUTION*CAUTION*CAUTION*CAUTION****/
 /* THIS CODE IS CURRENTLY IN A DEVELOPMENT STAGE AND IS NOT          */

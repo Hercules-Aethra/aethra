@@ -1,10 +1,7 @@
-/* cckdmap.c    (C) Copyright "Fish" (David B. Trout), 2019-2022     */
-/*              (C) and others 2022-2023                             */
-/*               Compressed dasd file map                            */
+/* cckdmap.c     Compressed dasd file map                            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /*   This program is a CCKD64 debugging tool that reads a dasd       */

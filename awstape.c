@@ -1,9 +1,8 @@
 /* AWSTAPE.C    (C) Copyright Roger Bowler, 1999-2012                */
 /*              Hercules Tape Device Handler for AWSTAPE             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* Original Author: Roger Bowler                                     */
 /* Prime Maintainer: Ivan Warren                                     */
@@ -13,9 +12,6 @@
 /* This module contains the AWSTAPE emulated tape format support.    */
 /* The subroutines in this module are called by the general tape     */
 /* device handler (tapedev.c) when the tape format is AWSTAPE.       */
-/*-------------------------------------------------------------------*/
-/*-------------------------------------------------------------------*/
-/* Messages issued by this module are prefixed HHCTA1nn              */
 /*-------------------------------------------------------------------*/
 
 #include "hstdinc.h"

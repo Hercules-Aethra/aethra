@@ -1,10 +1,9 @@
-/* DECIMAL.C    (C) Copyright Roger Bowler, 1991-2012                */
-/*              (C) and others 2013-2022                             */
-/*              ESA/390 Packed Decimal Routines                      */
+/* DECIMAL.C    ESA/390 Packed Decimal Routines                      */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module contains packed decimal subroutines for ESA/390.      */
@@ -21,7 +20,7 @@
 /* Add trialrun to ED and EDMK                   Jan Jaeger 19/07/00 */
 /* Fix random MP bug - Mario Bezzi                                   */
 /* Clear DXC on data exception - Peter Kuschnerus                V209*/
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 /* TP instruction - Roger Bowler                            08/02/01 */
 /* packed_to_binary subroutine - Roger Bowler               29/06/03 */
 /* binary_to_packed subroutine - Roger Bowler              02Jul2003 */

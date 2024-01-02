@@ -1,9 +1,8 @@
 /* CCWARN.H   (C) Copyright "Fish" (David B. Trout), 2018-2019       */
 /*             Re-ENABLE (un-suppress) some compiler warnings        */
 /*                                                                   */
-/*             Released under "The Q Public License Version 1"       */
-/*             (http://www.hercules-390.org/herclic.html)            */
-/*             as modifications to Hercules.                         */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*  This header re-enables again some of the compiler warnings       */
 /*  that were suppressed by the 'ccnowarn.h' header or elsewhere.    */

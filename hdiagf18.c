@@ -1,9 +1,7 @@
-/* HDIAGF18.C   (C) Copyright Harold Grovesteen, 2010-2012            */
-/*              Hercules DIAGNOSE code X'F18'                         */
+/* HDIAGF18.C   Hercules DIAGNOSE code X'F18'                         */
 /*                                                                    */
-/*   Released under "The Q Public License Version 1"                  */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to   */
-/*   Hercules.                                                        */
+/*  SPDX-FileCopyrightText: Copyright Harold Grovesteen               */
+/*  SPDX-License-Identifier: QPL-1.0                                  */
 
 /*--------------------------------------------------------------------*/
 /* This module implements Hercules DIAGNOSE code X'F18'               */

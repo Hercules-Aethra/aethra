@@ -1,9 +1,12 @@
-/* Hercules atomic operations.                                       */
-/*                                 John Hartmann 5 Oct 2015 11:32:17 */
+/* HATOMIC.H    Hercules atomic operations                           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: This file is in the public domain        */
+/*  SPDX-FileContributor:   John P. Hartmann                         */
+/*  SPDX-License-Identifier: MIT                                     */
+/*                                                                   */
+/* Note: While John put this file into the public domain, his        */
+/* statement below is closer to the MIT license. I have tagged the   */
+/* file accordingly. -- JRM, 2024-01-01                              */                                                                  */
 
 /*********************************************************************/
 /* This  file  was  put into the public domain 2015-10-05 by John P. */

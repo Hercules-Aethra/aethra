@@ -1,9 +1,7 @@
-/* CMPSCGET.H   (C) Copyright "Fish" (David B. Trout), 2012-2014     */
-/*              Compression Call Get Next Index Functions            */
+/* CMPSCGET.H   Compression Call Get Next Index Functions            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _CMPSCGET_H_
 #define _CMPSCGET_H_    // Code to be compiled ONLY ONCE goes after here
