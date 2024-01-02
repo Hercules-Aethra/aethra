@@ -1,15 +1,11 @@
-/* HERCLIN.C    (C) Copyright Roger Bowler, 2005-2012                */
-/*              (C) and others 2013-2021                             */
-/*              Hercules Interface Control Program                   */
+/* HERCLIN.C    Hercules Interface Control Program                   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /************************************************/
-/* (C) Copyright 2005-2009 Roger Bowler & Others*/
-/* Initial author : Ivan Warren                 */
-/*                                              */
 /* HERCLIN.C                                    */
 /*                                              */
 /* THIS IS SAMPLE CODE DEMONSTRATING            */

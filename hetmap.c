@@ -1,23 +1,10 @@
-/* HETMAP.C     (C) Copyright Leland Lucius, 2000-2012               */
-/*              (C) Copyright Paul F. Gorlinsky, 2010                */
-/*              (C) Copyright TurboHercules, SAS, 2011               */
-/*         Displays information about a Hercules Emulated Tape       */
+/* HETMAP.C     Displays information about a Hercules Emulated Tape  */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/*
-|| ----------------------------------------------------------------------------
-||
-|| HETMAP.C     (C) Copyright Leland Lucius, 2000-2009
-||              (C) Copyright Paul F Gorlinsky 2010 (SLANAL changes)
-||              Released under terms of the Q Public License.
-||
-|| Displays information about the structure of a Hercules Emulated Tape.
-||
-|| ----------------------------------------------------------------------------
-*/
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Leland Lucius                            */
+/*  SPDX-FileContributor:   Paul F. Gorlinsky                        */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 
@@ -88,7 +75,7 @@ typedef unsigned char                   Boolean;
 /*----------------------------------------------------------------------*
  *      Translate tables, ebcdic-ascii, ebcdic-printable.ascii,         *
  *      ascii-printable.ascii                                           *
- *—————————————————————————————————————————————————————————————————————-*/
+ *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-*/
 #define TranslateTables
 static char
 ebcdic_to_ascii[] = {
@@ -155,7 +142,7 @@ ascii_to_printable_ascii[] = {
 
 /*----------------------------------------------------------------------*
  *      prototypes                                                      *
- *—————————————————————————————————————————————————————————————————————-*/
+ *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-*/
 #define Prototypes
 int     main                            ( int, char * [] );
 void    Print_Dataset                   ( SInt32, SInt32 );
@@ -642,7 +629,7 @@ Print_Usage( const char* pgm )
 
 /*----------------------------------------------------------------------*
  *      prototypes                                                      *
- *—————————————————————————————————————————————————————————————————————-*/
+ *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-*/
 static Boolean
 Print_Standard_Labels (void )
 {
@@ -961,7 +948,7 @@ Print_Standard_Labels (void )
 
 /*----------------------------------------------------------------------------*
  *      Print <= 1K of Data in Printable HEX, the ASCII Char, the EBCDIC Char *
- *————————————————————————————————————————————————————————————————————------—-*/
+ *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½------ï¿½-*/
 static SInt32
 Print_Block_Data    ( SInt32 prtlen )
 {

@@ -1,13 +1,11 @@
-/* HETTAPE.C    (C) Copyright Roger Bowler, 1999-2012                */
-/*              Hercules Tape Device Handler for HETTAPE             */
+/* HETTAPE.C    Hercules Tape Device Handler for HETTAPE             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/* Original Author: Leland Lucius                                    */
-/* Prime Maintainer: Ivan Warren                                     */
-/* Secondary Maintainer: "Fish" (David B. Trout)                     */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Leland Lucius                            */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module contains the HET emulated tape format support.        */

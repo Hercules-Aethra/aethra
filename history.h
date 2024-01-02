@@ -1,9 +1,7 @@
-/* HISTORY.H    (C) Copyright Roger Bowler, 1999-2012                */
-/*               Hercules Command History Processes                  */
+/* HISTORY.H     Hercules Command History Processes                  */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _HISTORY_H_
 #define _HISTORY_H_

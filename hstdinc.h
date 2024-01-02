@@ -1,9 +1,7 @@
-/* HSTDINC.H    (C) Copyright Roger Bowler, 1999-2019                */
-/*              Hercules precompilation-eligible Header Files        */
+/* HSTDINC.H    Hercules precompilation-eligible Header Files        */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This file contains #include statements for all of the header      */

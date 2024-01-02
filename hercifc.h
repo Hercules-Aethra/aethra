@@ -1,10 +1,9 @@
-/* HERCIFC.H     (C) Copyright Roger Bowler, 2000-2012               */
-/*               (C) Copyright James A. Pierson, 2002-2009           */
-/*              Hercules Interface Control Program                   */
+/* HERCIFC.H    Hercules Interface Control Program                   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Janmes A. Pierson                        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef __HERCIFC_H_
 #define __HERCIFC_H_

@@ -1,23 +1,10 @@
-/* HETLIB.C    (C) Copyright Leland Lucius, 2000-2012                */
-/*             Header for the Hercules Emulated Tape library         */
+/* HETLIB.C    Header for the Hercules Emulated Tape library         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Leland Lucius                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #if !defined( _HETLIB_H_ )
 #define _HETLIB_H_
-
-/*
-|| ----------------------------------------------------------------------------
-||
-|| HETLIB.H     (C) Copyright Leland Lucius, 2000-2009
-||              Released under terms of the Q Public License.
-||
-|| Header for the Hercules Emulated Tape library.
-||
-|| ----------------------------------------------------------------------------
-*/
 
 #if !defined( TRUE )
 #define TRUE                    (1L)

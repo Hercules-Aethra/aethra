@@ -1,9 +1,7 @@
-/* HERROR.H     (C) Copyright Jan Jaeger, 2010-2012                  */
-/*              Hercules Specfic Error codes                         */
+/* HERROR.H     Hercules Specfic Error codes                         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _HERROR_H_
 #define _HERROR_H_

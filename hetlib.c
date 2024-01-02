@@ -1,21 +1,7 @@
-/* HETLIB.C    (C) Copyright Leland Lucius, 2000-2012                */
-/*             (C) and others 2013-2023                              */
-/*             Library for managing Hercules Emulated Tapes          */
+/* HETLIB.C    Library for managing Hercules Emulated Tapes          */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/*
-|| ----------------------------------------------------------------------------
-||
-|| HETLIB.C     (C) Copyright Leland Lucius, 2000-2009
-||              Released under terms of the Q Public License.
-||
-|| Library for managing Hercules Emulated Tapes.
-||
-|| ----------------------------------------------------------------------------
-*/
+/*  SPDX-FileCopyrightText: Copyright Leland Lucius                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

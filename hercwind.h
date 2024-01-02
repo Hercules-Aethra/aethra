@@ -1,9 +1,7 @@
-/* HERCWIND.H   (C) Copyright Roger Bowler, 2005-2016                */
-/*              MSVC Environment Specific Definitions                */
+/* HERCWIND.H   MSVC Environment Specific Definitions                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowwler                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* Header file containing additional data structures and function    */

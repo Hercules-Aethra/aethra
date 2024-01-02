@@ -1,16 +1,12 @@
-/* HETUPD.C     (C) Copyright Leland Lucius, 2000-2012               */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*                 Update/Copy Hercules Emulated Tape                */
+/* HETUPD.C        Update/Copy Hercules Emulated Tape                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Leland Lucius                            */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*
 || ----------------------------------------------------------------------------
-||
-|| HETUPD.C     (C) Copyright Leland Lucius, 2000-2009
-||              Released under terms of the Q Public License.
 ||
 || Copy/update Hercules Emulated Tapes while allowing various modifications
 || like enabling/disabling compression, changing compression method/level, and

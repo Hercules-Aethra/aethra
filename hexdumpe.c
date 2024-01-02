@@ -1,12 +1,10 @@
-/* HEXDUMPE.C   (C) Copyright "Fish" (David B. Trout), 2014-2015     */
-/*              Format a hex dump into the buffer provided           */
+/* HEXDUMPE.C   Format a hex dump into the buffer provided           */
 /*              (with minor adjustments to accommodate Hercules)     */
 /*                                                                   */
-/*   Repository URL:  https://github.com/Fish-Git/hexdump            */
-/*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Software Development Laboratories        */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 
@@ -16,6 +14,7 @@
 #include "hercules.h"
 
 /**********************************************************************
+   Repository URL:  https://github.com/Fish-Git/hexdump
 
    TITLE            hexdumpaw / hexdumpew
 

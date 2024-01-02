@@ -1,9 +1,7 @@
-/* HQAWARN.H    (C) "Fish" (David B. Trout), 2013                    */
-/*              QA Build Configuration Testing Scenarios             */
+/* HQAWARN.H    QA Build Configuration Testing Scenarios             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _HQAWARN_H_
 #define _HQAWARN_H_

@@ -1,9 +1,7 @@
-/* HTHREADS.C   (C) Copyright "Fish" (David B. Trout), 2013-2021     */
-/*              Hercules locking and threading                       */
+/* HTHREADS.C   Hercules locking and threading                       */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* Based on original pttrace.c (C) Copyright Greg Smith, 2003-2013   */

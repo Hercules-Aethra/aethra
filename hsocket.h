@@ -1,9 +1,8 @@
 /* HSOCKET.H    (C) Copyright Roger Bowler, 2005-2012                */
 /*              Equates for socket functions                         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*  This header file contains equates for the socket functions       */
 /*  and constants whose values differ between Unix and Winsock       */

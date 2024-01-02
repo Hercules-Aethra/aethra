@@ -1,11 +1,9 @@
-/* HTHREADS.H   (C) Copyright Roger Bowler, 1999-2013                */
-/*              (C) Copyright "Fish" (David B. Trout), 2013          */
-/*              (C) and others 2014-2021                             */
-/*              Hercules locking and threading                       */
+/* HTHREADS.H   Hercules locking and threading                       */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _HTHREADS_H
 #define _HTHREADS_H

@@ -1,9 +1,7 @@
-/* HINLINES.H   Copyright Roger Bowler                               */
-/*              Hercules-wide inline functions                       */
+/* HINLINES.H   Hercules-wide inline functions                       */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _HINLINES_H
 #define _HINLINES_H

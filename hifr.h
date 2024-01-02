@@ -1,10 +1,9 @@
-/* HIFR.H       (C) Copyright Roger Bowler, 2013                     */
-/*              (C) Copyright Ian Shorter, 2013                      */
-/*              Hercules IPV6 struct hifr/ifreq/in6_ifreq support    */
+/* HIFR.H       Hercules IPV6 struct hifr/ifreq/in6_ifreq support    */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Ian Shorter                              */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef __HIFR_H_
 #define __HIFR_H_

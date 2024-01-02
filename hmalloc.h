@@ -1,9 +1,7 @@
-/* HMALLOC.H    (C) Copyright Roger Bowler, 2013                     */
-/*               Hercules macros...                                  */
+/* HMALLOC.H     Hercules macros...                                  */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 //      This header auto-#included by 'hercules.h'...
 //

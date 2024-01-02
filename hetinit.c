@@ -1,21 +1,9 @@
-/* HETINIT.C    (C) Copyright Leland Lucius, 2000-2012               */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*           Creates IEHINITT or NL format Hercules Emulated Tapes   */
+/* HETINIT.C Creates IEHINITT or NL format Hercules Emulated Tapes   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/*
-|| ----------------------------------------------------------------------------
-||
-|| HETINIT.C    (C) Copyright Leland Lucius, 2000-2009
-||              Released under terms of the Q Public License.
-||
-|| Creates IEHINITT or NL format Hercules Emulated Tapes.
-||
-|| ----------------------------------------------------------------------------
-*/
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Leland Lucius                            */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

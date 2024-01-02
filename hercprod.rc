@@ -1,9 +1,7 @@
-/* HERCPROD.RC  (C) Copyright "Fish" (David B. Trout), 2009-2015     */
-/*      Defines the Hercules executables resource information        */
+/* HERCPROD.RC      Hercules executables resource information        */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html)                      */
-/*   as modifications to Hercules.                                   */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*********************************************************************/
 

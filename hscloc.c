@@ -1,9 +1,8 @@
 /* HSCLOC.C     (C) Copyright TurboHercules SAS, 2010-2011           */
 /*              Locate debugging functions                           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright TurboHercules, SAS             */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 
