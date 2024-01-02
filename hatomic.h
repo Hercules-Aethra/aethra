@@ -6,7 +6,7 @@
 /*                                                                   */
 /* Note: While John put this file into the public domain, his        */
 /* statement below is closer to the MIT license. I have tagged the   */
-/* file accordingly. -- JRM, 2024-01-01                              */                                                                  */
+/* file accordingly. -- JRM, 2024-01-01                              */
 
 /*********************************************************************/
 /* This  file  was  put into the public domain 2015-10-05 by John P. */
