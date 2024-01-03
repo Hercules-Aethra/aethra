@@ -1,9 +1,7 @@
-/* PTTRACE.C    (C) Copyright Greg Smith, 2003-2013                  */
-/*              Threading and locking trace debugger                 */
+/* PTTRACE.C    Threading and locking trace debugger                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Greg Smith                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* Pthread tracing functions                                         */

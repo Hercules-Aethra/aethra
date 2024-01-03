@@ -1,10 +1,7 @@
-/* TRANSACT.H   (C) Copyright Bob Wood, 2019-2020                    */
-/*              (C) and others 2020-2021                             */
-/*                  Transactional-Execution consts and structs       */
+/* TRANSACT.H       Transactional-Execution consts and structs       */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Bob Wood                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module implements the z/Architecture Transactional-Execution */

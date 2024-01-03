@@ -1,12 +1,10 @@
-/* XSTORE.C     (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              Expanded storage related instructions                */
+/* XSTORE.C     Expanded storage related instructions                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* Interpretive Execution - (C) Copyright Jan Jaeger, 1999-2012      */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* Interpretive Execution - Copyright Jan Jaeger                     */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 /* MVPG moved from cpu.c to xstore.c   05/07/00 Jan Jaeger */
 

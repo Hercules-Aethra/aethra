@@ -1,11 +1,9 @@
-/* TRANSACT.C   (C) Copyright "Fish" (David B. Trout), 2017-2021     */
-/*              (C) Copyright Bob Wood, 2019-2020                    */
-/*              (C) and others 2021-2023                             */
-/*      Defines Transactional Execution Facility instructions        */
+/* TRANSACT.C   Transactional Execution Facility instructions        */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html)                      */
-/*   as modifications to Hercules.                                   */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-FileContributor:   Bob Wood                                 */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module implements the z/Architecture Transactional-Execution */
@@ -28,7 +26,7 @@
 /* what you see here. But it is Bob Wood that is the TRUE HERCULEAN  */
 /* that should get the bulk of the credit for Hercules's overall TXF */
 /* (Transactional Execution Facility) implementation. THANKS BOB!    */
-/* And a special THANK YOU to Peter J. and Jürgen W. too for all of  */
+/* And a special THANK YOU to Peter J. and Jï¿½rgen W. too for all of  */
 /* the MANY long hours each of you put in testing and bug hunting!   */
 /* Thank you all! You're the greatest! The Hercules project is truly */
 /* indebted to each and every one of you! Thank you! :`)             */

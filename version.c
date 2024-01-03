@@ -1,10 +1,7 @@
-/* VERSION.C    (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) and others 2013-2021                             */
-/*              Hercules Version Display Module                      */
+/* VERSION.C    Hercules Version Display Module                      */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module displays the Hercules program name and version,       */

@@ -1,11 +1,9 @@
-/* VMFPLC2.C  (C) Copyright Ivan S. Warren 2010-2012                 */
-/*            (C) Copyright "Fish" (David B. Trout), 2019            */
+/* VMFPLC2.C      Hercules VM/CMS VMFPLC2/TAPE Utility               */
 /*                                                                   */
-/*                Hercules VM/CMS VMFPLC2/TAPE Utility               */
-/*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*   For usage instructions, refer to either the 'README.VMFPLC2'    */
 /*   document or the "vmfplc2.1" man page.                           */

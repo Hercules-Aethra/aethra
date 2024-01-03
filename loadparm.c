@@ -1,11 +1,9 @@
-/* LOADPARM.C   (C) Copyright Jan Jaeger, 2004-2012                  */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              (C) and others 2013-2021                             */
-/*              SCLP / MSSF loadparm                                 */
+/* LOADPARM.C   SCLP / MSSF loadparm                                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module contains functions which set, copy, and retrieve the  */

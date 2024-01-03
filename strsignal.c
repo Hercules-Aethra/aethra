@@ -1,10 +1,9 @@
-/* STRSIGNAL.C  (C) Copyright Roger Bowler, 1999-2012                */
-/*                 Originally written by Fred Fish fnf@cygnus.com    */
-/*      Implements strsignal() for architectures without it          */
+/* STRSIGNAL.C  Implements strsignal() for architectures without it  */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Fred Fish <fnf@cygnus.com>               */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

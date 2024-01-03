@@ -1,9 +1,8 @@
 /* LOGGER.H     (C) Copyright Jan Jaeger, 2003-2012                  */
 /*              System logger functions                              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef __LOGGER_H__
 #define __LOGGER_H__

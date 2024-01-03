@@ -1,9 +1,7 @@
-/* W32DL.H      (C) Copyright Jan Jaeger, 2004-2012                  */
-/*                        dlopen compat                              */
+/* W32DL.H                 dlopen compat                             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _W32_DL_H
 #define _W32_DL_H

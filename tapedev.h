@@ -1,10 +1,9 @@
-/* TAPEDEV.H    (C) Copyright Ivan Warren and others, 2003-2012      */
-/*              (C) Copyright TurboHercules, SAS 2011                */
-/*              Tape Device Handler Structure Definitions            */
+/* TAPEDEV.H    Tape Device Handler Structure Definitions            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This header file contains tape related structures and defines     */

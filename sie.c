@@ -1,10 +1,7 @@
-/* SIE.C        (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              (C) and others 2013-2021                             */
-/*              Interpretive Execution                               */
+/* SIE.C        Interpretive Execution                               */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 /*                                                                   */
 /*   This module contains the SIE instruction as described in        */
 /*   SA22-7095-01 IBM S/370 Extended Architecture Interpretive       */

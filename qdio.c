@@ -1,10 +1,9 @@
-/* QDIO.C       (C) Copyright Jan Jaeger, 2003-2012                  */
-/*              (C) Copyright Harold Grovesteen, 2011                */
-/*              Queued Direct Input Output                           */
+/* QDIO.C       Queued Direct Input Output                           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   Harold Grovesteen                        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 /*                                                                   */
 /*      This module contains the Signal Adapter instruction          */
 /*      and QEBSM EQBS and SQBS instructions                         */

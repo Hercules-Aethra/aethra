@@ -1,14 +1,10 @@
-/* PFPO.C       (c) Copyright Roger Bowler, 2009-2012                */
-/*              Perform Floating Point Operation instruction         */
+/* PFPO.C       Perform Floating Point Operation instruction         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/*              (c) Copyright Bernard van der Helm, 2009-2011        */
-/*              Noordwijkerhout, The Netherlands                     */
-
-/*              (C) Copyright Bob Wood, 2018-2021                    */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Bernard van der Helm                     */
+/*  SPDX-FileContributor:   Bob Wood                                 */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module implements the Perform Floating Point Operation       */

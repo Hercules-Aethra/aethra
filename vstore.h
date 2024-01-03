@@ -1,13 +1,12 @@
-/* VSTORE.H     (C) Copyright Roger Bowler, 2000-2012                */
-/*              (C) and others 2013-2023                             */
-/*                  Virtual Storage Functions                        */
+/* VSTORE.H         Virtual Storage Functions                        */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* Interpretive Execution - (C) Copyright Jan Jaeger, 1999-2012      */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* Interpretive Execution - Copyright Jan Jaeger                     */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 /*-------------------------------------------------------------------*/
 /*                                                                   */

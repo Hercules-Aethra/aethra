@@ -1,10 +1,11 @@
 /*-------------------------------------------------------------------*/
 /* Hercules TCPNJE / Bisync Line Driver based on commadpt:           */
 /*-------------------------------------------------------------------*/
-/* Hercules Communication Line Driver                                */
-/* (c) 1999-2006 Roger Bowler & Others                               */
-/* Use of this program is governed by the QPL License                */
-/* Original Author : Ivan Warren                                     */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-FileContributor:   Peter Coghlan                            */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 /*-------------------------------------------------------------------*/
 /* To a Hercules guest OS, this code impelements a subset of a 2703  */
 /* BISYNC communications adaptor.  To the outside world, it appears  */

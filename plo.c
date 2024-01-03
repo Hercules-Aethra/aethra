@@ -1,12 +1,10 @@
-/* PLO.C        (C) Copyright Jan Jaeger, 2000-2012                  */
-/*              Perform Locked Operation functions codes             */
+/* PLO.C        Perform Locked Operation functions codes             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* Interpretive Execution - (C) Copyright Jan Jaeger, 1999-2012      */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* Interpretive Execution - Copyright Jan Jaeger                     */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 #include "hstdinc.h"
 

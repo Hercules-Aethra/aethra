@@ -4,9 +4,12 @@
 /*              (C) Copyright Stephen R. Orso, 2016                  */
 /*              Hercules Binary (IEEE) Floating Point Instructions   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Willem Konynenberg                       */
+/*  SPDX-FileContributor:   Stephen R. Orso                          */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module implements ESA/390 Binary Floating-Point (IEEE 754)   */
@@ -16,7 +19,7 @@
 /*
  * Hercules System/370, ESA/390, z/Architecture emulator ieee.c
  * Binary (IEEE) Floating Point Instructions
- * Copyright (c) 2001-2009 Willem Konynenberg <wfk@xos.nl>
+ * Copyright Willem Konynenberg <wfk@xos.nl>
  * TCEB, TCDB and TCXB contributed by Per Jessen, 20 September 2001.
  * THDER,THDR by Roger Bowler, 19 July 2003.
  * Additional instructions by Roger Bowler, November 2004:

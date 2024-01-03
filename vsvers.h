@@ -1,9 +1,7 @@
-/* vsvers.h     (C) "Fish" (David B. Trout), 2017                    */
-/*              Visual Studio compiler version constants             */
+/* vsvers.h     Visual Studio compiler version constants             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _VSVERS_H_
 #define _VSVERS_H_

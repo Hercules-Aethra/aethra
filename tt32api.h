@@ -1,11 +1,10 @@
-/* TT32API.H (C) Copyright Software Development Laboratories, 2002-2019 */
-/*              TunTap32 DLL exported functions interface            */
+/* TT32API.H    TunTap32 DLL exported functions interface            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Software Development Laboratories        */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-// Copyright (C) 2002-2019, Software Development Laboratories, "Fish" (David B. Trout)
 /////////////////////////////////////////////////////////////////////////////////////////
 //
 //  TT32API.h  --  TunTap32 DLL exported functions interface

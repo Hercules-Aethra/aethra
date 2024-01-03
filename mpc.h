@@ -1,12 +1,10 @@
-/* MPC.H        (C) Copyright Jan Jaeger,  2010-2012                 */
-/*              (C) Copyright Ian Shorter, 2011-2012                 */
-/*              (C) Copyright Harold Grovesteen, 2011-2012           */
-/*              (C) and others 2013-2021                             */
-/*              MPC (Multi-Path Channel) functions                   */
+/* MPC.H        MPC (Multi-Path Channel) functions                   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   Ian Shorter                              */
+/*  SPDX-FileContributor:   Harold Grovesteen                        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* This implementation is based on the S/390 Linux implementation    */
 

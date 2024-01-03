@@ -1,13 +1,12 @@
-/* SCRIPT.C     (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) Copyright Jan Jaeger,   1999-2012                */
-/*              (C) Copyright Ivan Warren, 2003-2012                 */
-/*              (C) Copyright "Fish" (David B. Trout), 2002-2012     */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              ESA/390 Configuration and Script parser              */
+/* SCRIPT.C     ESA/390 Configuration and Script parser              */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-FileContributor:   Ivan Warren                               */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* This module contains all hercules specific config and command     */
 /* scripting routines.                                               */

@@ -1,12 +1,10 @@
-/* TRACE.C      (C) Copyright Jan Jaeger, 2000-2012                  */
-/*              Implicit tracing functions                           */
+/* TRACE.C      Implicit tracing functions                           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* Interpretive Execution - (C) Copyright Jan Jaeger, 1999-2012      */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* Interpretive Execution - Copyright Jan Jaeger                     */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 /*-------------------------------------------------------------------*/
 /* This module contains procedures for creating entries in the       */

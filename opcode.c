@@ -1,15 +1,13 @@
-/* OPCODE.C     (C) Copyright Jan Jaeger, 2000-2012                  */
-/*              (C) Copyright Roger Bowler, 2010-2011                */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              (C) and others 2013-2023                             */
-/*              Instruction decoding functions                       */
+/* OPCODE.C     Instruction decoding functions                       */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* Interpretive Execution - (C) Copyright Jan Jaeger, 1999-2012      */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* Interpretive Execution - Copyright Jan Jaeger                     */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 #include "hstdinc.h"
 

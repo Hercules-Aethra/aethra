@@ -1,12 +1,9 @@
-/* TAPECOPY.C   (C) Copyright Roger Bowler, 1999-2012                */
-/*              Convert SCSI tape into AWSTAPE format                */
+/* TAPECOPY.C   Convert SCSI tape into AWSTAPE format                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/*              Read from AWSTAPE and write to SCSI tape mods        */
-/*              Copyright 2005-2009 James R. Maynard III             */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   James R. Maynard III                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This program reads a SCSI tape and produces a disk file with      */

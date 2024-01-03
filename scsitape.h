@@ -1,13 +1,9 @@
-/* SCSITAPE.H   (C) Copyright "Fish" (David B. Trout), 2005-2012     */
-/*              Hercules SCSI tape handling module                   */
+/* SCSITAPE.H   Hercules SCSI tape handling module                   */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
-
-/* Original Author: "Fish" (David B. Trout)                          */
-/* Prime Maintainer: "Fish" (David B. Trout)                         */
-/* Secondary Maintainer: Ivan Warren                                 */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module only contains support for SCSI tapes. Please see the  */

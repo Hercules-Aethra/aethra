@@ -1,10 +1,9 @@
-/* STFL.H       (C) Copyright Roger Bowler, 1994-2012                */
-/*              (C) Copyright "Fish" (David B. Trout), 2018-2021     */
-/*              Store Facility List (STFL) bit definitions           */
+/* STFL.H       Store Facility List (STFL) bit definitions           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef _STFL_H_
 #define _STFL_H_

@@ -1,10 +1,9 @@
-/* logmsg.C     (C) Copyright Ivan Warren, 2003-2012                 */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*               logmsg frontend routing                             */
+/* logmsg.C      logmsg frontend routing                             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Ivan Warrenn                             */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

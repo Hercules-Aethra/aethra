@@ -1,10 +1,9 @@
-/* TUNTAP.C    (C) Copyright James A. Pierson, 2002-2012             */
-/*             (C) Copyright "Fish" (David B. Trout), 2002-2009      */
-/*              Hercules - TUN/TAP Abstraction Layer                 */
+/* TUNTAP.C     Hercules - TUN/TAP Abstraction Layer                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   James A. Pierson                         */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 // TUN/TAP implementations differ among platforms. Linux and FreeBSD
 // offer much the same functionality but with differing semantics.

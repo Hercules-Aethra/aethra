@@ -1,10 +1,9 @@
-/* HTTPSERV.C   (C) Copyright Jan Jaeger, 2002-2012                  */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              Hercules HTTP Server for Console Ops                 */
+/* HTTPSERV.C   Hercules HTTP Server for Console Ops                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This file contains all code required for the HTTP server,         */

@@ -1,9 +1,7 @@
-/* PARSER.H     (C) Copyright Roger Bowler, 1999-2012                */
-/*              Hercules Simple parameter parser                     */
+/* PARSER.H     Hercules Simple parameter parser                     */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Roger Bowler                   */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #if !defined( _PARSER_H_ )
 #define _PARSER_H_

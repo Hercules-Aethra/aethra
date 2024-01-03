@@ -1,9 +1,7 @@
-/* SCEDASD.C    (C) Copyright Jan Jaeger, 1999-2012                  */
-/*              Service Control Element DASD I/O functions           */
+/* SCEDASD.C    Service Control Element DASD I/O functions           */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

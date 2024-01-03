@@ -1,6 +1,13 @@
-/* MAKETAPE.C   (c) Copyright Jay Moseley, CCP 2000                        */
-/*              Create AWSTAPE image file                                  */
+/* MAKETAPE.C   Create AWSTAPE image file                                  */
 /*                                                                         */
+/*  SPDX-FileCopyrightText: This program is placed in the public domain    */
+/*  SPDX-FileContributor:   Jay Moseley                                    */
+/*  SPDX-License-Identifier: MIT                                           */
+
+/* Note: While Jay put this file into the public domain, his               */
+/* statement below is closer to the MIT license. I have tagged the         */
+/* file accordingly. -- JRM, 2024-01-03                                    */
+
 /* This program is placed in the public domain and may be freely used      */
 /* and incorporated into derived works so long as attribution to the       */
 /* original authorship remains in any distributed copies of the C source.  */

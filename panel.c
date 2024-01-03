@@ -1,12 +1,12 @@
-/* PANEL.C      (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) Copyright TurboHercules, SAS 2010-2011           */
-/*              Hercules Control Panel Commands                      */
+/* PANEL.C      Hercules Control Panel Commands                      */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 /*              Modified for New Panel Display =NP=                  */
 /*-------------------------------------------------------------------*/

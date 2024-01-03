@@ -1,8 +1,10 @@
 # ***************************************************************************
-# MAKEFILE-DLLMOD.MSVC (C) Copyright Roger Bowler, 2005-2010
+# MAKEFILE-DLLMOD.MSVC
 #
 # Build Hercules for Win32 using MSVC and nmake (DLL version with loadable modules)
 #
+#  SPDX-FileCopyrightText: Copyright Roger Bowler
+#  SPDX-License-Identifier: QPL-1.0
 # ***************************************************************************
 
 INCDIR = msvc.makefile.includes

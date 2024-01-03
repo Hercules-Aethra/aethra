@@ -1,10 +1,10 @@
-/* MSGENU.H     Copyright Roger Bowler, Bernard van der Helm,        */
-/*              TurboHercules, SAS, and others                       */
-/*              Header file for Hercules messages (US English)       */
+/* MSGENU.H     Header file for Hercules messages (US English)       */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Bernard van der Helm                     */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This file contains the text of all of the messages issued by      */

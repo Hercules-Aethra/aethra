@@ -1,9 +1,7 @@
-/* TFPRINT.C    Copyright "Fish" (David B. Trout)                    */
-/*              Print Trace File Utility                             */
+/* TFPRINT.C    Print Trace File Utility                             */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This program reads a Hercules intruction trace file and produces  */

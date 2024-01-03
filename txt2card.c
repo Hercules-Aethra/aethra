@@ -1,9 +1,7 @@
-/* TXT2CARD.C   (C) Copyright "Fish" (David B. Trout), 2023          */
-/*              Copy text file from one code page to another         */
+/* TXT2CARD.C   Copy text file from one code page to another         */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /*                                                                   */

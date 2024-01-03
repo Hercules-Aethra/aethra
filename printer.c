@@ -1,11 +1,10 @@
-/* PRINTER.C    (C) Copyright Roger Bowler, 1999-2012                */
-/*              (C) Copyright Enrico Sorichetti, 2012                */
-/*              (C) Copyright "Fish" (David B. Trout), 2017          */
-/*              Line Printer Device Handler                          */
+/* PRINTER.C    Line Printer Device Handler                          */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Enrico Sorichetti                        */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------*/
 /* This module contains device handling functions for emulated       */

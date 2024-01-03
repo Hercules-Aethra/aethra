@@ -1,10 +1,7 @@
-/* SR.C         (c) Copyright Greg Smith, 2005-2012                  */
-/*              (C) and others 2013-2021                             */
-/*              Suspend/Resume a Hercules session                    */
+/* SR.C         Suspend/Resume a Hercules session                    */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Greg Smith                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

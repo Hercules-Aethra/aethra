@@ -1,11 +1,10 @@
-/* LOADMEM.C    (C) Copyright Roger Bowler, 1999                     */
-/*              (C) Copyright Paul Leisy, 2001                       */
-/*              (C) Copyright TurboHercules SAS, 2010-2012           */
-/*              Load memory functions                                */
+/* LOADMEM.C    Load memory functions                                */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Paul Leisy                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #include "hstdinc.h"
 

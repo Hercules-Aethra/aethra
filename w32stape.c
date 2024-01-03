@@ -1,9 +1,7 @@
-/* W32STAPE.C   (C) Copyright "Fish" (David B. Trout), 2005-2012     */
-/*               Hercules Win32 SCSI Tape handling module            */
+/* W32STAPE.C    Hercules Win32 SCSI Tape handling module            */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright "Fish" (David B. Trout)        */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 ////////////////////////////////////////////////////////////////////////////////////
 //

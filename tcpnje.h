@@ -1,4 +1,8 @@
 /* tcpnje.h - hacked from Ivan Warren's commadpt.h by Peter Coghlan */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Ivan Warren                              */
+/*  SPDX-FileContributor:   Peter Coghlan                            */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 #ifndef __TCPNJE_H__
 #define __TCPNJE_H__

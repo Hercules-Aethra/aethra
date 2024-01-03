@@ -1,12 +1,10 @@
-/* SHARED.H     (c)Copyright Greg Smith, 2002-2012                   */
-/*              Shared Device Server                                 */
+/* SHARED.H     Shared Device Server                                 */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Greg Smith                     */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /*-------------------------------------------------------------------
- * Shared device support           (c)Copyright Greg Smith, 2002-2009
+ * Shared device support
  *
  * Shared device support allows multiple Hercules instances to share
  * devices.  The device will be 'local' to one instance and 'remote'

@@ -1,11 +1,10 @@
-/* TT32IF.H (C) Copyright SoftDevLabs, 2013-2017                     */
-/*              TunTap32 networking interface structure and defines  */
+/* TT32IF.H     TunTap32 networking interface structure and defines  */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Software Development Laboratories        */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 
-// Copyright (C) 2013-2017, Software Development Laboratories, "Fish" (David B. Trout)
 /////////////////////////////////////////////////////////////////////////////////////////
 //
 //      tt32if.h    --  declarations for inquiring about network interfaces
@@ -17,7 +16,7 @@
 //
 //  musl as a whole is licensed under the following standard MIT license:
 //
-//  Copyright © 2005-2012 Rich Felker
+//  Copyright ï¿½ 2005-2012 Rich Felker
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the
@@ -41,7 +40,7 @@
 //  [...]
 //
 //  All other files which have no copyright comments are original works
-//  Copyright © 2005-2012 Rich Felker, the main author of this library.
+//  Copyright ï¿½ 2005-2012 Rich Felker, the main author of this library.
 //  The decision to exclude such comments is intentional, as it should be
 //  possible to carry around the complete source code on tiny storage
 //  media. All public header files (include/*) should be treated as Public

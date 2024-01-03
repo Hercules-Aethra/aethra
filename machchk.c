@@ -1,11 +1,13 @@
-/* MACHCHK.C    (C) Copyright Jan Jaeger, 2000-2012                  */
-/*              ESA/390 Machine Check Functions                      */
+/* MACHCHK.C    ESA/390 Machine Check Functions                      */
 /*                                                                   */
-/*   Released under "The Q Public License Version 1"                 */
-/*   (http://www.hercules-390.org/herclic.html) as modifications to  */
-/*   Hercules.                                                       */
+/*  SPDX-FileCopyrightText: Copyright Jan Jaeger                     */
+/*  SPDX-FileContributor:   Roger Bowler                             */
+/*  SPDX-FileContributor:   Jan Jaeger                               */
+/*  SPDX-FileContributor:   TurboHercules, SAS                       */
+/*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
+/*  SPDX-License-Identifier: QPL-1.0                                 */
 /*                                                                   */
-/* z/Architecture support - (C) Copyright Jan Jaeger, 1999-2012      */
+/* z/Architecture support - Copyright Jan Jaeger                     */
 
 /*-------------------------------------------------------------------*/
 /* The machine check function supports dynamic I/O configuration.    */

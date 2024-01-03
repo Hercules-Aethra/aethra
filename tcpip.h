@@ -1,6 +1,10 @@
 /*-------------------------------------------------------------------*/
-/* TCPIP.H (C) Copyright Jason Paul Winter, 2003,2010                */
-/*         Minor adaptions for SDL Hyperion, Juergen Winkelmann 2019 */
+/* TCPIP.H    Header files for C socket interface                    */
+/*                                                                   */
+/*  SPDX-FileCopyrightText: Copyright the following contributors:    */
+/*  SPDX-FileContributor:   Jason Paul Winter                        */
+/*  SPDX-FileContributor:   Juergen Winkelmann                       */
+/*  SPDX-License-Identifier: BSD-2-Clause                            */
 /*-------------------------------------------------------------------*/
 
 #define Ccom 1024    /* maximum number of concurrent connections + 1 */
