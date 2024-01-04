@@ -5,7 +5,7 @@
 /*  SPDX-FileContributor:   Jan Jaeger                               */
 /*  SPDX-FileContributor:   TurboHercules, SAS                       */
 /*  SPDX-FileContributor:   "Fish" (David B. Trout)                  */
-/*  SPDX-FileContributor:   Ivan Warren                               */
+/*  SPDX-FileContributor:   Ivan Warren                              */
 /*  SPDX-License-Identifier: QPL-1.0                                 */
 
 /* This module contains all hercules specific config and command     */
