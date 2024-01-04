@@ -73,16 +73,11 @@ BYTE            c;                      /* Work area for sscanf      */
             continue;           /* then just count it  */
 
         /* Check that the first record is a @TDF header */
-        if (0
-            || memcmp( str, "@TDF", 4 ) != 0
-            || (1
-                && str[4] != '\r'
-                && str[4] != '\n'
-               )
-        )
+        if (memcmp( str, "@TDF", 4 ) != 0)
         {
-            // "%1d:%04X Tape file %s, type %s: not a valid @TDF file"
-            WRMSG( HHC00206, "E", LCSS_DEVNUM, dev->filename, "OMA" );
+            // "%1d:%04X Tape file %s, type %s: not a valid @TDF file: %s"
+            WRMSG( HHC00206, "E", LCSS_DEVNUM, dev->filename, "OMA",
+                "Invalid or no @TDF header present" );
             fclose( oma );
             return -1;
         }
@@ -100,8 +95,8 @@ BYTE            c;                      /* Work area for sscanf      */
     /* Check for empty file or file with only @TDF statement */
     if (filecount < 2)
     {
-        // "%1d:%04X Tape file %s, type %s: not a valid @TDF file"
-        WRMSG( HHC00206, "E", LCSS_DEVNUM, dev->filename, "OMA" );
+        // "%1d:%04X Tape file %s, type %s: not a valid @TDF file: %s"
+        WRMSG( HHC00206, "E", LCSS_DEVNUM, dev->filename, "OMA", "No tape files listed");
         fclose( oma );
         return -1;
     }
