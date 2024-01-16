@@ -474,8 +474,6 @@ int list_contents( CIFBLK *cif, char *volser, DSXTENT *extent )
 
                         /* REFDT */
 
-    #define ds1refdt    resv2
-
                         if (runflgs & rf_refdate)
                             pdatex( f1dscb->ds1refdt, runflgs );
 
