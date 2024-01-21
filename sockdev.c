@@ -62,7 +62,9 @@ static void term_sockdev( void* arg )
     if (!init_done) init_sockdev();
     SIGNAL_SOCKDEV_THREAD();
     join_thread   ( sysblk.socktid, NULL );
-    detach_thread ( sysblk.socktid );
+#if defined( OPTION_FTHREADS )
+    detach_thread ( sysblk.socktid );  // only needed for fthreads
+#endif
 }
 
 /*-------------------------------------------------------------------*/
