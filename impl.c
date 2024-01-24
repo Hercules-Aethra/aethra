@@ -808,15 +808,25 @@ DLL_EXPORT int impl( int argc, char* argv[] )
 {
 TID     rctid;                          /* RC file thread identifier */
 TID     logcbtid;                       /* RC file thread identifier */
-int     rc;
+int     rc, maxprio, minprio;
 
     SET_THREAD_NAME( IMPL_THREAD_NAME );
 
     /* Seed the pseudo-random number generator */
     init_random();
 
+    /* Save minprio/maxprio, which were set in bootstrap.c when it
+       called SET_THREAD_NAME at or near the beginning of main().
+    */
+    minprio = sysblk.minprio;
+    maxprio = sysblk.maxprio;
+
     /* Clear the system configuration block */
     memset( &sysblk, 0, sizeof( SYSBLK ) );
+
+    /* Restore saved minprio/maxprio into SYSBLK */
+    sysblk.minprio = minprio;
+    sysblk.maxprio = maxprio;
 
     /* Lock SYSBLK into memory since it's referenced so frequently.
        Note that the call could fail when the working set is small
