@@ -484,7 +484,7 @@ U16             devtype;                /* Device type (e.g. 0x3390) */
     SWAP_CCKD64_DEVHDR( &cdevhdr );
 
     /* Save some values for reporting */
-    devtype = 0x3300 + devhdr.dh_devtyp;
+    devtype = devhdr.dh_devtyp;
 
     FETCH_LE_FW( heads,   devhdr.dh_heads   );
     FETCH_LE_FW( trksize, devhdr.dh_trksize );
@@ -501,7 +501,7 @@ U16             devtype;                /* Device type (e.g. 0x3390) */
     {
         if (!(fbatab = dasd_lookup( DASD_FBADEV, NULL, devtype, cyls )))
         {
-            // "Device type %4.4X not found in dasd table"
+            // "Device type '%2.2X' not found in dasd table"
             FWRMSG( stderr, HHC03005, "E", devtype );
             return -1;
         }
@@ -510,7 +510,7 @@ U16             devtype;                /* Device type (e.g. 0x3390) */
     {
         if (!(ckdtab = dasd_lookup( DASD_CKDDEV, NULL, devtype, cyls )))
         {
-            // "Device type %4.4X not found in dasd table"
+            // "Device type '%2.2X' not found in dasd table"
             FWRMSG( stderr, HHC03005, "E", devtype );
             return -1;
         }
