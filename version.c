@@ -711,11 +711,8 @@ static const char *build_info[] = {
 #if defined( OPTION_SIE2BK_FLD_COPY )           // SIE2BK 'fld' is NOT a mask
     "With    OPTION_SIE2BK_FLD_COPY",
 #endif
-#if defined( OPTION_E7_PREFIX )                 // Prefix E7 CCW support
-    "With    OPTION_E7_PREFIX",
-#endif
-#if defined( OPTION_E7_TRACE_64 )               // E7 CCW trace 64 bytes
-    "With    OPTION_E7_TRACE_64",
+#if defined( OPTION_NOASYNC_SF_CMDS )           // Bypass bug in cache logic
+    "With    OPTION_NOASYNC_SF_CMDS",           // (see GitHub Issue #618!)
 #endif
 
 //---------------------------------------------------------------------
