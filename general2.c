@@ -2327,6 +2327,10 @@ U16     rmask = 0x0000;
 }
 
 #if defined( FEATURE_022_EXT_TRANSL_FACILITY_3 )
+
+#undef  MAINSTOR_PAGEBASE
+#define MAINSTOR_PAGEBASE( _ma )  ((BYTE*) ((uintptr_t) ( _ma ) & PAGEFRAME_PAGEMASK))
+
 /*-------------------------------------------------------------------*/
 /* B9B0 CU14  - Convert UTF-8 to UTF-32                      [RRF-c] */
 /*-------------------------------------------------------------------*/
@@ -2340,12 +2344,19 @@ DEF_INST(convert_utf8_to_utf32)
     int read;                      /* Bytes read                     */
     VADR srce;                     /* Source address                 */
     GREG srcelen;                  /* Source length                  */
-    BYTE utf32[4];                 /* utf32 character(s)             */
-    BYTE utf8[4];                  /* utf8 character(s)              */
+    CACHE_ALIGN BYTE utf32[4];     /* utf32 character(s)             */
+                BYTE utf8[4];      /* utf8 character(s)              */
+
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
     bool wfc;                      /* Well-Formedness-Checking (W)   */
 #endif
+
     int xlated;                    /* characters translated          */
+
+    BYTE*   s1;                    // Source mainstor addresses
+    BYTE*   s1pg;                  // Source base page
+    BYTE*   d1;                    // Destination mainstor addresses
+    BYTE*   d1pg;                  // Destination base page
 
     RRF_M(inst, regs, r1, r2, m3);
     PER_ZEROADDR_LCHECK2( regs, r1, r1+1, r2, r2+1 );
@@ -2362,6 +2373,14 @@ DEF_INST(convert_utf8_to_utf32)
     else
         wfc = false;
 #endif
+
+    /* Get mainstor address to Source byte */
+    s1 = MADDRL( srce, 1, r2, regs, ACCTYPE_READ, regs->psw.pkey );
+    s1pg = MAINSTOR_PAGEBASE ( s1 );
+
+    /* Get mainstor address to Destination byte */
+    d1 = MADDRL( dest, 1, r1, regs, ACCTYPE_WRITE, regs->psw.pkey );
+    d1pg = MAINSTOR_PAGEBASE ( d1 );
 
     /* Every valid utf-32 starts with 0x00 */
     utf32[0] = 0x00;
@@ -2382,8 +2401,11 @@ DEF_INST(convert_utf8_to_utf32)
         return;
         }
 
-        /* Fetch a byte */
-        utf8[0] = ARCH_DEP(vfetchb)(srce, r2, regs);
+        /* Fetch a UTF-8 character (1 to 4 bytes) */
+        /* first character is always on page */
+        utf8[0] = *s1;
+        //utf8[0] = ARCH_DEP(vfetchb)(srce, r2, regs);
+
         if(utf8[0] < 0x80)
         {
             /* xlate range 00-7f */
@@ -2415,7 +2437,15 @@ DEF_INST(convert_utf8_to_utf32)
             }
 
             /* Get the next byte */
-            utf8[1] = ARCH_DEP(vfetchb)(srce + 1, r2, regs);
+            // does the utf8 character cross a page boundary
+            if (s1pg ==  MAINSTOR_PAGEBASE ( s1 + 1 ))
+            {
+                utf8[1] = *(s1 + 1);
+            }
+            else
+            {
+                utf8[1] = ARCH_DEP(vfetchb)(srce + 1, r2, regs);
+            }
 
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellFormednessChecking */
@@ -2446,7 +2476,16 @@ DEF_INST(convert_utf8_to_utf32)
             }
 
             /* Get the next 2 bytes */
-            ARCH_DEP(vfetchc)(&utf8[1], 1, srce + 1, r2, regs);
+            // does the utf8 character cross a page boundary
+            if (s1pg ==  MAINSTOR_PAGEBASE ( s1 + 2 ))
+            {
+                utf8[1] = *(s1 + 1);
+                utf8[2] = *(s1 + 2);
+            }
+            else
+            {
+                ARCH_DEP(vfetchc)(&utf8[1], 1, srce + 1, r2, regs);
+            }
 
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellformednessChecking */
@@ -2508,7 +2547,17 @@ DEF_INST(convert_utf8_to_utf32)
             }
 
             /* Get the next 3 bytes */
-            ARCH_DEP(vfetchc)(&utf8[1], 2, srce + 1, r2, regs);
+            // does the utf8 character cross a page boundary
+            if (s1pg ==  MAINSTOR_PAGEBASE ( s1 + 3 ))
+            {
+                utf8[1] = *(s1 + 1);
+                utf8[2] = *(s1 + 2);
+                utf8[3] = *(s1 + 3);
+            }
+            else
+            {
+                ARCH_DEP(vfetchc)(&utf8[1], 2, srce + 1, r2, regs);
+            }
 
 #if defined( FEATURE_030_ETF3_ENHANCEMENT_FACILITY )
             /* WellFormdnessChecking */
@@ -2581,14 +2630,43 @@ DEF_INST(convert_utf8_to_utf32)
             return;
         }
 
+        /* Write UTF32 charater */
+        // does the utf32 character cross a page boundary
+        if (d1pg ==  MAINSTOR_PAGEBASE ( d1 + 3 ))
+        {
+            *(d1 +0) = utf32[0];
+            *(d1 +1) = utf32[1];
+            *(d1 +2) = utf32[2];
+            *(d1 +3) = utf32[3];
+        }
+        else
+        {
+            ARCH_DEP(vstorec)(utf32, 3, dest, r1, regs);
+        }
+
         /* Write and commit registers */
-        ARCH_DEP(vstorec)(utf32, 3, dest, r1, regs);
         SET_GR_A(r1, regs, (dest += 4) & ADDRESS_MAXWRAP(regs));
         SET_GR_A(r1 + 1, regs, destlen -= 4);
         SET_GR_A(r2, regs, (srce += read) & ADDRESS_MAXWRAP(regs));
         SET_GR_A(r2 + 1, regs, srcelen -= read);
 
         xlated += read;
+
+        // Update mainstor addresses; source and destination
+        s1 += read;
+        if (s1pg !=  MAINSTOR_PAGEBASE ( s1 ))
+        {
+            s1 = MADDRL( srce, 1, r2, regs, ACCTYPE_READ, regs->psw.pkey );
+            s1pg = MAINSTOR_PAGEBASE ( s1 );
+        }
+
+        d1 += 4;
+        if (d1pg !=  MAINSTOR_PAGEBASE ( d1 ))
+        {
+            d1 = MADDRL( dest, 1, r1, regs, ACCTYPE_WRITE, regs->psw.pkey );
+            d1pg = MAINSTOR_PAGEBASE ( d1 );
+        }
+
     }
 
     /* CPU determined number of characters reached */
