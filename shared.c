@@ -1454,7 +1454,7 @@ static const bool server_req = true;
     rc = recvData (dev->fd, hdr, buf, buflen, !server_req );
     if (rc < 0)
     {
-        if (rc != -ENOTCONN)
+        if (rc != -1 && rc != -HSO_ECONNABORTED)
             // "%1d:%04X Shared: error in receive: %s"
             WRMSG( HHC00725, "E", LCSS_DEVNUM, strerror( -rc ));
         return rc;
@@ -1524,7 +1524,7 @@ BYTE                    cbuf[65536];    /* Compressed buffer         */
         if (rc < 0)
             return -HSO_errno;
         else if (rc == 0)
-            return -HSO_ENOTCONN;
+            return -HSO_ECONNABORTED;
     }
 
     SHRD_GET_HDR (hdr, cmd, flag, devnum, id, len);
@@ -1557,7 +1557,7 @@ BYTE                    cbuf[65536];    /* Compressed buffer         */
         if (rc < 0)
             return -HSO_errno;
         else if (rc == 0)
-            return -HSO_ENOTCONN;
+            return -HSO_ECONNABORTED;
     }
 
     /* Flush any remaining data */
@@ -1568,7 +1568,7 @@ BYTE                    cbuf[65536];    /* Compressed buffer         */
         if (rc < 0)
             return -HSO_errno;
         else if (rc == 0)
-            return -HSO_ENOTCONN;
+            return -HSO_ECONNABORTED;
     }
 
     /* Check for compression */
@@ -2873,7 +2873,7 @@ struct timeval          timeout = {0};
         if (rc < 0)
         {
             // "Shared: error in function %s: %s"
-            WRMSG( HHC00735, "W", "bind()", strerror( errno ));
+            WRMSG( HHC00735, "W", "bind()", strerror( HSO_errno ));
             close( usock );
             usock = -1;
         }
