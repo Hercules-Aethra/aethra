@@ -47,10 +47,6 @@
                                         // ALWAYS at start SIE mode
 #define OPTION_NOASYNC_SF_CMDS          // Bypass bug in cache logic
                                         // (see GitHub Issue #618!)
-//#define NO_OPTINST                      // Doesn't really help much?
-#define OPTION_NO_E3_OPTINST            // Problematic!
-//#define OPTION_E7_PREFIX                // Prefix E7 CCW support
-//#define OPTION_E7_TRACE_64              // E7 CCW trace 64 bytes
 
 /*-------------------------------------------------------------------*/
 /*              Normal default OPTIONs and FEATUREs                  */
@@ -90,6 +86,7 @@
 #if !defined( OPTION_OPTINST ) && !defined( NO_OPTINST )
 #define OPTION_OPTINST                  /* Optimized instructions    */
 #endif
+#define OPTION_NO_E3_OPTINST            /* Problematic!              */
 
 #if defined( HAVE_FULL_KEEPALIVE )
   #if !defined( HAVE_PARTIAL_KEEPALIVE ) || !defined( HAVE_BASIC_KEEPALIVE )
