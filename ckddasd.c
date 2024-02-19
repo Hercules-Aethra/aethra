@@ -1822,7 +1822,14 @@ char           *orient[] = {"none", "index", "count", "key", "data", "eot"};
         if (1
             && (code & 0x80)
             && (dev->ckdlaux & CKDLAUX_RDCNTSUF)
-            && dev->ckdlcount == 1
+            && (0
+                || dev->ckdlcount == 1
+                || (0
+                    || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY
+                    || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRTANY
+                   )
+               )
+            &&  dev->ckdfcoun
         )
         {
             memcpy( rechdr, dev->ckdfcwrk, CKD_RECHDR_SIZE );
