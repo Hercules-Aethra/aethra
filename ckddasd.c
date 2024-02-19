@@ -6278,6 +6278,8 @@ static bool LocateRecordExtended
 
     if (1
         && validate
+        && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_RDANY
+        && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRTANY
         && EXTENT_CHECK( dev, cyl, head )
     )
     {
