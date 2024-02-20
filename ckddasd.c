@@ -41,7 +41,7 @@
 #include "ccwarn.h"
 
 /*-------------------------------------------------------------------*/
-/* Bit definitions for File Mask                                     */
+/* Bit definitions for Define Extent File Mask                       */
 /*-------------------------------------------------------------------*/
 #define CKDMASK_WRCTL           0xC0    /* Write control bits...     */
 #define CKDMASK_WRCTL_INHWR0    0x00    /* ...inhibit write HA/R0    */
@@ -63,7 +63,7 @@
 #define CKDMASK_PCI_FETCH       0x01    /* PCI fetch mode            */
 
 /*-------------------------------------------------------------------*/
-/* Bit definitions for Define Extent global attributes byte          */
+/* Bit definitions for Define Extent Global Attributes               */
 /*-------------------------------------------------------------------*/
 #define CKDGATR_ARCH            0xC0    /* Architecture mode...      */
 #define CKDGATR_ARCH_ECKD       0xC0    /* ...extended CKD mode      */
@@ -5991,6 +5991,7 @@ static bool LocateRecordExtended
     U16         head;                   /* Head number               */
     BYTE        cchhr[5];               /* Search argument           */
     BYTE        binzero[5];             /* Binary zeros              */
+    BYTE        ccwdata[ IOBUF_MINSIZE ];
 
     UNREFERENCED( flags    );
     UNREFERENCED( chained  );
@@ -6582,7 +6583,6 @@ static bool LocateRecordExtended
     /* Perform search according to specified orientation */
     switch (dev->ckdloper & CKDOPER_ORIENTATION)
     {
-
         case CKDOPER_ORIENT_HOME:
 
             /* For home orientation, compare the search CCHH
@@ -6826,6 +6826,7 @@ static bool DefineExtent
 
     /* Set extent defined flag and return normal status */
     dev->ckdxtdef = 1;
+
     *unitstat = CSW_CE | CSW_DE;
     return true;
 
