@@ -167,13 +167,29 @@
  * It doesn't hurt otherwise
  * EXTENT_CHECK0(dev) is the same as EXTENT_CHECK(dev,0,0)
  */
-#define EXTENT_CHECK0(_dev) ((_dev)->ckdxbcyl > 0                            \
-            || ((_dev)->ckdxbcyl==0 && (_dev)->ckdxbhead>0))
+#define EXTENT_CHECK0( _dev )                                         \
+    (0                                                                \
+     ||  (_dev)->ckdxbcyl >  0                                        \
+     || ((_dev)->ckdxbcyl == 0 && (_dev)->ckdxbhead > 0)              \
+    )
 
-#define EXTENT_CHECK(_dev, _cyl, _head)                                        \
-        ( (_cyl) < (_dev)->ckdxbcyl || (_cyl) > (_dev)->ckdxecyl               \
-            || ((_cyl) == (_dev)->ckdxbcyl && (_head) < (_dev)->ckdxbhead)     \
-            || ((_cyl) == (_dev)->ckdxecyl && (_head) > (_dev)->ckdxehead) )
+#define EXTENT_BEGIN_CHECK( _dev, _cyl, _head )                       \
+    (0                                                                \
+     ||  (_cyl) <  (_dev)->ckdxbcyl                                   \
+     || ((_cyl) == (_dev)->ckdxbcyl && (_head) < (_dev)->ckdxbhead)   \
+    )
+
+#define EXTENT_END_CHECK( _dev, _cyl, _head )                         \
+    (0                                                                \
+     ||  (_cyl) >  (_dev)->ckdxecyl                                   \
+     || ((_cyl) == (_dev)->ckdxecyl && (_head) > (_dev)->ckdxehead)   \
+    )
+
+#define EXTENT_CHECK( _dev, _cyl, _head )                             \
+    (0                                                                \
+     || EXTENT_BEGIN_CHECK( (_dev), (_cyl), (_head) )                 \
+     || EXTENT_END_CHECK(   (_dev), (_cyl), (_head) )                 \
+    )
 
 /*-------------------------------------------------------------------*/
 /* Static data areas                                                 */
@@ -5615,8 +5631,10 @@ static bool PerformSubsystemFunction
     U32*     residual
 )
 {
-    int  i;
-    U32  num;
+    int    i;
+    U32    num;
+    BYTE*  orig_iobuf;
+    BYTE   ccwdata[ IOBUF_MINSIZE ];
 
     UNREFERENCED( more );
     UNREFERENCED( code );
@@ -6284,16 +6302,38 @@ static bool LocateRecordExtended
         }
     }
 
-    if (1
-        && validate
-        && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_RDANY
-        && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRTANY
-        && EXTENT_CHECK( dev, cyl, head )
-    )
+    /* Make sure the Seek Address is within the defined begin and
+       end of extent, but only if the LRE operation is NOT Read Any
+       or Write Any.
+
+       If the LRE is Read Any or Write Any, then since the specified
+       track will never be left (i.e. the Read Any or Write Any never
+       leaves the track, always returning back to the start of the
+       track instead), we only need to make sure the Seek Address is
+       within the defined BEGIN of extent since the END of extent is
+       never reached in this case.
+    */
+    if (validate)
     {
-        ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
-        *unitstat = CSW_CE | CSW_DE | CSW_UC;
-        return false;
+        if (0
+            || (1
+                && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_RDANY
+                && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRTANY
+                && EXTENT_CHECK( dev, cyl, head )
+               )
+            || (1
+                && (0
+                    || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY
+                    || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRTANY
+                   )
+                && EXTENT_BEGIN_CHECK( dev, cyl, head )
+               )
+        )
+        {
+            ckd_build_sense( dev, 0, SENSE1_FP, 0, 0, 0 );
+            *unitstat = CSW_CE | CSW_DE | CSW_UC;
+            return false;
+        }
     }
 
     /*
@@ -6671,6 +6711,7 @@ static bool DefineExtent
     U32*     residual
 )
 {
+    BYTE* orig_e7_iobuf;
     bool  validate = true;
     U32   num;
     U16   bcyl, bhead, ecyl, ehead, xblksz;
@@ -6804,17 +6845,56 @@ static bool DefineExtent
     {
         /* Validate the extent description by checking that the
            ending track is not less than the starting track and
-           the extent does not exceed the already defined extent */
-        if (0
-            || bcyl > ecyl
-            || (bcyl == ecyl && bhead > ehead)
-            || EXTENT_CHECK( dev, bcyl, bhead )
-            || EXTENT_CHECK( dev, ecyl, ehead )
+           the extent does not exceed the already defined extent.
+
+           Exception: If an upcoming LRE specifies either a Read
+           Any or Write Any extended operation then only validate
+           the Beginning of Extent, as the End of Extent will not
+           ever be used in such a situation.
+        */
+
+#define E7_PFX_LEN          12
+#define E7_DX_LEN           32
+#define E7_LRE_IOBUF_LOC    (E7_PFX_LEN+E7_DX_LEN)
+#define LRE(n)              (E7_LRE_IOBUF_LOC+n)
+
+        if (1
+            && code == 0xE7 // PREFIX
+            && dev->ckdformat == PFX_F_DX_LRE
+            && (orig_e7_iobuf[LRE(0)] & CKDOPER_CODE) == CKDOPER_EXTOP
+            && (0
+                || (orig_e7_iobuf[LRE(17)] & CKDOPER_CODE) == CKDOPER_RDANY
+                || (orig_e7_iobuf[LRE(17)] & CKDOPER_CODE) == CKDOPER_WRTANY
+               )
         )
         {
-            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4 );
-            *unitstat = CSW_CE | CSW_DE | CSW_UC;
-            return false;
+            /* Upcoming LRE Read Any or Write Any: only validate the
+               Beginning of Extent value, as the End of Extent value
+               will never be used.
+            */
+            if (EXTENT_BEGIN_CHECK( dev, bcyl, bhead ))
+            {
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4 );
+                *unitstat = CSW_CE | CSW_DE | CSW_UC;
+                return false;
+            }
+        }
+        else
+        {
+            /* Normal case: validate BOTH the Beginning of Extent
+               *and* End of Extent values.
+            */
+            if (0
+                || bcyl > ecyl
+                || (bcyl == ecyl && bhead > ehead)
+                || EXTENT_CHECK( dev, bcyl, bhead )
+                || EXTENT_CHECK( dev, ecyl, ehead )
+            )
+            {
+                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4 );
+                *unitstat = CSW_CE | CSW_DE | CSW_UC;
+                return false;
+            }
         }
     }
 
