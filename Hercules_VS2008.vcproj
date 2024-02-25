@@ -3296,6 +3296,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\tests\datetime.rexx"
+					>
+				</File>
+				<File
 					RelativePath=".\tests\dotest"
 					>
 				</File>
