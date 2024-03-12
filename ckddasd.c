@@ -2578,7 +2578,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         {
             if (!((dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY
-                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ))
+                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16))
             {
                 ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
@@ -2678,7 +2678,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
              */
             if (!((dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
                /* || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY */
-                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ))
+                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16))
             {
                 ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2);
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
@@ -2775,7 +2775,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         {
             if (!((dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY
-                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
                   || ((dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRITE
                       && (dev->ckdlaux & CKDLAUX_RDCNTSUF)
                       && dev->ckdlcount == 1)))
@@ -2839,7 +2839,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (dev->ckdlcount > 0)
         {
             if (!((dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
-                  || ((dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+                  || ((dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
                       && ((dev->ckdloper & CKDOPER_ORIENTATION)
                                 == CKDOPER_ORIENT_HOME
                           || (dev->ckdloper & CKDOPER_ORIENTATION)
@@ -3073,7 +3073,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         if (dev->ckdlcount > 0)
         {
             if (!((dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
-                  || ((dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+                  || ((dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
                       && (dev->ckdloper & CKDOPER_ORIENTATION)
                                 == CKDOPER_ORIENT_INDEX
                     )))
@@ -3207,7 +3207,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         {
             if (!((dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
                   || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDANY
-                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ))
+                  || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16))
             {
                 ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_2 );
                 *unitstat = CSW_CE | CSW_DE | CSW_UC;
@@ -4725,7 +4725,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
               ||  (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
               ||  (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRTTRK
               ||  (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDTRKS
-              ||  (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+              ||  (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
              )
         )
         {
@@ -4743,7 +4743,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_FORMAT
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDTRKS
-                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
                     )
                )
             || (1
@@ -4752,14 +4752,14 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_ORIENT
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRITE
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_RDDATA
-                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
                     )
                )
             || (1
                 && (dev->ckdloper & CKDOPER_ORIENTATION) == CKDOPER_ORIENT_INDEX
                 && !(0
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_FORMAT
-                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
                     )
                )
         )
@@ -4799,7 +4799,7 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
                 && (dev->ckdlaux & CKDLAUX_RDCNTSUF)
                 && !(0
                      || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRITE
-                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ
+                     || (dev->ckdloper & CKDOPER_CODE) == CKDOPER_READ16
                     )
                )
         )
@@ -5633,8 +5633,6 @@ static bool PerformSubsystemFunction
 {
     int    i;
     U32    num;
-    BYTE*  orig_iobuf;
-    BYTE   ccwdata[ IOBUF_MINSIZE ];
 
     UNREFERENCED( more );
     UNREFERENCED( code );
@@ -6009,7 +6007,6 @@ static bool LocateRecordExtended
     U16         head;                   /* Head number               */
     BYTE        cchhr[5];               /* Search argument           */
     BYTE        binzero[5];             /* Binary zeros              */
-    BYTE        ccwdata[ IOBUF_MINSIZE ];
 
     UNREFERENCED( flags    );
     UNREFERENCED( chained  );
@@ -6224,7 +6221,7 @@ static bool LocateRecordExtended
         && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRITE
         && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_WRTANY
         && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_RDANY
-        && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_READ
+        && (dev->ckdloper & CKDOPER_CODE) != CKDOPER_READ16
     )
     {
         ckd_build_sense ( dev, SENSE_CR, 0, 0, FORMAT_0, MESSAGE_4 );
@@ -6711,12 +6708,10 @@ static bool DefineExtent
     U32*     residual
 )
 {
-    BYTE* orig_e7_iobuf;
     bool  validate = true;
     U32   num;
     U16   bcyl, bhead, ecyl, ehead, xblksz;
     BYTE  fmask, xgattr;
-    BYTE  ccwdata[ IOBUF_MINSIZE ];
 
     UNREFERENCED( flags    );
     UNREFERENCED( chained  );
@@ -6853,48 +6848,19 @@ static bool DefineExtent
            ever be used in such a situation.
         */
 
-#define E7_PFX_LEN          12
-#define E7_DX_LEN           32
-#define E7_LRE_IOBUF_LOC    (E7_PFX_LEN+E7_DX_LEN)
-#define LRE(n)              (E7_LRE_IOBUF_LOC+n)
-
-        if (1
-            && code == 0xE7 // PREFIX
-            && dev->ckdformat == PFX_F_DX_LRE
-            && (orig_e7_iobuf[LRE(0)] & CKDOPER_CODE) == CKDOPER_EXTOP
-            && (0
-                || (orig_e7_iobuf[LRE(17)] & CKDOPER_CODE) == CKDOPER_RDANY
-                || (orig_e7_iobuf[LRE(17)] & CKDOPER_CODE) == CKDOPER_WRTANY
-               )
+        /* Normal case: validate BOTH the Beginning of Extent
+            *and* End of Extent values.
+        */
+        if (0
+            || bcyl > ecyl
+            || (bcyl == ecyl && bhead > ehead)
+            || EXTENT_CHECK( dev, bcyl, bhead )
+            || EXTENT_CHECK( dev, ecyl, ehead )
         )
         {
-            /* Upcoming LRE Read Any or Write Any: only validate the
-               Beginning of Extent value, as the End of Extent value
-               will never be used.
-            */
-            if (EXTENT_BEGIN_CHECK( dev, bcyl, bhead ))
-            {
-                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4 );
-                *unitstat = CSW_CE | CSW_DE | CSW_UC;
-                return false;
-            }
-        }
-        else
-        {
-            /* Normal case: validate BOTH the Beginning of Extent
-               *and* End of Extent values.
-            */
-            if (0
-                || bcyl > ecyl
-                || (bcyl == ecyl && bhead > ehead)
-                || EXTENT_CHECK( dev, bcyl, bhead )
-                || EXTENT_CHECK( dev, ecyl, ehead )
-            )
-            {
-                ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4 );
-                *unitstat = CSW_CE | CSW_DE | CSW_UC;
-                return false;
-            }
+            ckd_build_sense( dev, SENSE_CR, 0, 0, FORMAT_0, dev->ckdxtdef ? MESSAGE_2 : MESSAGE_4 );
+            *unitstat = CSW_CE | CSW_DE | CSW_UC;
+            return false;
         }
     }
 
