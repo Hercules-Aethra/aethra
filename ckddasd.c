@@ -3826,6 +3826,22 @@ BYTE            trk_ovfl;               /* == 1 if track ovfl write  */
         rc = ckd_write_data (dev, iobuf, num, unitstat);
         if (rc < 0) break;
 
+        /* If lrcount=1 & r0 then erase rest of the track */
+        if (1
+            && (dev->ckdloper & CKDOPER_CODE) == CKDOPER_WRTTRK
+            && dev->ckdcurrec == 0
+            && dev->ckdlcount == 1
+        )
+        {
+            /* Write end of track marker */
+            rc = ckd_erase (dev, iobuf, count, (int*)&size, unitstat);
+            if (rc < 0) break;
+
+            /* Return normal status */
+            *unitstat = CSW_CE | CSW_DE;
+            break;
+        }
+
         /* If track overflow, keep writing */
         offset = 0;
         while (dev->ckdtrkof)
